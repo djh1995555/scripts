@@ -1,0 +1,7 @@
+1. 设置sql_config.yaml，确定车辆和时间范围
+2. 运行./start_analysis_weight_estimation.sh query可以获得目标的bag，存放在weight_estimation/bags_queried_for_weight_estimation，通过设置select_num_per_day来选择每辆车每天选取几个包
+3. 运行./start_analysis_weight_estimation.sh read可以开始读取包，并生成报告。可以运行./start_analysis_weight_estimation.sh both，等同于运行2和3
+4. 因为read bag需要很长时间，只要read过一次就会保存为weight_estimation_analysis_result.csv，运行./start_analysis_weight_estimation.sh report可以只生成报告，用于生成报告部分的debug
+5. 报告中有个文件days_with_max_error_of_mean_value.csv，包含着每辆车误差较大的日期，通过num_per_vehicle和num_per_day可以选择每辆车选择几天bad case，每天选择几个bag
+6. 运行./start_snip_bag.sh 指定对应的days_with_max_error_of_mean_value.csv，可以从mnt上snip包，存在mnt上，并保存下来一个bag_snipped_names.csv，里面包含snip bag的list，可以用来replay
+7. replay完成之后，运行python read_replay_bag.py --target-folder /mnt/intel/jupyterhub/jianhao.dong/report/replay_report/20231130064135来读取所有的replay包，然后生成一个csv，可以再用./start_analysis_weight_estimation.sh report来生成报告

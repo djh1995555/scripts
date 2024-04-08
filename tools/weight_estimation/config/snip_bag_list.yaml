@@ -1,0 +1,12 @@
+target_bag_list: [
+  bag: {
+    bag_name: /mnt/vault34/drives/2023-10-17/20231017T070846_pdb-l4e-b0008_0.db,
+    start: 2142,
+    end: 2197
+  },
+  bag: {
+    bag_name: /mnt/vault32/drives/2023-10-18/20231018T063129_pdb-l4e-b0008_0.db,
+    start: 0,
+    end: 300
+  }
+]

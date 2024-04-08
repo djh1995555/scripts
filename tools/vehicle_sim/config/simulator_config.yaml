@@ -1,0 +1,114 @@
+simulation_time: 1000
+ref_length: 20
+vehicle_param: {
+  const_ref_v: false,
+  no_ramp: false,
+  traction_ratio: 1.0,
+  v_ratio: 1.0,
+  sample_time: 0.05,
+  init_v: 15,
+  vehicle_mass: 37500,
+  gravity_acceleration: 9.8,
+  axle_drive_ratio: 2.714,
+  max_throttle_engine_torque: 3125,
+  transmission_efficiency: 0.95,
+  effective_tire_radius: 0.5,
+  inertia_wheels: 60.0,
+  inertia_engine: 4.0,
+  vehicle_frontal_area: 8.0,
+  air_density: 1.225,
+  rolling_friction_coefficient: 0.007,
+  drag_coefficient: 3.92,
+  cr_magnitude: 0.003,
+  ca_magnitude: 0.5,
+  wind_speed: 0.0,
+  delay_time: 0.0,
+  delay_correction: false,
+  with_noise: false,
+  acc_noise_deviation: 0.05,
+  traction_noise_deviation: 0.0,
+  v_noise_deviation: 0.0,
+  pitch_noise_deviation: 0.0,
+}
+
+controller_params: {
+  controller_type: 'PID',
+  use_estimation_result: true,
+  PID_args: {
+    preview_length: 5,
+    propotional_gain: 5.0,
+  },
+  # 'RLS' 'KF' 'EKF'
+  lon_params_estimator_type: RLS,
+  lon_params_estimator_params: {
+    noise_covariance_estimator_params: {
+      poly_order: 4,
+      wl: 30,
+      wr: 30,
+      forget_factor: 0.995,
+    },
+    # 'RLS' 'EF1RLS' 'EF2RLS' 'DF1RLS' 'DF2RLS' 
+    # 'RGTLS'  'RGEF1TLS' 'RGEF2TLS' 'RGDF1TLS' 'RGDF2TLS' 
+    # 'MFRLS' 'RAWRLS' 'RAWRGTLS' 'MFRAWRLS'
+    rls_type: RLS,
+    RLS_params: {
+      forget_factor: [0.999,]
+    },
+    # same as RLS with different form, has same result of MFRLS 
+    EF1RLS_params: {
+      forget_factor: [0.999,]
+    },
+    EF2RLS_params: {
+      forget_factor: [0.999,]
+    },
+    DF1RLS_params: {
+      forget_factor: [0.999,],
+    },
+    DF2RLS_params: {
+      forget_factor: [0.999,],
+    },
+    ## good for noise
+    RGTLS_params: {
+      forget_factor: [0.999,],
+      use_noise_covariance_estimated: false,
+    },
+    RGEF1TLS_params: {
+      forget_factor: [0.999,],
+      use_noise_covariance_estimated: false,
+    },
+    RGEF2TLS_params: {
+      forget_factor: [0.999,],
+      use_noise_covariance_estimated: false,
+    },
+    RGDF1TLS_params: {
+      forget_factor: [0.999,],
+      use_noise_covariance_estimated: false,
+    },
+    RGDF2TLS_params: {
+      forget_factor: [0.999,],
+      use_noise_covariance_estimated: false,
+    },
+    ## does not work for noise
+    RAWRLS_params: {
+      forget_factor: [0.999,],
+      kesi: 500,
+    },
+
+    ## if the forget factors have too much difference, the result will diverge
+    MFRLS_params: {
+      forget_factor: [0.99, 0.99, 0.995]
+    },    
+    RAWRGTLS_params: {
+      forget_factor: [0.999,],
+      kesi: 500,
+    },
+    ## not ready
+    MFRAWRLS_params: {
+      forget_factor: [0.99, 0.99, 0.995],
+      kesi: 500,
+    },
+  },
+
+}
+
+
