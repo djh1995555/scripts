@@ -1,0 +1,34 @@
+@startuml
+package Normal_stage{
+    SEGMENT_INIT --|> SEGMENT_READY
+    SEGMENT_READY --|> SEGMENT_EPB_RELEASE
+    SEGMENT_EPB_RELEASE --|> SEGMENT_SWITCH_GEAR
+    SEGMENT_SWITCH_GEAR --|> SEGMENT_STANDSTILL_STEERING
+    SEGMENT_STANDSTILL_STEERING --|> SEGMENT_STARTUP
+    SEGMENT_STARTUP --|> SEGMENT_TRACKING
+    note on link: ApaExecuteNewStartup
+    SEGMENT_STARTUP --|> SEGMENT_STOPPING
+    note on link: small error or reach end point
+    SEGMENT_STARTUP --|> SEGMENT_STARTUP
+    note on link: else
+    SEGMENT_TRACKING --|> SEGMENT_FINISHED
+    note on link: IsVehicleStuck
+    SEGMENT_TRACKING --|> SEGMENT_STOPPING
+    note on link: small error or reach end point
+    SEGMENT_STOPPING --|> SEGMENT_STOPPING
+    note on link: StopEmergencyIfExceedEndPoint
+    SEGMENT_STOPPING --|> SEGMENT_TRACKING
+    note on link: continue tracking
+    SEGMENT_STOPPING --|> SEGMENT_FINISHED
+    note on link: IsFullyStopped
+}
+
+Normal_stage --|> CheckVehicleGearNormal
+CheckVehicleGearNormal --|> SEGMENT_ABNORMAL
+SEGMENT_ABNORMAL --|> SEGMENT_INIT
+
+Normal_stage --|> Collision_check
+Collision_check --|> SEGMENT_EMERGENCY_STOPPING
+SEGMENT_EMERGENCY_STOPPING --|> SEGMENT_FINISHED
+    
+@enduml
