@@ -1,0 +1,69 @@
+target_panel: {
+  State: {
+    "apa_status": "apa_statemachine:status",
+    "segment_stage": "control_debug:segment_stage",
+    "segment_id": "control_debug:segment_id",
+  },
+  Gear: {
+    "gear_position": "chassis:gear_position",
+    # "target_gear": "control_cmd:target_gear",
+  },
+  Speed: {
+    "vehicle_speed": "chassis:vehicle_speed",
+    # "speed_error": "control_debug:speed_error",
+  },
+  Heading_Error: {
+    "reference_heading_rad": "control_debug:reference_heading_rad",
+    "preview_reference_heading_rad": "control_debug:preview_reference_heading_rad",
+    "preview_yaw_error": "control_debug:lookahead_station_low_speed",
+    "heading_error": "control_debug:heading_error_feedback",
+  },
+  Lat_Error: {
+    "lat_error": "control_debug:lateral_error",
+    "lat_error2": "control_debug:end_x_error",
+  },
+  # Position_x: {
+  #   "reference_pos_x_m": "control_debug:reference_pos_x_m",
+  #   "preview_reference_pos_x_m": "control_debug:preview_reference_pos_x_m",
+  # },
+  # Position_y: {
+  #   "reference_pos_y_m": "control_debug:reference_pos_y_m",
+  #   "preview_reference_pos_y_m": "control_debug:preview_reference_pos_y_m",
+  # },
+  LatCmd: {
+    "feedward_kappa": "control_debug:feedward_kappa",
+    "preview_kappa": "control_debug:preview_kappa",
+    "origin_control_kappa": "control_debug:origin_control_kappa",
+    "stanley_yaw_contribution": "control_debug:stanley_yaw_contribution",
+    "stanley_lateral_contribution": "control_debug:stanley_lateral_contribution",
+    "reference_kappa": "control_debug:reference_kappa",
+  },
+  Steer: {
+    "steer_wheel_angle": "chassis:steer_wheel_angle",
+    "target_steer_deg": "control_cmd:target_steer_deg",
+    "preview_steer": "control_debug:preview_kappa_c",
+    "control_steer_from_kls": "control_debug:origin_control_steer_deg",
+    "planned_steer": "control_debug:reference_kappa_c",
+  },
+  other: {
+    "preview_time": "control_debug:yaw_contribution",
+  },
+  Distance: {
+    # "stop_distance_req": "control_cmd:stop_distance_req",
+    "end_y_error": "control_debug:end_y_error",
+  },
+  Acc: {
+    "imu_acc_": "control_debug:imu_acc_",
+    # "acc_cmd_closeloop": "control_debug:acc_cmd_closeloop",
+    "target_acc_mpss": "control_cmd:target_acc_mpss",
+  },
+  Torque: {
+    "front_motor_torque_nm": "chassis:front_motor_torque_nm",
+    "front_motor_torque_req_nm": "chassis:front_motor_torque_req_nm",
+    "rear_motor_torque_nm": "chassis:rear_motor_torque_nm",
+    "rear_motor_torque_req_nm": "chassis:rear_motor_torque_req_nm",
+  },
+  Brake: {
+    "master_pressure": "chassis:master_pressure",
+  },
+}

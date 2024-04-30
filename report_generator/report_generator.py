@@ -3,10 +3,12 @@ import argparse
 import json
 import os
 from collections import OrderedDict 
+import pandas as pd
 import yaml
-from report_plotter import ReportPlotter
+from utils.report_plotter import ReportPlotter
 import numpy as np
 import math
+from statistics import mode
 
 
 class ReportGenerator:
@@ -25,27 +27,91 @@ class ReportGenerator:
         self.read_data(self._args.file_path)
         self.generate_report(self._output_filename)
 
+    def get_acc_response(self):
+        status = []
+        if "apa_statemachine" in self._all_data.keys():
+            if "status" in self._all_data["apa_statemachine"].keys():
+                status = self._all_data['apa_statemachine']['status']
+
+        imu_acc = []
+        if "control_debug" in self._all_data.keys():
+            if "imu_acc_" in self._all_data["control_debug"].keys():
+                imu_acc = self._all_data['control_debug']['imu_acc_']
+
+        segment_stage = []
+        if "control_debug" in self._all_data.keys():
+            if "segment_stage" in self._all_data["control_debug"].keys():
+                segment_stage = self._all_data['control_debug']['segment_stage']
+
+        target_acc_mpss = []
+        if "control_cmd" in self._all_data.keys():
+            if "target_acc_mpss" in self._all_data["control_cmd"].keys():
+                target_acc_mpss = self._all_data['control_cmd']['target_acc_mpss']  
+
+        if(len(imu_acc)>0 and len(segment_stage)>0 and len(target_acc_mpss)>0):
+            segments = []
+            start = None
+            
+            for i in range(len(segment_stage)):
+                if segment_stage[i] == 8:
+                    if start is None:
+                        start = i
+                elif start is not None:
+                    if i - start > 2:
+                        segments.append((start, i))
+                    start = None
+            
+            re = []
+            
+            # 对每个片段求出Blist中的众数和Clist中的峰值
+            for segment in segments:
+                start, end = segment
+                target_stop_acc_segment = target_acc_mpss[start:end]
+                acc_responce_segment = imu_acc[start:end]
+                re.append((mode(target_stop_acc_segment),max(acc_responce_segment)))
+            
+            print(re)
+
+
     def read_data(self, file_path):
         with open(file_path, 'r', encoding='utf-8') as file:
             self._all_data = json.load(file)
+        
+        imu_acc = []
+        if "control_debug" in self._all_data.keys():
+            if "imu_acc_" in self._all_data["control_debug"].keys():
+                imu_acc = self._all_data['control_debug']['imu_acc_']
+
+        gear_data = []
+        if "chassis" in self._all_data.keys():
+            if "gear_position" in self._all_data["chassis"].keys():
+                gear_data = self._all_data['chassis']['gear_position'] 
+
+        if(len(imu_acc)>0 and len(gear_data)>0):
+            min_length = min(len(imu_acc),len(gear_data))
+            for i in range(min_length):
+                if(gear_data[i] == 1):
+                    imu_acc[i] *= -1
+            self._all_data['control_debug']['imu_acc_'] = imu_acc
 
         self.select_target_signal()
+
+        # self.get_acc_response()
     
     def select_target_signal(self):
         with open(self._args.target_signal_filepath, 'r') as f:
-            target_signals = yaml.load(f)
+            target_signals = yaml.load(f, Loader=yaml.Loader)
         
         target_panel = dict(target_signals["target_panel"])
         for sub_panel_name, sub_panel in target_panel.items():
             sub_dict = OrderedDict()
-            for signal_full_name in sub_panel:
+            for signal_sidplay_name, signal_full_name in sub_panel.items():
                 channel, signal = signal_full_name.split(":")
                 if channel in self._all_data.keys():
                     data = self._all_data[channel][signal]
                     time = self._all_data[channel]["timestamp"]
-                    sub_dict[signal_full_name] = (data, time)
+                    sub_dict[signal_sidplay_name] = (data, time)
             self._data_selected[sub_panel_name] = sub_dict
-
 
     def generate_report(self, output_filename):
         start_timestamp = math.inf
@@ -54,7 +120,6 @@ class ReportGenerator:
             if(data_time[0]<start_timestamp):
                 start_timestamp = data_time[0]
 
-        print(f'start_time: {start_timestamp}')
         for sub_panel_name, sub_dict in self._data_selected.items():
             time_list=[]
             value_list=[]
@@ -65,9 +130,11 @@ class ReportGenerator:
                     time_list.append(np.array([(x - data_time[0])/1000000000 for x in data_time]))
                 else:
                     time_list.append(np.array([(x - start_timestamp)/1000000000 for x in data_time]))
-                value_list.append(np.array(data))
+                df = pd.DataFrame({'data': data})
+                df_interp = df.interpolate(method='linear')
+                data_array = df_interp.T.to_numpy()
+                value_list.append(data_array[0])
                 legend_list.append(signal_full_name)
-                print(f"type1:{type(time_list[0])}")
             
             subplot = self._report_plotter.plot_figure_plotly(x_list = time_list, 
                                                 y_list = value_list,
@@ -88,14 +155,19 @@ class ReportGenerator:
             data_time = catagory_data["timestamp"]
             
             for data_name, data in catagory_data.items():
+                if(data[0] is None):
+                    continue
                 if(data_name not in self._exclude_item):
-                    if((data_time[0]-start_timestamp)/1000000000 > 10000):
-                        time_list.append(np.array([(x - data_time[0])/1000000000 for x in data_time]))
+                    if((data_time[0]-start_timestamp)/10e8 > 10000):
+                        time_list.append(np.array([(x - data_time[0])/10e8 for x in data_time]))
                     else:
-                        time_list.append(np.array([(x - start_timestamp)/1000000000 for x in data_time]))
-                    value_list.append(np.array(data))
+                        time_list.append(np.array([(x - start_timestamp)/10e8 for x in data_time]))
+                    df = pd.DataFrame({'data': data})
+                    df_interp = df.interpolate(method='linear')
+                    data_array = df_interp.T.to_numpy()
+                    value_list.append(data_array[0])
                     legend_list.append(f"{catagory}:{data_name}")
-                    print(f"type2:{type(time_list[0])}")
+
             subplot = self._report_plotter.plot_figure_plotly(x_list = time_list, 
                                                 y_list = value_list,
                                                 legend_list = legend_list,
@@ -121,10 +193,10 @@ def main(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('Report Generator')
     scripts_dirname = os.path.dirname(os.path.abspath(__file__))
-    parser.add_argument('--file-path', default="/home/mi/debug/scripts/record/replay_record/20240410171449/0408/88048/record.json", type=str)
+    parser.add_argument('--file-path', default="/home/mi/debug/scripts/record/test_record/2023-11-06/0102/14-38-14/record.json", type=str)
     parser.add_argument('--output-dir', default=os.path.join(scripts_dirname,'report/default_report'))
     parser.add_argument('--time', default='0000', type=str)
-    parser.add_argument('--target-signal-filepath', default=os.path.join(scripts_dirname,'target_signal.yaml'), type=str)
+    parser.add_argument('--target-signal-filepath', default=os.path.join(scripts_dirname,'config/target_signal_lon.yaml'), type=str)
     args = parser.parse_args()
     
     main(args)

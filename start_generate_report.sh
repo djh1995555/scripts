@@ -2,15 +2,21 @@
 pwd=$(pwd -P)
 lwd=$(dirname $pwd)
 
-default_record_dir=$pwd/record/issue_record/0408
-default_record_dir=/home/mi/debug/scripts/record/replay_record
-# default_record_dir=/home/mi/debug/scripts/record/issue_record/0408/84115
-default_record_dir=/home/mi/debug/scripts/record/replay_record/20240410171449/0408/88048
-echo $default_record_dir
+default_record_dir=$pwd/record/issue_record/84127
+default_record_dir=$pwd/record/test_record/2024-04-11/0227/14-56-54
 
+default_record_dir=$pwd/record/test_record/filepath/2024-04-11/0227/15-32-40
+# default_record_dir=$pwd/record/test_record/event/2024-04-11/MT227/15-44-26
+# default_record_dir=$pwd/record/test_record/download
+# default_record_dir=$pwd/record/test_record/adrn_path/2024-04-11/0227/15-32-40
+default_record_dir=$pwd/record/test_record/2024-04-23/MT091
 record_dir=${1:-$default_record_dir}
-time=$(date "+%Y%m%d%H%M%S")
-output_dir=${pwd}/report/issue_report
+
+
+plot_signal_filepath=$pwd/report_generator/config/target_signal_lon.yaml
+# plot_signal_filepath=$pwd/config/target_signal_lat.yaml
+
+
 
 if [ ! -d $record_dir ]; then
     echo "Error: $record_dir is not a directory"
@@ -28,7 +34,6 @@ function traverse_directory() {
         if [ -d "$item" ]; then
             traverse_directory "$item"
         elif [[ "$filename" == *.record || "$filename" == full_record.* ]]; then
-
             result_dirs+=("$dir")
             has_record_file=true
             break
@@ -39,19 +44,25 @@ function traverse_directory() {
         return
     fi
 }
-
 traverse_directory $record_dir
 
-
 for dir in "${result_dirs[@]}"; do
-    $lwd/mi_tools/bazel-bin/mipilot/modules/parking/controller/avp_control_debug --record $dir 
+    if ! find $dir -maxdepth 1 -type f -name "*.json" -print -quit | grep -q .; then
+        echo 'do not have json'
+        $lwd/mi_tools/bazel-bin/mipilot/modules/parking/controller/avp_control_debug --record $dir 
+    fi
     for item in "$dir"/*; do
         if [[ "$item" == *.json ]]; then
-            python $pwd/report_generator.py --file-path $item
+            echo generate report for $item
+            python $pwd/report_generator/report_generator.py --file-path $item --target-signal-filepath $plot_signal_filepath
         fi
     done
 done | sort -u
 
-if ls *.txt 1> /dev/null 2>&1; then
-    rm *.txt
+if ls dr* 1> /dev/null 2>&1; then
+    rm dr*
+fi
+
+if ls ins* 1> /dev/null 2>&1; then
+    rm ins*
 fi
