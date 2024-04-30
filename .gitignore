@@ -1,2 +1,4 @@
 record/
 __pycache__/
+record_downloader/utils/jira_scanner/config.ini
+record_downloader/utils/jira_scanner/global_config.py

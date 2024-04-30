@@ -1,0 +1,22 @@
+@startuml
+
+
+Input -down-> TimeRangeRecordDownloader : TimeRange
+TimeRangeRecordDownloader -down-> EventRecordDownloader : EventID
+TimeRangeRecordDownloader-down-> AdrnRecordDownloader : Adrn
+
+
+Input -down-> JiraRecordDownloader : JiraID
+JiraRecordDownloader -down-> EventRecordDownloader : EventID
+
+Input -down-> AdrnRecordDownloader : Adrn
+AdrnRecordDownloader -down-> PathRecordDownloader : FilePath
+AdrnRecordDownloader -down-> Record : DataFlow
+
+
+Input -down-> EventRecordDownloader : EventID
+EventRecordDownloader-down-> Record : DownloadFile
+
+Input -down-> PathRecordDownloader : FilePath
+PathRecordDownloader -down-> Record : DataFlow
+@enduml

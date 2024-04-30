@@ -1,0 +1,127 @@
+query_config: {
+  filesystem: "fds",
+  query_method: "time_range", # event_id, path, adrn, time_range, jira
+  common_config: {
+    output_dir: "/home/mi/debug/scripts/record/test_record",
+    # output_dir: "",
+    watch_channel: [
+      "/localization/kinetic_localization",
+      "/sensors/chassis/parking",
+      "/parking/apa/trajectory",
+      "/parking/avp/trajectory",
+      "/sensors/ultrasonic/echo",
+      "/parking/obstacle_map/apa",
+      "/hmi/parking/interact_command",
+      "/parking/apa/apa_map",
+      "/parking/avp/state_machine",
+      "/parking/apa/state_machine",
+      "/parking/apa_planner/status",
+      "/parking/apa_planner/hmi_report",
+      "/perception/prediction/obstacles/avp",
+      "/mcu/soc/carconfig_params",
+      "/parking/controller/command",
+      "/parking/controller/debug",
+      "/parking/controller/status",
+      "/parking/controller/hmi_report",
+    ]
+  },
+  jira_record_downloader_config: {
+    download_source: "jira_api", # jira_api, jira_csv
+    jira_csv: "/home/mi/debug/scripts/record_downloader/jira.csv",
+    issue_ids: [
+      "AD-84151",
+      "AD-84766",
+      "AD-84762",
+    ]
+  },
+  event_record_downloader_config: {
+    event_id: "7709523"
+  },
+  path_record_downloader_config: {
+    # path: "data-input/car/prod/mo1-mt/0227/2024-04-11/14-56-54/full_record.2024-04-11-14-59-19.00001",
+    path: "data-input/car/prod/mo1-mt/0227/2024-04-11/15-32-40/full_record.2024-04-11-15-45-21.00004",
+  },
+  adrn_record_downloader_config: {
+    download_method: "path", # path, data_flow
+    # adrn: "adr::dataclip:eng.mo1-vp1.0102::1699252694000000000:1699252719000000000",
+    adrn: "adr::dataclip:prod.mo1-mt.0227::1712821475000000000:1712821560000000000", # 2024-04-11 15:44:35 to 2024-04-11 15:46:00
+    # adrn: "adr::dataclip:prod.mo1-mt.0060::1712821800000000000:1712821860000000000"
+  },
+  time_range_record_downloader_config: {
+    download_method: "event", # event, adrn
+    vehicle: "adr::car:prod:mo5-mt:0091", # "adr::car:prod:mo1-mt:0227", "adr::car:prod:mo5-mt:0091"
+    event_key: "EVENT_KEY_TRIGGER_APA_PARKING_EXCEPTION",
+    time_range: [
+      ['2024-04-13 11:46:00', '2024-04-13 11:47:00'],
+      ],
+  },
+
+
+}
+
+common_env: {
+  "XIAOMI_USERNAME": "dongjianhao",
+  "AD_CLOUD_XIAOMI_DEPARTMENT": "泊车功能",
+  "AD_CLOUD_DATASET_CALL_ENV": "tjv1",
+
+  "XIAOMI_IAM_ACCESS_KEY_ID": "AKQDGKPFZXGMBNPGSA",
+  "XIAOMI_IAM_SECRET_ACCESS_KEY": "rtA5wNkdE9wQSu9EopZCiVk+t6hYX9S3AT+o7CEd",
+
+  # "XIAOMI_ACCESS_KEY_ID": "AK3VFUU4SNOMLQE345"
+  # "XIAOMI_SECRET_ACCESS_KEY": "g/KmXjETpeigjbDc1PmuIqscCniVpfG9NbAwT6Fe"
+
+  "XIAOMI_ACCESS_KEY_ID": "AKXX2XVJ5ECBCLGLFH",
+  "XIAOMI_SECRET_ACCESS_KEY": "Wxt8JCuiM/TlkHVVICBs5iQAlxGG2cCEVkpPwCz9",
+
+  "AD_CLOUD_DATASEEKER_KS3_ACCESS_KEY": "AKLTH0w8rIHDRJO6uIv0bBCr",
+  "AD_CLOUD_DATASEEKER_KS3_SECRET_KEY": "OOdbSAfokuQENo5eTEadPz7jK5hLUZIGz7ofXQjP",
+}
+
+fds_config: {
+  env: {
+    "XIAOMI_FDS_ENDPOINT": "cnbj1-fds.api.xiaomi.net",
+    "AD_CLOUD_DATASEEKER_DATA_PATH": "/tmp",
+    "AD_CLOUD_DATASEEKER_FRAME_CACHE_PATH": "/tmp",
+    "AD_CLOUD_DATASEEKER_FILESYSTEM": "s3",
+    "AD_CLOUD_DATASEEKER_INDEX_FILE_PATH": "data-input",
+  },
+  filesystem_kws: {
+      "protocol": "s3",
+      "client_kwargs": {"endpoint_url": "https://s3-cnbj1.mi-fds.net"},
+      "default_block_size": 20,
+      "default_fill_cache": False,
+      "default_cache_type": "readahead",
+  }
+}
+
+ks3_env: {
+  env: {
+    "AD_CLOUD_DATASEEKER_KS3_ENDPOINT": "ks3-cn-tianjin-xm01.ksyuncs.com",
+    # "AD_CLOUD_DATASEEKER_KS3_ENDPOINT": "http://ks3-cn-tianjin-xm01-internal.ksyuncs.com",
+
+    "AD_CLOUD_DATASEEKER_DATA_PATH": "/tmp",
+    # "AD_CLOUD_DATASEEKER_DATA_PATH": "/mnt/output-data-storage",
+
+    "AD_CLOUD_DATASEEKER_FRAME_CACHE_PATH": "/tmp",
+    # "AD_CLOUD_DATASEEKER_FRAME_CACHE_PATH": "/mnt/frame-data-cache",
+
+
+    "AD_CLOUD_DATASEEKER_INDEX_FILE_PATH": "test-raw-data-storage",
+    # "AD_CLOUD_DATASEEKER_INDEX_FILE_PATH": "/mnt/mcap-index/raw",
+
+    "FRAME_DATA_CACHE_PATH": "/mnt/frame-data-cache",
+    "DATA_MOUNT_PATH": "/mnt/output-data-storage",
+
+    "AD_CLOUD_DATASEEKER_FILESYSTEM": "s3",
+    "AD_CLOUD_DATASEEKER_PROD_DATA_PATH": "/mnt/pro-output-data-storage",
+    "AD_CLOUD_AUTH_HOST": "http://king-metaflow-service-prod.data.evad.mioffice.cn",
+  },
+  filesystem_kws: {
+      "protocol": "s3",
+      "client_kwargs": {"endpoint_url": "https://s3-cnbj1.mi-fds.net"},
+      "default_block_size": 20,
+      "default_fill_cache": False,
+      "default_cache_type": "readahead",
+  }
+
+}
