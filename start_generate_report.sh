@@ -9,7 +9,12 @@ default_record_dir=$pwd/record/test_record/filepath/2024-04-11/0227/15-32-40
 # default_record_dir=$pwd/record/test_record/event/2024-04-11/MT227/15-44-26
 # default_record_dir=$pwd/record/test_record/download
 # default_record_dir=$pwd/record/test_record/adrn_path/2024-04-11/0227/15-32-40
-default_record_dir=$pwd/record/test_record/2024-04-23/MT091
+default_record_dir=$pwd/record/test_record/2024-04-18/MT091
+default_record_dir=$pwd/record/test_record/issue_record
+# default_record_dir=$pwd/record/test_record/2024-04-19/MT091/10-38-49
+default_record_dir=$pwd/record/test_record/2024-04-20/MT091
+default_record_dir=$pwd/record/test_record/2024-05-09/2141
+
 record_dir=${1:-$default_record_dir}
 
 
@@ -53,7 +58,7 @@ for dir in "${result_dirs[@]}"; do
     fi
     for item in "$dir"/*; do
         if [[ "$item" == *.json ]]; then
-            echo generate report for $item
+            echo generate report for $dir
             python $pwd/report_generator/report_generator.py --file-path $item --target-signal-filepath $plot_signal_filepath
         fi
     done
