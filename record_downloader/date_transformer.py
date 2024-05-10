@@ -4,7 +4,7 @@ date = ""
 # "2024-04-11 15:44:30", "2024-04-11 15:46:00"
 # 9:53-9:55
 with open(file_path, "r") as data_source:
-    with open('output.txt', "w") as out_file:
+    with open('data_transformed.txt', "w") as out_file:
         for line in data_source:
             if("date" in line):
                 line = line.strip()
