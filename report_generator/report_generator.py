@@ -24,8 +24,11 @@ class ReportGenerator:
         self._data_selected = OrderedDict()
     
     def run(self):
-        self.read_data(self._args.file_path)
+        load_success = self.read_data(self._args.file_path)
+        if(not load_success):
+            return False
         self.generate_report(self._output_filename)
+        print(f"generate report of {self._args.file_path} successfully!")
 
     def get_acc_response(self):
         status = []
@@ -76,11 +79,23 @@ class ReportGenerator:
     def read_data(self, file_path):
         with open(file_path, 'r', encoding='utf-8') as file:
             self._all_data = json.load(file)
+
+        if(self._all_data is None):
+            print(f"load data from {file_path} failed!")
+            return False
         
         imu_acc = []
         if "control_debug" in self._all_data.keys():
             if "imu_acc_" in self._all_data["control_debug"].keys():
                 imu_acc = self._all_data['control_debug']['imu_acc_']
+            if "acc_cmd_closeloop" in self._all_data["control_debug"].keys():
+                acc_cmd_closeloop = self._all_data['control_debug']['acc_cmd_closeloop']
+            if "previous_acceleration_reference" in self._all_data["control_debug"].keys():
+                feedforward_acc = self._all_data['control_debug']['previous_acceleration_reference']
+            if "slope_acc" in self._all_data["control_debug"].keys():
+                feedback_acc = self._all_data['control_debug']['slope_acc']
+            if "planned_speed" in self._all_data["control_debug"].keys():
+                planned_speed = self._all_data['control_debug']['planned_speed']
 
         gear_data = []
         if "chassis" in self._all_data.keys():
@@ -92,11 +107,21 @@ class ReportGenerator:
             for i in range(min_length):
                 if(gear_data[i] == 1):
                     imu_acc[i] *= -1
+                    acc_cmd_closeloop[i] *= -1
+                    feedforward_acc[i] *= -1
+                    feedback_acc[i] *= -1
+                    planned_speed[i] *= -1
             self._all_data['control_debug']['imu_acc_'] = imu_acc
+            self._all_data['control_debug']['acc_cmd_closeloop'] = acc_cmd_closeloop
+            self._all_data['control_debug']['previous_acceleration_reference'] = feedforward_acc
+            self._all_data['control_debug']['slope_acc'] = feedback_acc
+            self._all_data['control_debug']['planned_speed'] = planned_speed
 
         self.select_target_signal()
-
+        
         # self.get_acc_response()
+
+        return True
     
     def select_target_signal(self):
         with open(self._args.target_signal_filepath, 'r') as f:
@@ -188,12 +213,13 @@ class ReportGenerator:
 
 def main(args):
     reprt_generator = ReportGenerator(args)
-    reprt_generator.run()
+    success = reprt_generator.run()
+        
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('Report Generator')
     scripts_dirname = os.path.dirname(os.path.abspath(__file__))
-    parser.add_argument('--file-path', default="/home/mi/debug/scripts/record/test_record/2023-11-06/0102/14-38-14/record.json", type=str)
+    parser.add_argument('--file-path', default="/home/mi/debug/scripts/record/test_record/2024-04-21/MT091/11-16-27/record.json", type=str)
     parser.add_argument('--output-dir', default=os.path.join(scripts_dirname,'report/default_report'))
     parser.add_argument('--time', default='0000', type=str)
     parser.add_argument('--target-signal-filepath', default=os.path.join(scripts_dirname,'config/target_signal_lon.yaml'), type=str)
