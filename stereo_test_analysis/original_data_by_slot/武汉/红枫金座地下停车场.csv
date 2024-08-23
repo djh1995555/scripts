@@ -1,0 +1,3 @@
+,日期,版本号,打包,车辆类型,原始数据链接,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
+24,2024-08-20,合入验证,22519,ADD2,https://xiaomi.f.mioffice.cn/sheets/shtk4tK4YsuCyUB2jeXjjRJf4zf?sheet=sPJwt7,武汉,红枫金座地下停车场,15.0,15.0,100.00,9.0,60.00,0.0,100.00
+77,2024-08-05,发版 14.1.0&14.0.2,1303,ADD,https://xiaomi.f.mioffice.cn/sheets/shtk4kO9f4sjJ5ANZQfpzZIvrnb?sheet=KWABAR,武汉,红枫金座地下停车场,20.0,20.0,100.00,17.0,85.00,13.0,35.00

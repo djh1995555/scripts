@@ -1,0 +1,7 @@
+,日期,版本号,打包,车辆类型,原始数据链接,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
+9,2024-08-13,发版14.1.3,1322,ADD,https://xiaomi.f.mioffice.cn/sheets/shtk4kO9f4sjJ5ANZQfpzZIvrnb?sheet=wyUZCn,北京,首创奥特莱斯,22.0,22.0,100.00,20.0,90.91,0.0,100.00
+31,2024-08-15,发版14.1.3,1322,ADD,https://xiaomi.f.mioffice.cn/sheets/shtk4kO9f4sjJ5ANZQfpzZIvrnb?sheet=Y1LdcJ,北京,首创奥特莱斯,25.0,25.0,100.00,24.0,96.00,0.0,100.00
+63,2024-08-05,合入验证,20589,ADD,https://xiaomi.f.mioffice.cn/sheets/shtk4a9gFPgzzKsN63DN2OevPkf?sheet=2vyOOr,北京,首创奥特莱斯,18.0,18.0,100.00,18.0,100.00,1.0,94.44
+84,2024-07-30,合入验证,20275,ADD,https://xiaomi.f.mioffice.cn/sheets/shtk4a9gFPgzzKsN63DN2OevPkf?sheet=TvZ5aU,北京,首创奥特莱斯,21.0,21.0,100.00,20.0,95.24,2.0,90.48
+91,2024-08-12,发版14.1.2,1317,ADD,https://xiaomi.f.mioffice.cn/sheets/shtk4kO9f4sjJ5ANZQfpzZIvrnb?sheet=DWBXWP,北京,首创奥特莱斯,20.0,20.0,100.00,19.0,95.00,0.0,100.00
+109,2024-08-08,合入验证,21166,ADD,https://xiaomi.f.mioffice.cn/sheets/shtk4a9gFPgzzKsN63DN2OevPkf?sheet=njiVUY,北京,首创奥特莱斯,20.0,20.0,100.00,18.0,90.00,0.0,100.00

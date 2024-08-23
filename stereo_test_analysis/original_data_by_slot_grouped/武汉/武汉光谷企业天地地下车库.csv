@@ -1,0 +1,4 @@
+打包,,日期,版本号,打包,城市,原始数据链接,停车场,ADD泊车总次数,ADD泊车释放次数,ADD泊车释放率(%),ADD位姿达标次数,ADD位姿达标率(%),ADD撞轮挡次数,ADD不撞轮挡率(%),ADD2泊车总次数,ADD2泊车释放次数,ADD2泊车释放率(%),ADD2位姿达标次数,ADD2位姿达标率(%),ADD2撞轮挡次数,ADD2不撞轮挡率(%)
+1303,0,2024-08-06,发版 14.1.0&14.0.2,1303,武汉,https://xiaomi.f.mioffice.cn/sheets/shtk4kO9f4sjJ5ANZQfpzZIvrnb?sheet=LUTCVF,武汉光谷企业天地地下车库,20.0,20.0,100.00,18.0,90.00,10.0,50.00,,,,,,,
+21166,0,2024-08-08,合入验证,21166,武汉,https://xiaomi.f.mioffice.cn/sheets/shtk40KxFSpc1GymatzBiNm5xJh?sheet=ocL0T3,武汉光谷企业天地地下车库,20.0,20.0,100.00,16.0,80.00,5.0,75.00,,,,,,,
+22519,0,2024-08-21,合入验证,22519,武汉,https://xiaomi.f.mioffice.cn/sheets/shtk4tK4YsuCyUB2jeXjjRJf4zf?sheet=WoMcZT,武汉光谷企业天地地下车库,,,,,,,,20.0,20.0,100.00,16.0,80.00,5.0,75.00

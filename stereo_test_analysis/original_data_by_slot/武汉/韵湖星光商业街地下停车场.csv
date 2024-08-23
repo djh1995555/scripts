@@ -1,0 +1,4 @@
+,日期,版本号,打包,车辆类型,原始数据链接,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
+22,2024-08-20,合入验证,22519,ADD2,https://xiaomi.f.mioffice.cn/sheets/shtk4tK4YsuCyUB2jeXjjRJf4zf?sheet=sPJwt7,武汉,韵湖星光商业街地下停车场,23.0,23.0,100.00,19.0,82.61,10.0,56.52
+78,2024-08-05,发版 14.1.0&14.0.2,1303,ADD,https://xiaomi.f.mioffice.cn/sheets/shtk4kO9f4sjJ5ANZQfpzZIvrnb?sheet=KWABAR,武汉,韵湖星光商业街地下停车场,20.0,20.0,100.00,18.0,90.00,11.0,45.00
+132,2024-08-07,合入验证,21166,ADD,https://xiaomi.f.mioffice.cn/sheets/shtk40KxFSpc1GymatzBiNm5xJh?sheet=ftHyUM,武汉,韵湖星光商业街地下停车场,20.0,20.0,100.00,16.0,80.00,5.0,75.00

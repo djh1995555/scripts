@@ -1,0 +1,5 @@
+,日期,版本号,打包,车辆类型,原始数据链接,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
+1,2024-08-03,合入验证,20589,ADD,https://xiaomi.f.mioffice.cn/sheets/shtk4a9gFPgzzKsN63DN2OevPkf?sheet=qEcYXB,北京,房山区政务中心,20.0,20.0,100.00,20.0,100.00,8.0,60.00
+61,2024-08-10,发版14.1.2,1317,ADD,https://xiaomi.f.mioffice.cn/sheets/shtk4kO9f4sjJ5ANZQfpzZIvrnb?sheet=H9SfD4,北京,房山区政务中心,20.0,20.0,100.00,20.0,100.00,8.0,60.00
+64,2024-08-05,合入验证,20589,ADD,https://xiaomi.f.mioffice.cn/sheets/shtk4a9gFPgzzKsN63DN2OevPkf?sheet=2vyOOr,北京,房山区政务中心,2.0,2.0,100.00,1.0,50.00,0.0,100.00
+85,2024-07-30,合入验证,20275,ADD,https://xiaomi.f.mioffice.cn/sheets/shtk4a9gFPgzzKsN63DN2OevPkf?sheet=TvZ5aU,北京,房山区政务中心,12.0,12.0,100.00,12.0,100.00,5.0,58.33
