@@ -1,2 +1,7 @@
 ,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
-101,2024-08-14,合入验证,21656(回退),回退,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=1RcZ2w,ADD2,上海,信业购物中心,14.0,14.0,100.00,11.0,78.57,0.0,100.00
+228,2024-07-23,发版14.0.0,"1287(发版14.0.0,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4fKwTDQUVGvXu35OR6f3PTg?sheet=I5XAYp,ADD2,上海,信业购物中心,13.0,13.0,100.00,10.0,76.92,1.0,92.31
+250,2024-07-25,合入验证,"19638(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4E4jYZLdjl8iAhKvK6dKZMh?sheet=s1NEBZ,ADD2,上海,信业购物中心,18.0,18.0,100.00,10.0,55.56,0.0,100.00
+253,2024-07-25,合入验证,"19638(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4sGJ2k6k7aWTJawdpGVAzUb?sheet=FeBJav,ADD,上海,信业购物中心,1.0,1.0,100.00,1.0,100.00,0.0,100.00
+272,2024-07-28,合入验证,"19638(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4sGJ2k6k7aWTJawdpGVAzUb?sheet=ErvW8J,ADD,上海,信业购物中心,9.0,9.0,100.00,8.0,88.89,2.0,77.78
+297,2024-08-01,发版 14.0.1,"1298(发版 14.0.1,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4tRgUlJCo9UCHeRAIo7LGQg?sheet=HZzF2t,ADD,上海,信业购物中心,30.0,30.0,100.00,24.0,80.00,3.0,90.00
+380,2024-08-14,合入验证,"21656(合入验证,回退)",回退,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=1RcZ2w,ADD2,上海,信业购物中心,14.0,14.0,100.00,11.0,78.57,0.0,100.00

@@ -1,0 +1,4 @@
+,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
+25,2024-07-03,发版12.1.2,"1251(发版12.1.2,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4GfkUrIhP5tVNcd5pje23cd?sheet=Ax5ZUt,ADD2,贵阳,花果园购物中心,20.0,20.0,100.00,9.0,45.00,0.0,100.00
+58,2024-07-06,泛化,"17642(泛化,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4kbaPfWoCB2yi4Xb8avq8jf?sheet=KgsqMo,ADD2,贵阳,花果园购物中心,17.0,17.0,100.00,13.0,76.47,0.0,100.00
+142,2024-07-15,合入验证,"18333(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4G4YQvdZSkohqnKDF6t0Ypb?sheet=1o2C5e,ADD2,贵阳,花果园购物中心,28.0,28.0,100.00,14.0,50.00,0.0,100.00

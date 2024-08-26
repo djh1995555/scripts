@@ -1,3 +1,3 @@
 ,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
-24,2024-08-01,合入验证,20275(带),带,https://xiaomi.f.mioffice.cn/sheets/shtk4a9gFPgzzKsN63DN2OevPkf?sheet=z2Uf05,ADD,天津,汇城广场,28.0,28.0,100.00,24.0,85.71,9.0,67.86
-32,2024-08-02,合入验证,20589(不带),不带,https://xiaomi.f.mioffice.cn/sheets/shtk4a9gFPgzzKsN63DN2OevPkf?sheet=5YJWYC,ADD,天津,汇城广场,23.0,23.0,100.00,17.0,73.91,4.0,82.61
+293,2024-08-01,合入验证,"20275(合入验证,带)",带,https://xiaomi.f.mioffice.cn/sheets/shtk4a9gFPgzzKsN63DN2OevPkf?sheet=z2Uf05,ADD,天津,汇城广场,28.0,28.0,100.00,24.0,85.71,9.0,67.86
+305,2024-08-02,合入验证,"20589(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4a9gFPgzzKsN63DN2OevPkf?sheet=5YJWYC,ADD,天津,汇城广场,23.0,23.0,100.00,17.0,73.91,4.0,82.61

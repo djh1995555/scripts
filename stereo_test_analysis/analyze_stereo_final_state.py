@@ -9,20 +9,37 @@ import warnings
 from plotly.subplots import make_subplots
 
 change_state = {
-	'1288':'不带',
-	'1298':'不带',
+	'19638':'初版',
+	'1285':'初版',
+	'1287':'初版',
+	'1281':'初版',
+	'19160':'初版',
+	'18744':'初版',
+	'19062':'初版',
+	'18495':'初版',
+	'18333':'初版',
+	'17934':'初版',
+	'17642':'初版',
+	'1251':'初版',
+	'1223':'初版',
+	'16301':'初版',
+	'16112':'初版',
+	'1288':'初版',
+	'1298':'初版',
 	'1303':'带',
 	'1313':'带',
 	'1317':'回退',
 	'1322':'回退',
 	'1328':'带',
 	'20275':'带',
-	'20589':'不带',
+	'20589':'初版',
 	'21166':'回退',
 	'21656':'回退',
 	'22133':'优化',
-	'22519':'优化',
+	'22519':'高配优化',
 	'22971':'高配优化',
+	'1334':'优化',
+	'23241':'高配优化',
 	}
 # 忽略所有的UserWarning
 warnings.filterwarnings('ignore', category=FutureWarning)
@@ -80,7 +97,7 @@ def analyze_data(df, filename):
 	analysis_result = {
 		DATE: date,
 		VERSION: version,
-		BAG: f'{bag_id}({change_state[bag_id]})',
+		BAG: f'{bag_id}({version},{change_state[bag_id]})',
 		CHANGE_STATE: change_state[bag_id],
 		DATA_LINK: original_link,
 		V_TYPE: vehicle_type,
@@ -104,6 +121,7 @@ def analyze_data(df, filename):
 	slots = df['位置'].value_counts()
 	idx = 0
 	for slot, count in slots.items():
+			# print(f'slot name:{slot}')
 			flag = number_to_letter(idx)
 			analysis_result[f'{SLOT}{flag}'] = slot
 			analysis_result[f'{flag}{PARKING_COUNT}'] = count
@@ -198,7 +216,8 @@ def reorgnize_df_by_slot(df):
 				break
 			slot_name = row[column_name]
 			reorgnized_df = reorgnized_df.append(new_df, ignore_index=True)
-	
+
+	reorgnized_df = reorgnized_df.sort_values(by=[CITY, DATE, SLOT])
 	return reorgnized_df
 
 def create_html_file(file_name, pages):
@@ -240,10 +259,14 @@ def plot_by_slot(df):
 		f'ADD2{NOT_HIT_WHEELSTOP_RATE}':'pink'
 		}
 	citys = df[CITY].unique()
+	print(citys)
 	pages = []
 	for city in citys:
 		city_result = {}
 		city_df = df[df[CITY]==city]
+		print(f'city:{city}')
+		if(pd.isnull(city)):
+			continue
 		city_dir = os.path.join('original_data_by_slot', city)
 		city_dir_grouped = os.path.join('original_data_by_slot_grouped', city)
 		if(os.path.exists(city_dir)):
@@ -252,14 +275,15 @@ def plot_by_slot(df):
 		if(os.path.exists(city_dir_grouped)):
 			shutil.rmtree(city_dir_grouped)
 		os.makedirs(city_dir_grouped)
+
 		slots = city_df[SLOT].unique()
+		slots_name_with_city = [f'{slot}({city})' for slot in slots]
 		slot_num = len(slots)
 		
 		fig = make_subplots(rows= slot_num,
 												cols=1,
 												shared_xaxes=True, 
-												subplot_titles=slots,
-												# vertical_spacing=vertical_spacing
+												subplot_titles=slots_name_with_city,
 												)
 		slot_id = 1
 		for slot in slots:
@@ -314,7 +338,68 @@ def plot_by_slot(df):
 		city_result['city'] = f'{city}({slot_num})'
 		city_result['content'] = fig.to_html()
 		pages.append(city_result)
+		output_city_html = os.path.join(city_dir_grouped,f'{city}.html')
+		fig.write_html(output_city_html)
 
+	# df = df.sort_values(by=[CITY,BAG,SLOT])
+	slots = df[SLOT].unique()
+	slots_name_with_city = [f'{slot}({df[df[SLOT]==slot][CITY].iloc[0]})' for slot in slots]
+	slot_num = len(slots)
+	
+	fig = make_subplots(rows= slot_num,
+											cols=1,
+											shared_xaxes=True, 
+											subplot_titles=slots_name_with_city,
+											)
+	slot_id = 1
+	for slot in slots:
+		slot_df = df[df[SLOT]==slot]
+		slot_df_group = slot_df.groupby(BAG).apply(slot_sum)
+		slot_df_group[BAG] = slot_df_group[BAG].astype(str)
+		slot_df_group.iloc[:,INFO_COLUMN_NUM:INFO_COLUMN_NUM+14] = slot_df_group.iloc[:,INFO_COLUMN_NUM:INFO_COLUMN_NUM+14].astype(float)
+
+		for i, column in enumerate([f'ADD{POSTURE_RIGHT_RATE}',  f'ADD2{POSTURE_RIGHT_RATE}',  f'ADD{NOT_HIT_WHEELSTOP_RATE}',f'ADD2{NOT_HIT_WHEELSTOP_RATE}']):
+			if(slot_df_group[column][0]==None):
+				continue
+			showlegend = False
+			if(slot_id == 1):
+				showlegend= True
+			fig.add_trace(
+				go.Bar(
+					x = slot_df_group[BAG],
+					y = slot_df_group[column],
+					name = column,
+					legendgroup = column,
+					showlegend=showlegend,
+					width = bar_width,
+					marker_color=color_dict[column],
+				),
+				row=slot_id, 
+				col=1
+			)
+		xaxis_name = f'xaxis{slot_id}'
+		yaxis_name = f'yaxis{slot_id}'
+		if(slot_id==1):
+			xaxis_name = 'xaxis'
+			yaxis_name = 'yaxis'
+		fig["layout"][xaxis_name]["showticklabels"] = True
+		fig["layout"][yaxis_name]["range"] = [0,100]
+		slot_id += 1
+
+	fig.update_layout(
+			title_text='机械库位',
+			title_font=dict(size=50, family='Arial, sans-serif', color='black'),
+			title_x=0.5,
+			
+			# xaxis_title='bag ID',
+			barmode='group',  # 设置为分组模式
+			bargap=0.5,
+			height=subplot_height * 1.1 * slot_num,
+			width=width,
+	)
+	# city_result['city'] = f'all1({slot_num})'
+	# city_result['content'] = fig.to_html()
+	pages.append({'city':f'all({slot_num})','content':fig.to_html()})
 	create_html_file('机械库位停车场测试情况.html', pages)
 
 def main(args):

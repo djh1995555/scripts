@@ -1,2 +1,5 @@
 ,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
-47,2024-08-05,合入验证,20589(不带),不带,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=SOmSBA,ADD2,广州,广州市天环Parc Central地下停车场,21.0,21.0,100.00,13.0,61.90,0.0,100.00
+34,2024-07-04,发版12.1.2,"1251(发版12.1.2,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4TFo5Pl4fGE849LSWOo7ZPb?sheet=agm00T,ADD2,广州,广州市天环Parc Central地下停车场,20.0,20.0,100.00,10.0,50.00,0.0,100.00
+55,2024-07-06,泛化,"17642(泛化,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4PFVfsI2LLBocWPkNr6Yaqf?sheet=Zvw5zm,ADD2,广州,广州市天环Parc Central地下停车场,9.0,9.0,100.00,5.0,55.56,0.0,100.00
+247,2024-07-25,发版14.0.0,"1287(发版14.0.0,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4qZiHjCB3N13Mjnx5D60UCb?sheet=fO614H,ADD2,广州,广州市天环Parc Central地下停车场,21.0,21.0,100.00,9.0,42.86,0.0,100.00
+318,2024-08-05,合入验证,"20589(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=SOmSBA,ADD2,广州,广州市天环Parc Central地下停车场,21.0,21.0,100.00,13.0,61.90,0.0,100.00

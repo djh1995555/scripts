@@ -1,2 +1,4 @@
 ,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
-103,2024-08-14,发版14.1.3,1322(回退),回退,https://xiaomi.f.mioffice.cn/sheets/shtk4kO9f4sjJ5ANZQfpzZIvrnb?sheet=MbY6ZL,ADD,北京,小园地铁站,20.0,20.0,100.00,18.0,90.00,2.0,90.00
+123,2024-07-14,合入验证,"18333(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4yjD0XXNdmy71jBTO5y8Xmf?sheet=12YQf9,ADD,北京,小园地铁站,21.0,21.0,100.00,17.0,80.95,2.0,90.48
+382,2024-08-14,发版14.1.3,"1322(发版14.1.3,回退)",回退,https://xiaomi.f.mioffice.cn/sheets/shtk4kO9f4sjJ5ANZQfpzZIvrnb?sheet=MbY6ZL,ADD,北京,小园地铁站,20.0,20.0,100.00,18.0,90.00,2.0,90.00
+440,2024-08-26,合入验证,"22971(合入验证,高配优化)",高配优化,https://xiaomi.f.mioffice.cn/sheets/shtk42eeHvJheANjirdtW3eSSsb?sheet=jHOtTC,ADD,北京,小园地铁站,20.0,20.0,100.00,19.0,95.00,0.0,100.00

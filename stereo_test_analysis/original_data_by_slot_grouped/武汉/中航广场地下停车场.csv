@@ -1,4 +1,6 @@
 打包,,日期,版本号,打包,change状态,原始数据链接,城市,停车场,ADD泊车总次数,ADD泊车释放次数,ADD泊车释放率(%),ADD位姿达标次数,ADD位姿达标率(%),ADD撞轮挡次数,ADD不撞轮挡率(%),ADD2泊车总次数,ADD2泊车释放次数,ADD2泊车释放率(%),ADD2位姿达标次数,ADD2位姿达标率(%),ADD2撞轮挡次数,ADD2不撞轮挡率(%)
-1303(带),0,2024-08-07,发版 14.1.0&14.0.2,1303(带),带,https://xiaomi.f.mioffice.cn/sheets/shtk4kO9f4sjJ5ANZQfpzZIvrnb?sheet=058xhb,武汉,中航广场地下停车场,20.0,18.0,90.00,12.0,66.67,0.0,100.00,,,,,,,
-1313(带),0,2024-08-09,发版14.1.1&14.0.3,1313(带),带,https://xiaomi.f.mioffice.cn/sheets/shtk4kO9f4sjJ5ANZQfpzZIvrnb?sheet=FB0eRz,武汉,中航广场地下停车场,20.0,20.0,100.00,10.0,50.00,1.0,95.00,,,,,,,
-22519(优化),0,2024-08-21,合入验证,22519(优化),优化,https://xiaomi.f.mioffice.cn/sheets/shtk4tK4YsuCyUB2jeXjjRJf4zf?sheet=WoMcZT,武汉,中航广场地下停车场,,,,,,,,20.0,20.0,100.00,16.0,80.00,0.0,100.00
+"1281(发版12.2.2,初版)",0,2024-07-18,发版12.2.2,"1281(发版12.2.2,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4rQJ5tg7TLYmAqb6oPnpSSW?sheet=RoY54N,武汉,中航广场地下停车场,,,,,,,,14.0,14.0,100.00,7.0,50.00,0.0,100.00
+"1303(发版 14.1.0&14.0.2,带)",0,2024-08-07,发版 14.1.0&14.0.2,"1303(发版 14.1.0&14.0.2,带)",带,https://xiaomi.f.mioffice.cn/sheets/shtk4kO9f4sjJ5ANZQfpzZIvrnb?sheet=058xhb,武汉,中航广场地下停车场,20.0,18.0,90.00,12.0,66.67,0.0,100.00,,,,,,,
+"1313(发版14.1.1&14.0.3,带)",0,2024-08-09,发版14.1.1&14.0.3,"1313(发版14.1.1&14.0.3,带)",带,https://xiaomi.f.mioffice.cn/sheets/shtk4kO9f4sjJ5ANZQfpzZIvrnb?sheet=FB0eRz,武汉,中航广场地下停车场,20.0,20.0,100.00,10.0,50.00,1.0,95.00,,,,,,,
+"1334(发版17.0.1,优化)",0,2024-08-26,发版17.0.1,"1334(发版17.0.1,优化)",优化,https://xiaomi.f.mioffice.cn/sheets/shtk4NPTpjDJagSxNNT5NxGhArh?sheet=1qrxVQ,武汉,中航广场地下停车场,20.0,20.0,100.00,15.0,75.00,6.0,70.00,,,,,,,
+"22519(合入验证,高配优化)",0,2024-08-21,合入验证,"22519(合入验证,高配优化)",高配优化,https://xiaomi.f.mioffice.cn/sheets/shtk4tK4YsuCyUB2jeXjjRJf4zf?sheet=WoMcZT,武汉,中航广场地下停车场,,,,,,,,20.0,20.0,100.00,16.0,80.00,0.0,100.00

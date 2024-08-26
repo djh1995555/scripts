@@ -1,2 +1,4 @@
 ,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
-139,2024-08-21,发版17.0.0,1328(带),带,https://xiaomi.f.mioffice.cn/sheets/shtk4MfaDojn2Nh9kyPLv00BFOe?sheet=C52T4I,ADD2,南京,宝隆时代广场,20.0,20.0,100.00,11.0,55.00,0.0,100.00
+21,2024-07-03,发版12.1.2,"1251(发版12.1.2,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk48Cqpdogf8tT8T88F7ODQyc?sheet=Y19dSW,ADD2,南京,宝隆时代广场,21.0,21.0,100.00,6.0,28.57,3.0,85.71
+119,2024-07-13,发版,"18495(发版,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk44qcrFnVUiT03PkVJ4aDFJf?sheet=fH7UPB,ADD,南京,宝隆时代广场,25.0,22.0,100.00,7.0,31.82,3.0,86.36
+415,2024-08-21,发版17.0.0,"1328(发版17.0.0,带)",带,https://xiaomi.f.mioffice.cn/sheets/shtk4MfaDojn2Nh9kyPLv00BFOe?sheet=C52T4I,ADD2,南京,宝隆时代广场,20.0,20.0,100.00,11.0,55.00,0.0,100.00

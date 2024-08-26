@@ -1,0 +1,5 @@
+,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
+156,2024-07-17,合入验证,"18744(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4yjD0XXNdmy71jBTO5y8Xmf?sheet=1l6vmJ,ADD,北京,泰禾中央广场,25.0,25.0,100.00,15.0,60.00,0.0,100.00
+200,2024-07-19,发版12.2.2,"1281(发版12.2.2,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4eInSlrAdQl9VD22PZFpQJf?sheet=n55cQP,ADD,北京,泰禾中央广场,30.0,30.0,100.00,19.0,63.33,0.0,100.00
+208,2024-07-20,发版12.2.3,"1285(发版12.2.3,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4eInSlrAdQl9VD22PZFpQJf?sheet=nSw9Jg,ADD,北京,泰禾中央广场,24.0,24.0,100.00,14.0,58.33,0.0,100.00
+224,2024-07-23,发版12.2.3,"1285(发版12.2.3,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4eInSlrAdQl9VD22PZFpQJf?sheet=eIYyF8,ADD,北京,泰禾中央广场,20.0,19.0,100.00,9.0,47.37,4.0,78.95

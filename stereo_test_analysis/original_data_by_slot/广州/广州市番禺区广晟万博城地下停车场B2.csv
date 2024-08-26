@@ -1,5 +1,10 @@
 ,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
-9,2024-07-31,合入验证,20275(带),带,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=3zjnm6,ADD2,广州,广州市番禺区广晟万博城地下停车场B2,36.0,36.0,100.00,25.0,69.44,1.0,97.22
-23,2024-08-01,合入验证,20275(带),带,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=ntsOAe,ADD2,广州,广州市番禺区广晟万博城地下停车场B2,40.0,40.0,100.00,27.0,67.50,2.0,95.00
-35,2024-08-03,合入验证,20589(不带),不带,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=mhgjG6,ADD2,广州,广州市番禺区广晟万博城地下停车场B2,19.0,19.0,100.00,11.0,57.89,1.0,94.74
-48,2024-08-05,合入验证,20589(不带),不带,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=SOmSBA,ADD2,广州,广州市番禺区广晟万博城地下停车场B2,10.0,10.0,100.00,7.0,70.00,0.0,100.00
+0,2024-07-01,发版12.1.2,"1251(发版12.1.2,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4TFo5Pl4fGE849LSWOo7ZPb?sheet=I0SGiQ,ADD2,广州,广州市番禺区广晟万博城地下停车场B2,20.0,20.0,100.00,15.0,75.00,4.0,80.00
+66,2024-07-07,泛化,"17642(泛化,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4PFVfsI2LLBocWPkNr6Yaqf?sheet=MKQs9m,ADD2,广州,广州市番禺区广晟万博城地下停车场B2,20.0,19.0,100.00,17.0,89.47,2.0,89.47
+230,2024-07-23,发版14.0.0,"1287(发版14.0.0,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4qZiHjCB3N13Mjnx5D60UCb?sheet=41dufg,ADD2,广州,广州市番禺区广晟万博城地下停车场B2,20.0,20.0,100.00,18.0,90.00,4.0,80.00
+233,2024-07-24,发版14.0.0,"1287(发版14.0.0,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4qZiHjCB3N13Mjnx5D60UCb?sheet=9kYip8,ADD2,广州,广州市番禺区广晟万博城地下停车场B2,30.0,30.0,100.00,26.0,86.67,3.0,90.00
+268,2024-07-26,发版14.0.0,"1287(发版14.0.0,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4qZiHjCB3N13Mjnx5D60UCb?sheet=zNbGuy,ADD2,广州,广州市番禺区广晟万博城地下停车场B2,35.0,35.0,100.00,28.0,80.00,4.0,88.57
+286,2024-07-31,合入验证,"20275(合入验证,带)",带,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=3zjnm6,ADD2,广州,广州市番禺区广晟万博城地下停车场B2,36.0,36.0,100.00,25.0,69.44,1.0,97.22
+296,2024-08-01,合入验证,"20275(合入验证,带)",带,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=ntsOAe,ADD2,广州,广州市番禺区广晟万博城地下停车场B2,40.0,40.0,100.00,27.0,67.50,2.0,95.00
+311,2024-08-03,合入验证,"20589(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=mhgjG6,ADD2,广州,广州市番禺区广晟万博城地下停车场B2,19.0,19.0,100.00,11.0,57.89,1.0,94.74
+319,2024-08-05,合入验证,"20589(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=SOmSBA,ADD2,广州,广州市番禺区广晟万博城地下停车场B2,10.0,10.0,100.00,7.0,70.00,0.0,100.00

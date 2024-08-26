@@ -1,3 +1,6 @@
 ,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
-0,2024-07-29,发版14.0.0,1288(不带),不带,https://xiaomi.f.mioffice.cn/sheets/shtk4qZiHjCB3N13Mjnx5D60UCb?sheet=8k6vIc,ADD2,深圳,深圳盐田区现代产业服务大厦,21.0,21.0,100.00,8.0,38.10,0.0,100.00
-76,2024-08-09,合入验证,21166(回退),回退,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=JJt5u5,ADD2,深圳,深圳盐田区现代产业服务大厦,15.0,14.0,100.00,3.0,21.43,0.0,100.00
+151,2024-07-16,发版,"18495(发版,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4TFo5Pl4fGE849LSWOo7ZPb?sheet=awv1BP,ADD2,深圳,深圳盐田区现代产业服务大厦,31.0,31.0,100.00,8.0,25.81,0.0,100.00
+192,2024-07-19,发版12.2.2,"1281(发版12.2.2,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4TFo5Pl4fGE849LSWOo7ZPb?sheet=1R7QMQ,ADD2,深圳,深圳盐田区现代产业服务大厦,30.0,30.0,100.00,14.0,46.67,0.0,100.00
+206,2024-07-20,发版12.2.3,"1285(发版12.2.3,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4TFo5Pl4fGE849LSWOo7ZPb?sheet=eHqeVt,ADD2,深圳,深圳盐田区现代产业服务大厦,31.0,31.0,100.00,12.0,38.71,0.0,100.00
+273,2024-07-29,发版14.0.0,"1288(发版14.0.0,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4qZiHjCB3N13Mjnx5D60UCb?sheet=8k6vIc,ADD2,深圳,深圳盐田区现代产业服务大厦,21.0,21.0,100.00,8.0,38.10,0.0,100.00
+348,2024-08-09,合入验证,"21166(合入验证,回退)",回退,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=JJt5u5,ADD2,深圳,深圳盐田区现代产业服务大厦,15.0,14.0,100.00,3.0,21.43,0.0,100.00

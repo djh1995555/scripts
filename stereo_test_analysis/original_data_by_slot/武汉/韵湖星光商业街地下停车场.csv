@@ -1,5 +1,9 @@
 ,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
-45,2024-08-05,发版 14.1.0&14.0.2,1303(带),带,https://xiaomi.f.mioffice.cn/sheets/shtk4kO9f4sjJ5ANZQfpzZIvrnb?sheet=KWABAR,ADD,武汉,韵湖星光商业街地下停车场,20.0,20.0,100.00,18.0,90.00,11.0,45.00
-62,2024-08-07,合入验证,21166(回退),回退,https://xiaomi.f.mioffice.cn/sheets/shtk40KxFSpc1GymatzBiNm5xJh?sheet=ftHyUM,ADD,武汉,韵湖星光商业街地下停车场,20.0,20.0,100.00,16.0,80.00,5.0,75.00
-125,2024-08-20,合入验证,22519(优化),优化,https://xiaomi.f.mioffice.cn/sheets/shtk4tK4YsuCyUB2jeXjjRJf4zf?sheet=sPJwt7,ADD2,武汉,韵湖星光商业街地下停车场,23.0,23.0,100.00,19.0,82.61,10.0,56.52
-151,2024-08-24,合入验证,22971(高配优化),高配优化,https://xiaomi.f.mioffice.cn/sheets/shtk4tK4YsuCyUB2jeXjjRJf4zf?sheet=YU1WQs,ADD2,武汉,韵湖星光商业街地下停车场,20.0,20.0,100.00,17.0,85.00,5.0,75.00
+121,2024-07-14,发版,"18495(发版,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4rQJ5tg7TLYmAqb6oPnpSSW?sheet=blZZli,ADD2,武汉,韵湖星光商业街地下停车场,20.0,20.0,100.00,14.0,70.00,7.0,65.00
+204,2024-07-20,发版12.2.3,"1285(发版12.2.3,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4rQJ5tg7TLYmAqb6oPnpSSW?sheet=Cm0z4O,ADD2,武汉,韵湖星光商业街地下停车场,20.0,20.0,100.00,16.0,80.00,3.0,85.00
+219,2024-07-22,发版14.0.0,"1287(发版14.0.0,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4uG1DYJ0lJTnZpJGBz4tbPf?sheet=ZIwhgr,ADD,武汉,韵湖星光商业街地下停车场,20.0,20.0,100.00,19.0,95.00,0.0,100.00
+325,2024-08-05,发版 14.1.0&14.0.2,"1303(发版 14.1.0&14.0.2,带)",带,https://xiaomi.f.mioffice.cn/sheets/shtk4kO9f4sjJ5ANZQfpzZIvrnb?sheet=KWABAR,ADD,武汉,韵湖星光商业街地下停车场,20.0,20.0,100.00,18.0,90.00,11.0,45.00
+332,2024-08-07,合入验证,"21166(合入验证,回退)",回退,https://xiaomi.f.mioffice.cn/sheets/shtk40KxFSpc1GymatzBiNm5xJh?sheet=ftHyUM,ADD,武汉,韵湖星光商业街地下停车场,20.0,20.0,100.00,16.0,80.00,5.0,75.00
+410,2024-08-20,合入验证,"22519(合入验证,高配优化)",高配优化,https://xiaomi.f.mioffice.cn/sheets/shtk4tK4YsuCyUB2jeXjjRJf4zf?sheet=sPJwt7,ADD2,武汉,韵湖星光商业街地下停车场,23.0,23.0,100.00,19.0,82.61,10.0,56.52
+430,2024-08-24,合入验证,"22971(合入验证,高配优化)",高配优化,https://xiaomi.f.mioffice.cn/sheets/shtk4tK4YsuCyUB2jeXjjRJf4zf?sheet=YU1WQs,ADD2,武汉,韵湖星光商业街地下停车场,20.0,20.0,100.00,17.0,85.00,5.0,75.00
+444,2024-08-27,发版17.0.1,"1334(发版17.0.1,优化)",优化,https://xiaomi.f.mioffice.cn/sheets/shtk4NPTpjDJagSxNNT5NxGhArh?sheet=ZvyUsX,ADD,武汉,韵湖星光商业街地下停车场,20.0,20.0,100.00,19.0,95.00,4.0,80.00

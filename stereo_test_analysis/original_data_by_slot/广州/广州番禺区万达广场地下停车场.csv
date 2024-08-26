@@ -1,0 +1,11 @@
+,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
+67,2024-07-07,泛化,"17642(泛化,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4PFVfsI2LLBocWPkNr6Yaqf?sheet=MKQs9m,ADD2,广州,广州番禺区万达广场地下停车场,20.0,20.0,100.00,10.0,50.00,0.0,100.00
+217,2024-07-22,发版14.0.0,"1287(发版14.0.0,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4qZiHjCB3N13Mjnx5D60UCb?sheet=sGPVQU,ADD2,广州,广州番禺区万达广场地下停车场,40.0,40.0,100.00,24.0,60.00,0.0,100.00
+229,2024-07-23,发版14.0.0,"1287(发版14.0.0,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4qZiHjCB3N13Mjnx5D60UCb?sheet=41dufg,ADD2,广州,广州番禺区万达广场地下停车场,21.0,21.0,100.00,10.0,47.62,0.0,100.00
+248,2024-07-25,发版14.0.0,"1287(发版14.0.0,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4qZiHjCB3N13Mjnx5D60UCb?sheet=fO614H,ADD2,广州,广州番禺区万达广场地下停车场,4.0,4.0,100.00,3.0,75.00,0.0,100.00
+267,2024-07-26,发版14.0.0,"1287(发版14.0.0,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4qZiHjCB3N13Mjnx5D60UCb?sheet=zNbGuy,ADD2,广州,广州番禺区万达广场地下停车场,35.0,35.0,100.00,17.0,48.57,0.0,100.00
+279,2024-07-30,合入验证,"20275(合入验证,带)",带,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=9E14Ad,ADD2,广州,广州番禺区万达广场地下停车场,40.0,40.0,100.00,32.0,80.00,3.0,92.50
+287,2024-07-31,合入验证,"20275(合入验证,带)",带,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=3zjnm6,ADD2,广州,广州番禺区万达广场地下停车场,30.0,30.0,100.00,24.0,80.00,1.0,96.67
+307,2024-08-02,合入验证,"20589(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=rx79S2,ADD2,广州,广州番禺区万达广场地下停车场,35.0,35.0,100.00,22.0,62.86,0.0,100.00
+310,2024-08-03,合入验证,"20589(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=mhgjG6,ADD2,广州,广州番禺区万达广场地下停车场,31.0,31.0,100.00,18.0,58.06,0.0,100.00
+317,2024-08-04,合入验证,"20589(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=YsY9SJ,ADD2,广州,广州番禺区万达广场地下停车场,14.0,14.0,100.00,9.0,64.29,0.0,100.00

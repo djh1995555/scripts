@@ -1,4 +1,8 @@
 ,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
-88,2024-08-12,合入验证,21656(回退),回退,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=OXdwCQ,ADD2,上海,魔方创智城,18.0,18.0,100.00,16.0,88.89,0.0,100.00
-91,2024-08-13,合入验证,21656(回退),回退,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=tN9O2C,ADD2,上海,魔方创智城,20.0,20.0,100.00,19.0,95.00,0.0,100.00
-117,2024-08-16,合入验证,22133(优化),优化,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=hjpQvl,ADD2,上海,魔方创智城,20.0,20.0,100.00,18.0,90.00,0.0,100.00
+227,2024-07-23,发版14.0.0,"1287(发版14.0.0,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4fKwTDQUVGvXu35OR6f3PTg?sheet=I5XAYp,ADD2,上海,魔方创智城,25.0,25.0,100.00,23.0,92.00,9.0,64.00
+249,2024-07-25,合入验证,"19638(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4E4jYZLdjl8iAhKvK6dKZMh?sheet=s1NEBZ,ADD2,上海,魔方创智城,23.0,23.0,100.00,18.0,78.26,0.0,100.00
+252,2024-07-25,合入验证,"19638(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4sGJ2k6k7aWTJawdpGVAzUb?sheet=FeBJav,ADD,上海,魔方创智城,19.0,19.0,100.00,17.0,89.47,10.0,47.37
+283,2024-07-31,发版14.0.1,"1298(发版14.0.1,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4tRgUlJCo9UCHeRAIo7LGQg?sheet=7fYTaK,ADD,上海,魔方创智城,25.0,24.0,100.00,18.0,75.00,5.0,79.17
+360,2024-08-12,合入验证,"21656(合入验证,回退)",回退,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=OXdwCQ,ADD2,上海,魔方创智城,18.0,18.0,100.00,16.0,88.89,0.0,100.00
+366,2024-08-13,合入验证,"21656(合入验证,回退)",回退,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=tN9O2C,ADD2,上海,魔方创智城,20.0,20.0,100.00,19.0,95.00,0.0,100.00
+395,2024-08-16,合入验证,"22133(合入验证,优化)",优化,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=hjpQvl,ADD2,上海,魔方创智城,20.0,20.0,100.00,18.0,90.00,0.0,100.00

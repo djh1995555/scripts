@@ -1,3 +1,4 @@
 ,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
-5,2024-07-30,发版14.0.1,1298(不带),不带,https://xiaomi.f.mioffice.cn/sheets/shtk4bfUDVCg20RDo76ZenHeirc?sheet=Nr3ymU,ADD2,杭州,阿里体育中心,25.0,25.0,100.00,25.0,100.00,0.0,100.00
-105,2024-08-14,发版14.1.3,1322(回退),回退,https://xiaomi.f.mioffice.cn/sheets/shtk4INTskHktxltzl2ZaWnunBh?sheet=Zy1Wni,ADD2,杭州,阿里体育中心,10.0,10.0,100.00,10.0,100.00,0.0,100.00
+137,2024-07-15,合入验证,"18333(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4Vt8VNEfKTGp5HBdufmKCRc?sheet=DTR3oj,ADD2,杭州,阿里体育中心,10.0,10.0,100.00,10.0,100.00,0.0,100.00
+275,2024-07-30,发版14.0.1,"1298(发版14.0.1,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4bfUDVCg20RDo76ZenHeirc?sheet=Nr3ymU,ADD2,杭州,阿里体育中心,25.0,25.0,100.00,25.0,100.00,0.0,100.00
+385,2024-08-14,发版14.1.3,"1322(发版14.1.3,回退)",回退,https://xiaomi.f.mioffice.cn/sheets/shtk4INTskHktxltzl2ZaWnunBh?sheet=Zy1Wni,ADD2,杭州,阿里体育中心,10.0,10.0,100.00,10.0,100.00,0.0,100.00
