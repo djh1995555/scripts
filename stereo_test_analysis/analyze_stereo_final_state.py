@@ -7,17 +7,46 @@ import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 import warnings
 from plotly.subplots import make_subplots
- 
+
+change_state = {
+	'1288':'不带',
+	'1298':'不带',
+	'1303':'带',
+	'1313':'带',
+	'1317':'回退',
+	'1322':'回退',
+	'1328':'带',
+	'20275':'带',
+	'20589':'不带',
+	'21166':'回退',
+	'21656':'回退',
+	'22133':'优化',
+	'22519':'优化',
+	'22971':'高配优化',
+	}
 # 忽略所有的UserWarning
 warnings.filterwarnings('ignore', category=FutureWarning)
 warnings.filterwarnings('ignore', category=DeprecationWarning)
 DATE = '日期'
 VERSION = '版本号'
 BAG = '打包'
-V_TYPE = '车辆类型'
+CHANGE_STATE = 'change状态'
 DATA_LINK = '原始数据链接'
+V_TYPE = '车辆类型'
 CITY = '城市'
 SLOT = '停车场'
+INFO_GROUP = [
+	DATE,
+	VERSION,
+	BAG,
+	CHANGE_STATE,
+	DATA_LINK,
+	V_TYPE,
+	CITY,
+	SLOT,
+]
+INFO_COLUMN_NUM = len(INFO_GROUP)
+
 PARKING_COUNT = '泊车总次数'
 RELEASE_COUNT = '泊车释放次数'
 RELEASE_RATE = '泊车释放率(%)'
@@ -51,9 +80,10 @@ def analyze_data(df, filename):
 	analysis_result = {
 		DATE: date,
 		VERSION: version,
-		BAG: bag_id,
-		V_TYPE: vehicle_type,
+		BAG: f'{bag_id}({change_state[bag_id]})',
+		CHANGE_STATE: change_state[bag_id],
 		DATA_LINK: original_link,
+		V_TYPE: vehicle_type,
 		CITY: city,
 		}	
 
@@ -97,7 +127,7 @@ def transform_date(date_str):
 
 def vehicle_type_sum(df):
 	vehicle_type_df = pd.DataFrame()
-	vehicle_type_df = df.iloc[0,:7]
+	vehicle_type_df = df.iloc[0,:INFO_COLUMN_NUM]
 	vehicle_type_df[PARKING_COUNT] = sum(df[PARKING_COUNT])
 
 	vehicle_type_df[RELEASE_COUNT] = sum(df[RELEASE_COUNT])
@@ -114,14 +144,11 @@ def vehicle_type_sum(df):
 	return vehicle_type_df
 
 def slot_sum(df):
-	columns=[
-			DATE,
-			VERSION,
-			BAG,
-			CITY,
-			DATA_LINK,
-			SLOT,
-		]
+	columns=[]
+	for info_item in INFO_GROUP:
+		if(info_item == V_TYPE):
+			continue
+		columns.append(info_item)
 	
 	for add in ['ADD', 'ADD2']:
 		for item in DATA_GROUP:
@@ -130,23 +157,25 @@ def slot_sum(df):
 
 	df = df.reset_index(drop=True)
 	slot_df.loc[len(slot_df)] = [None] * len(slot_df.columns)  # 添加一行空值
-	slot_df[DATE] = df[DATE][0]
-	slot_df[VERSION] = df[VERSION][0]
-	slot_df[BAG] = df[BAG][0]
-	slot_df[CITY] = df[CITY][0]
-	slot_df[DATA_LINK] = df[DATA_LINK][0]
-	slot_df[SLOT] = df[SLOT][0]
-
+	for info_item in INFO_GROUP:
+		if(info_item == V_TYPE):
+			continue
+		slot_df[info_item] = df[info_item][0]
 
 	vehicle_type_df = df.groupby(V_TYPE).apply(vehicle_type_sum)
+
 	vehicle_type_df = vehicle_type_df.reset_index(drop=True)	
 	ADD_data = vehicle_type_df[vehicle_type_df[V_TYPE] == 'ADD']
 	ADD_data = ADD_data.reset_index(drop=True)
-	slot_df.iloc[:,6:13] = ADD_data.iloc[:,7:14]
+	slot_df.iloc[:,INFO_COLUMN_NUM-1:INFO_COLUMN_NUM+6] = ADD_data.iloc[:,INFO_COLUMN_NUM:INFO_COLUMN_NUM+7]
+	# print(ADD_data.iloc[:,INFO_COLUMN_NUM:INFO_COLUMN_NUM+7])
+	# print('*******************')
+	# print(slot_df.iloc[:,INFO_COLUMN_NUM-1:INFO_COLUMN_NUM+6])
+	# print('$$$$$$$$$$$$$$$$$$$')
 
 	ADD2_data = vehicle_type_df[vehicle_type_df[V_TYPE] == 'ADD2']
 	ADD2_data = ADD2_data.reset_index(drop=True)
-	slot_df.iloc[:,13:20] = ADD2_data.iloc[:,7:14]
+	slot_df.iloc[:,INFO_COLUMN_NUM+6:INFO_COLUMN_NUM+13] = ADD2_data.iloc[:,INFO_COLUMN_NUM:INFO_COLUMN_NUM+7]
 		
 	return slot_df
 
@@ -158,7 +187,7 @@ def reorgnize_df_by_slot(df):
 		column_name = f'{SLOT}{flag}'
 		slot_name = row[column_name]
 		while(not pd.isnull(slot_name)):
-			new_df = row.iloc[:6]
+			new_df = row.iloc[:len(INFO_GROUP)-1]
 			new_df[SLOT] = slot_name
 			for item in DATA_GROUP:
 				new_df[item] = row[f'{flag}{item}']
@@ -241,7 +270,7 @@ def plot_by_slot(df):
 			output_name_grouped = os.path.join(city_dir_grouped,f'{slot}.csv')
 			slot_df_group.to_csv(output_name_grouped)
 			slot_df_group[BAG] = slot_df_group[BAG].astype(str)
-			slot_df_group.iloc[:,7:20] = slot_df_group.iloc[:,7:20].astype(float)
+			slot_df_group.iloc[:,INFO_COLUMN_NUM:INFO_COLUMN_NUM+14] = slot_df_group.iloc[:,INFO_COLUMN_NUM:INFO_COLUMN_NUM+14].astype(float)
 
 			for i, column in enumerate([f'ADD{POSTURE_RIGHT_RATE}',  f'ADD2{POSTURE_RIGHT_RATE}',  f'ADD{NOT_HIT_WHEELSTOP_RATE}',f'ADD2{NOT_HIT_WHEELSTOP_RATE}']):
 				if(slot_df_group[column][0]==None):
@@ -300,6 +329,8 @@ def main(args):
 			result_df = result_df.append(analysis_result, ignore_index=True)
 			
 	result_df[DATE] = result_df[DATE].apply(transform_date)
+	result_df = result_df.sort_values(by=DATE)
+
 	output_file_by_date = 'analyze_result_by_date.csv'
 	result_df.to_csv(output_file_by_date, index=False, encoding='utf-8-sig')
 

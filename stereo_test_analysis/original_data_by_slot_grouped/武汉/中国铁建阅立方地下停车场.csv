@@ -1,4 +1,5 @@
-打包,,日期,版本号,打包,城市,原始数据链接,停车场,ADD泊车总次数,ADD泊车释放次数,ADD泊车释放率(%),ADD位姿达标次数,ADD位姿达标率(%),ADD撞轮挡次数,ADD不撞轮挡率(%),ADD2泊车总次数,ADD2泊车释放次数,ADD2泊车释放率(%),ADD2位姿达标次数,ADD2位姿达标率(%),ADD2撞轮挡次数,ADD2不撞轮挡率(%)
-1303,0,2024-08-05,发版 14.1.0&14.0.2,1303,武汉,https://xiaomi.f.mioffice.cn/sheets/shtk4kO9f4sjJ5ANZQfpzZIvrnb?sheet=KWABAR,中国铁建阅立方地下停车场,20.0,20.0,100.00,15.0,75.00,2.0,90.00,,,,,,,
-1313,0,2024-08-09,发版14.1.1&14.0.3,1313,武汉,https://xiaomi.f.mioffice.cn/sheets/shtk4kO9f4sjJ5ANZQfpzZIvrnb?sheet=FB0eRz,中国铁建阅立方地下停车场,20.0,20.0,100.00,17.0,85.00,2.0,90.00,,,,,,,
-22519,0,2024-08-20,合入验证,22519,武汉,https://xiaomi.f.mioffice.cn/sheets/shtk4tK4YsuCyUB2jeXjjRJf4zf?sheet=sPJwt7,中国铁建阅立方地下停车场,,,,,,,,22.0,22.0,100.00,17.0,77.27,4.0,81.82
+打包,,日期,版本号,打包,change状态,原始数据链接,城市,停车场,ADD泊车总次数,ADD泊车释放次数,ADD泊车释放率(%),ADD位姿达标次数,ADD位姿达标率(%),ADD撞轮挡次数,ADD不撞轮挡率(%),ADD2泊车总次数,ADD2泊车释放次数,ADD2泊车释放率(%),ADD2位姿达标次数,ADD2位姿达标率(%),ADD2撞轮挡次数,ADD2不撞轮挡率(%)
+1303(带),0,2024-08-05,发版 14.1.0&14.0.2,1303(带),带,https://xiaomi.f.mioffice.cn/sheets/shtk4kO9f4sjJ5ANZQfpzZIvrnb?sheet=KWABAR,武汉,中国铁建阅立方地下停车场,20.0,20.0,100.00,15.0,75.00,2.0,90.00,,,,,,,
+1313(带),0,2024-08-09,发版14.1.1&14.0.3,1313(带),带,https://xiaomi.f.mioffice.cn/sheets/shtk4kO9f4sjJ5ANZQfpzZIvrnb?sheet=FB0eRz,武汉,中国铁建阅立方地下停车场,20.0,20.0,100.00,17.0,85.00,2.0,90.00,,,,,,,
+22519(优化),0,2024-08-20,合入验证,22519(优化),优化,https://xiaomi.f.mioffice.cn/sheets/shtk4tK4YsuCyUB2jeXjjRJf4zf?sheet=sPJwt7,武汉,中国铁建阅立方地下停车场,,,,,,,,22.0,22.0,100.00,17.0,77.27,4.0,81.82
+22971(高配优化),0,2024-08-24,合入验证,22971(高配优化),高配优化,https://xiaomi.f.mioffice.cn/sheets/shtk4tK4YsuCyUB2jeXjjRJf4zf?sheet=YU1WQs,武汉,中国铁建阅立方地下停车场,,,,,,,,20.0,20.0,100.00,15.0,75.00,6.0,70.00

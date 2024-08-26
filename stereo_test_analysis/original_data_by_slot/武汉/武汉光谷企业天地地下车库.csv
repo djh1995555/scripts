@@ -1,4 +1,5 @@
-,日期,版本号,打包,车辆类型,原始数据链接,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
-104,2024-08-08,合入验证,21166,ADD,https://xiaomi.f.mioffice.cn/sheets/shtk40KxFSpc1GymatzBiNm5xJh?sheet=ocL0T3,武汉,武汉光谷企业天地地下车库,20.0,20.0,100.00,16.0,80.00,5.0,75.00
-117,2024-08-21,合入验证,22519,ADD2,https://xiaomi.f.mioffice.cn/sheets/shtk4tK4YsuCyUB2jeXjjRJf4zf?sheet=WoMcZT,武汉,武汉光谷企业天地地下车库,20.0,20.0,100.00,16.0,80.00,5.0,75.00
-141,2024-08-06,发版 14.1.0&14.0.2,1303,ADD,https://xiaomi.f.mioffice.cn/sheets/shtk4kO9f4sjJ5ANZQfpzZIvrnb?sheet=LUTCVF,武汉,武汉光谷企业天地地下车库,20.0,20.0,100.00,18.0,90.00,10.0,50.00
+,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
+52,2024-08-06,发版 14.1.0&14.0.2,1303(带),带,https://xiaomi.f.mioffice.cn/sheets/shtk4kO9f4sjJ5ANZQfpzZIvrnb?sheet=LUTCVF,ADD,武汉,武汉光谷企业天地地下车库,20.0,20.0,100.00,18.0,90.00,10.0,50.00
+64,2024-08-08,合入验证,21166(回退),回退,https://xiaomi.f.mioffice.cn/sheets/shtk40KxFSpc1GymatzBiNm5xJh?sheet=ocL0T3,ADD,武汉,武汉光谷企业天地地下车库,20.0,20.0,100.00,16.0,80.00,5.0,75.00
+136,2024-08-21,合入验证,22519(优化),优化,https://xiaomi.f.mioffice.cn/sheets/shtk4tK4YsuCyUB2jeXjjRJf4zf?sheet=WoMcZT,ADD2,武汉,武汉光谷企业天地地下车库,20.0,20.0,100.00,16.0,80.00,5.0,75.00
+149,2024-08-23,合入验证,22971(高配优化),高配优化,https://xiaomi.f.mioffice.cn/sheets/shtk4tK4YsuCyUB2jeXjjRJf4zf?sheet=kRPOh4,ADD2,武汉,武汉光谷企业天地地下车库,20.0,20.0,100.00,19.0,95.00,10.0,50.00
