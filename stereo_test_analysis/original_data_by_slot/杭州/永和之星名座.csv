@@ -1,4 +1,4 @@
-,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
-153,2024-07-17,合入验证,"18744(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4Vt8VNEfKTGp5HBdufmKCRc?sheet=RmChsw,ADD2,杭州,永和之星名座,25.0,25.0,100.00,20.0,80.00,0.0,100.00
-173,2024-07-18,合入验证,"19062(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4Vt8VNEfKTGp5HBdufmKCRc?sheet=VJmGGT,ADD2,杭州,永和之星名座,25.0,25.0,100.00,20.0,80.00,3.0,88.00
-195,2024-07-19,合入验证,"19160(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4Vt8VNEfKTGp5HBdufmKCRc?sheet=7LzdAY,ADD2,杭州,永和之星名座,25.0,25.0,100.00,19.0,76.00,1.0,96.00
+,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),泊车完成次数,泊车完成率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
+167,2024-07-17,合入验证,"18744(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4Vt8VNEfKTGp5HBdufmKCRc?sheet=RmChsw,ADD2,杭州,永和之星名座,25.0,25.0,100.00,20.0,80.00,20.0,100.00,0.0,100.00
+177,2024-07-18,合入验证,"19062(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4Vt8VNEfKTGp5HBdufmKCRc?sheet=VJmGGT,ADD2,杭州,永和之星名座,25.0,25.0,100.00,20.0,80.00,20.0,100.00,3.0,85.00
+192,2024-07-19,合入验证,"19160(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4Vt8VNEfKTGp5HBdufmKCRc?sheet=7LzdAY,ADD2,杭州,永和之星名座,25.0,25.0,100.00,19.0,76.00,19.0,100.00,1.0,94.74

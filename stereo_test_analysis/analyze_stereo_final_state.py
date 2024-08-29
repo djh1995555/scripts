@@ -40,6 +40,7 @@ change_state = {
 	'22971':'高配优化',
 	'1334':'优化',
 	'23241':'高配优化',
+	'1338':'回退',
 	}
 # 忽略所有的UserWarning
 warnings.filterwarnings('ignore', category=FutureWarning)
@@ -67,6 +68,8 @@ INFO_COLUMN_NUM = len(INFO_GROUP)
 PARKING_COUNT = '泊车总次数'
 RELEASE_COUNT = '泊车释放次数'
 RELEASE_RATE = '泊车释放率(%)'
+FINISH_COUNT = '泊车完成次数'
+FINISH_RATE = '泊车完成率(%)'
 POSTURE_RIGHT_COUNT = '位姿达标次数'
 POSTURE_RIGHT_RATE = '位姿达标率(%)'
 HIT_WHEELSTOP_COUNT = '撞轮挡次数'
@@ -75,17 +78,20 @@ DATA_GROUP = [
 	PARKING_COUNT,
 	RELEASE_COUNT,
 	RELEASE_RATE,
+	FINISH_COUNT,
+	FINISH_RATE,
 	POSTURE_RIGHT_COUNT,
 	POSTURE_RIGHT_RATE,
 	HIT_WHEELSTOP_COUNT,
 	NOT_HIT_WHEELSTOP_RATE,
 	]
+DATA_COLUMN_NUM = len(DATA_GROUP)
 
 def number_to_letter(number):
 	return chr(number + 65)
 
 def analyze_data(df, filename):
-	# print(filename)
+	print(filename)
 	date, version, bag_id, vehicle_type, city = filename.split('.csv')[0].split('_')
 	original_link = None
 	if(len(df['original_link'])>0):
@@ -109,14 +115,24 @@ def analyze_data(df, filename):
 	release_count = max(sum(df['库位是否释放'] == 1),sum(df['是否释放'] == 1))
 	analysis_result[RELEASE_COUNT] = release_count
 	analysis_result[RELEASE_RATE] = f'{(release_count / total_count * 100):.2f}'
-	total_reached_count = max(sum(df['位姿达标'] == 1),sum(df['位姿是否达标'] == 1))
-	analysis_result[POSTURE_RIGHT_COUNT] = total_reached_count
-	analysis_result[POSTURE_RIGHT_RATE] = f'{(total_reached_count / release_count * 100):.2f}'
-	total_hit_wheel_stop_count = 0
-	if(not df['问题归类'].isna().all()):
-		total_hit_wheel_stop_count = sum(((df['是否释放'] == 1) | (df['库位是否释放'] == 1)) & (df['问题归类'].str.count('撞轮挡')))	
-	analysis_result[HIT_WHEELSTOP_COUNT] = total_hit_wheel_stop_count
-	analysis_result[NOT_HIT_WHEELSTOP_RATE] = f'{(100 - total_hit_wheel_stop_count / release_count * 100):.2f}'
+
+	finish_count = sum(df['泊车是否完成'] == 1)
+	analysis_result[FINISH_COUNT] = finish_count
+	analysis_result[FINISH_RATE] = f'{(finish_count / release_count * 100):.2f}'
+	if(finish_count != 0):
+		total_reached_count = max(sum(df['位姿达标'] == 1),sum(df['位姿是否达标'] == 1))
+		analysis_result[POSTURE_RIGHT_COUNT] = total_reached_count
+		analysis_result[POSTURE_RIGHT_RATE] = f'{(total_reached_count / finish_count * 100):.2f}'
+		total_hit_wheel_stop_count = 0
+		if(not df['问题归类'].isna().all()):
+			total_hit_wheel_stop_count = sum(((df['泊车是否完成'] == 1) | (df['库位是否释放'] == 1)) & (df['问题归类'].str.count('撞轮挡')))	
+		analysis_result[HIT_WHEELSTOP_COUNT] = total_hit_wheel_stop_count
+		analysis_result[NOT_HIT_WHEELSTOP_RATE] = f'{(100 - total_hit_wheel_stop_count / finish_count * 100):.2f}'
+	else:
+		analysis_result[POSTURE_RIGHT_COUNT] = 0
+		analysis_result[POSTURE_RIGHT_RATE] = -1
+		analysis_result[HIT_WHEELSTOP_COUNT] = 0
+		analysis_result[NOT_HIT_WHEELSTOP_RATE] = -1
 
 	slots = df['位置'].value_counts()
 	idx = 0
@@ -127,16 +143,26 @@ def analyze_data(df, filename):
 			analysis_result[f'{flag}{PARKING_COUNT}'] = count
 			release_count = sum((df['位置'] == slot) & ((df['是否释放'] == 1) | (df['库位是否释放'] == 1)))
 			analysis_result[f'{flag}{RELEASE_COUNT}'] = release_count
-			analysis_result[f'{flag}{RELEASE_RATE}'] = f'{(release_count / release_count * 100):.2f}'
-			reached_count = sum((df['位置'] == slot) & ((df['位姿达标'] == 1) | (df['位姿是否达标'] == 1)))
-			analysis_result[f'{flag}{POSTURE_RIGHT_COUNT}'] = reached_count
-			analysis_result[f'{flag}{POSTURE_RIGHT_RATE}'] = f'{(reached_count / release_count * 100):.2f}'
+			analysis_result[f'{flag}{RELEASE_RATE}'] = f'{(release_count / count * 100):.2f}'
+			finish_count = sum((df['位置'] == slot) & (df['泊车是否完成'] == 1))
+			analysis_result[f'{flag}{FINISH_COUNT}'] = finish_count
+			analysis_result[f'{flag}{FINISH_RATE}'] = f'{(finish_count / release_count * 100):.2f}'
+			if(finish_count != 0):
+				reached_count = sum((df['位置'] == slot) & ((df['位姿达标'] == 1) | (df['位姿是否达标'] == 1)))
+				analysis_result[f'{flag}{POSTURE_RIGHT_COUNT}'] = reached_count
+				analysis_result[f'{flag}{POSTURE_RIGHT_RATE}'] = f'{(reached_count / finish_count * 100):.2f}'
 
-			hit_wheel_stop_count = 0
-			if(not df['问题归类'].isna().all()):	
-				hit_wheel_stop_count = sum((df['位置'] == slot) & (df['问题归类'].str.count('撞轮挡')))
-			analysis_result[f'{flag}{HIT_WHEELSTOP_COUNT}'] = hit_wheel_stop_count
-			analysis_result[f'{flag}{NOT_HIT_WHEELSTOP_RATE}'] = f'{(100 - hit_wheel_stop_count / release_count * 100):.2f}'
+				hit_wheel_stop_count = 0
+				if(not df['问题归类'].isna().all()):	
+					hit_wheel_stop_count = sum((df['位置'] == slot) & (df['问题归类'].str.count('撞轮挡')))
+				analysis_result[f'{flag}{HIT_WHEELSTOP_COUNT}'] = hit_wheel_stop_count
+				analysis_result[f'{flag}{NOT_HIT_WHEELSTOP_RATE}'] = f'{(100 - hit_wheel_stop_count / finish_count * 100):.2f}'
+			else:
+				analysis_result[f'{flag}{POSTURE_RIGHT_COUNT}'] = 0
+				analysis_result[f'{flag}{POSTURE_RIGHT_RATE}'] = -1
+				analysis_result[f'{flag}{HIT_WHEELSTOP_COUNT}'] = 0
+				analysis_result[f'{flag}{NOT_HIT_WHEELSTOP_RATE}'] = -1
+		
 			idx += 1
 	return analysis_result
 
@@ -149,16 +175,28 @@ def vehicle_type_sum(df):
 	vehicle_type_df[PARKING_COUNT] = sum(df[PARKING_COUNT])
 
 	vehicle_type_df[RELEASE_COUNT] = sum(df[RELEASE_COUNT])
+
 	release_rate = vehicle_type_df[RELEASE_COUNT]/vehicle_type_df[PARKING_COUNT] * 100
 	vehicle_type_df[RELEASE_RATE] = f'{release_rate:.2f}'
 
-	vehicle_type_df[POSTURE_RIGHT_COUNT] = sum(df[POSTURE_RIGHT_COUNT])
-	posture_right_rate = vehicle_type_df[POSTURE_RIGHT_COUNT] / vehicle_type_df[RELEASE_COUNT] * 100
-	vehicle_type_df[POSTURE_RIGHT_RATE] = f'{posture_right_rate:.2f}'
+	vehicle_type_df[FINISH_COUNT] = sum(df[FINISH_COUNT])
+	finish_rate = vehicle_type_df[FINISH_COUNT]/vehicle_type_df[RELEASE_COUNT] * 100
+	vehicle_type_df[FINISH_RATE] = f'{finish_rate:.2f}'
 
-	vehicle_type_df[HIT_WHEELSTOP_COUNT] = sum(df[HIT_WHEELSTOP_COUNT])
-	not_hit_wheel_stop_rate = 100 - vehicle_type_df[HIT_WHEELSTOP_COUNT]/vehicle_type_df[RELEASE_COUNT] * 100
-	vehicle_type_df[NOT_HIT_WHEELSTOP_RATE] = f'{not_hit_wheel_stop_rate:.2f}'
+	if(vehicle_type_df[FINISH_COUNT]!=0):
+		vehicle_type_df[POSTURE_RIGHT_COUNT] = sum(df[POSTURE_RIGHT_COUNT])
+		posture_right_rate = vehicle_type_df[POSTURE_RIGHT_COUNT] / vehicle_type_df[FINISH_COUNT] * 100
+		vehicle_type_df[POSTURE_RIGHT_RATE] = f'{posture_right_rate:.2f}'
+
+		vehicle_type_df[HIT_WHEELSTOP_COUNT] = sum(df[HIT_WHEELSTOP_COUNT])
+		not_hit_wheel_stop_rate = 100 - vehicle_type_df[HIT_WHEELSTOP_COUNT]/vehicle_type_df[FINISH_COUNT] * 100
+		vehicle_type_df[NOT_HIT_WHEELSTOP_RATE] = f'{not_hit_wheel_stop_rate:.2f}'
+	else:
+		vehicle_type_df[POSTURE_RIGHT_COUNT] = 0
+		vehicle_type_df[POSTURE_RIGHT_RATE] = -1
+		vehicle_type_df[HIT_WHEELSTOP_COUNT] = 0
+		vehicle_type_df[NOT_HIT_WHEELSTOP_RATE] = -1
+
 	return vehicle_type_df
 
 def slot_sum(df):
@@ -185,15 +223,15 @@ def slot_sum(df):
 	vehicle_type_df = vehicle_type_df.reset_index(drop=True)	
 	ADD_data = vehicle_type_df[vehicle_type_df[V_TYPE] == 'ADD']
 	ADD_data = ADD_data.reset_index(drop=True)
-	slot_df.iloc[:,INFO_COLUMN_NUM-1:INFO_COLUMN_NUM+6] = ADD_data.iloc[:,INFO_COLUMN_NUM:INFO_COLUMN_NUM+7]
-	# print(ADD_data.iloc[:,INFO_COLUMN_NUM:INFO_COLUMN_NUM+7])
+	slot_df.iloc[:,INFO_COLUMN_NUM-1:INFO_COLUMN_NUM+DATA_COLUMN_NUM-1] = ADD_data.iloc[:,INFO_COLUMN_NUM:INFO_COLUMN_NUM+DATA_COLUMN_NUM]
+	# print(ADD_data.iloc[:,INFO_COLUMN_NUM:INFO_COLUMN_NUM+DATA_COLUMN_NUM])
 	# print('*******************')
-	# print(slot_df.iloc[:,INFO_COLUMN_NUM-1:INFO_COLUMN_NUM+6])
+	# print(slot_df.iloc[:,INFO_COLUMN_NUM-1:INFO_COLUMN_NUM+DATA_COLUMN_NUM-1])
 	# print('$$$$$$$$$$$$$$$$$$$')
 
 	ADD2_data = vehicle_type_df[vehicle_type_df[V_TYPE] == 'ADD2']
 	ADD2_data = ADD2_data.reset_index(drop=True)
-	slot_df.iloc[:,INFO_COLUMN_NUM+6:INFO_COLUMN_NUM+13] = ADD2_data.iloc[:,INFO_COLUMN_NUM:INFO_COLUMN_NUM+7]
+	slot_df.iloc[:,INFO_COLUMN_NUM+DATA_COLUMN_NUM-1:INFO_COLUMN_NUM+DATA_COLUMN_NUM*2-1] = ADD2_data.iloc[:,INFO_COLUMN_NUM:INFO_COLUMN_NUM+DATA_COLUMN_NUM]
 		
 	return slot_df
 
@@ -250,7 +288,7 @@ def plot_by_slot(df):
 	bar_width = 0.1
 	vertical_spacing = 0.04		
 	subplot_height = 100
-	width = 1800
+	width = 2000
 	
 	color_dict = {
 		f'ADD{POSTURE_RIGHT_RATE}':'green',  

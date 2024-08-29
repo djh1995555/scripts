@@ -1,7 +1,7 @@
-,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
-152,2024-07-16,发版,"18495(发版,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4TFo5Pl4fGE849LSWOo7ZPb?sheet=awv1BP,ADD2,深圳,深圳市福田区民生大厦,19.0,19.0,100.00,14.0,73.68,0.0,100.00
-169,2024-07-17,发版,"18495(发版,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4TFo5Pl4fGE849LSWOo7ZPb?sheet=74wsst,ADD2,深圳,深圳市福田区民生大厦,24.0,24.0,100.00,20.0,83.33,1.0,95.83
-193,2024-07-19,发版12.2.2,"1281(发版12.2.2,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4TFo5Pl4fGE849LSWOo7ZPb?sheet=1R7QMQ,ADD2,深圳,深圳市福田区民生大厦,12.0,12.0,100.00,9.0,75.00,0.0,100.00
-207,2024-07-20,发版12.2.3,"1285(发版12.2.3,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4TFo5Pl4fGE849LSWOo7ZPb?sheet=eHqeVt,ADD2,深圳,深圳市福田区民生大厦,16.0,16.0,100.00,13.0,81.25,0.0,100.00
-274,2024-07-29,发版14.0.0,"1288(发版14.0.0,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4qZiHjCB3N13Mjnx5D60UCb?sheet=8k6vIc,ADD2,深圳,深圳市福田区民生大厦,10.0,9.0,100.00,7.0,77.78,1.0,88.89
-346,2024-08-08,合入验证,"21166(合入验证,回退)",回退,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=RSUybg,ADD2,深圳,深圳市福田区民生大厦,22.0,22.0,100.00,20.0,90.91,0.0,100.00
+,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),泊车完成次数,泊车完成率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
+152,2024-07-16,发版,"18495(发版,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4TFo5Pl4fGE849LSWOo7ZPb?sheet=awv1BP,ADD2,深圳,深圳市福田区民生大厦,19.0,19.0,100.00,14.0,73.68,14.0,100.00,0.0,100.00
+153,2024-07-17,发版,"18495(发版,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4TFo5Pl4fGE849LSWOo7ZPb?sheet=74wsst,ADD2,深圳,深圳市福田区民生大厦,24.0,24.0,100.00,20.0,83.33,20.0,100.00,1.0,95.00
+198,2024-07-19,发版12.2.2,"1281(发版12.2.2,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4TFo5Pl4fGE849LSWOo7ZPb?sheet=1R7QMQ,ADD2,深圳,深圳市福田区民生大厦,12.0,12.0,100.00,9.0,75.00,9.0,100.00,0.0,100.00
+210,2024-07-20,发版12.2.3,"1285(发版12.2.3,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4TFo5Pl4fGE849LSWOo7ZPb?sheet=eHqeVt,ADD2,深圳,深圳市福田区民生大厦,16.0,16.0,100.00,13.0,81.25,13.0,100.00,0.0,100.00
+272,2024-07-29,发版14.0.0,"1288(发版14.0.0,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4qZiHjCB3N13Mjnx5D60UCb?sheet=8k6vIc,ADD2,深圳,深圳市福田区民生大厦,10.0,9.0,90.00,7.0,77.78,7.0,100.00,1.0,85.71
+342,2024-08-08,合入验证,"21166(合入验证,回退)",回退,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=RSUybg,ADD2,深圳,深圳市福田区民生大厦,22.0,22.0,100.00,20.0,90.91,20.0,100.00,0.0,100.00

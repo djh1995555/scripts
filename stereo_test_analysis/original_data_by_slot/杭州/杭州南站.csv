@@ -1,3 +1,3 @@
-,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
-154,2024-07-17,合入验证,"18744(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4Vt8VNEfKTGp5HBdufmKCRc?sheet=RmChsw,ADD2,杭州,杭州南站,15.0,15.0,100.00,11.0,73.33,0.0,100.00
-174,2024-07-18,合入验证,"19062(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4Vt8VNEfKTGp5HBdufmKCRc?sheet=VJmGGT,ADD2,杭州,杭州南站,20.0,20.0,100.00,10.0,50.00,0.0,100.00
+,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),泊车完成次数,泊车完成率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
+168,2024-07-17,合入验证,"18744(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4Vt8VNEfKTGp5HBdufmKCRc?sheet=RmChsw,ADD2,杭州,杭州南站,15.0,15.0,100.00,15.0,100.00,11.0,73.33,0.0,100.00
+178,2024-07-18,合入验证,"19062(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4Vt8VNEfKTGp5HBdufmKCRc?sheet=VJmGGT,ADD2,杭州,杭州南站,20.0,20.0,100.00,20.0,100.00,10.0,50.00,0.0,100.00

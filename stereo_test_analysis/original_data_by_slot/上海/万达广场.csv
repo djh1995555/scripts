@@ -1,4 +1,4 @@
-,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
-359,2024-08-12,合入验证,"21656(合入验证,回退)",回退,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=OXdwCQ,ADD2,上海,万达广场,20.0,20.0,100.00,19.0,95.00,0.0,100.00
-365,2024-08-13,合入验证,"21656(合入验证,回退)",回退,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=tN9O2C,ADD2,上海,万达广场,30.0,30.0,100.00,28.0,93.33,0.0,100.00
-394,2024-08-16,合入验证,"22133(合入验证,优化)",优化,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=hjpQvl,ADD2,上海,万达广场,30.0,30.0,100.00,28.0,93.33,0.0,100.00
+,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),泊车完成次数,泊车完成率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
+361,2024-08-12,合入验证,"21656(合入验证,回退)",回退,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=OXdwCQ,ADD2,上海,万达广场,20.0,20.0,100.00,19.0,95.00,19.0,100.00,0.0,100.00
+370,2024-08-13,合入验证,"21656(合入验证,回退)",回退,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=tN9O2C,ADD2,上海,万达广场,30.0,30.0,100.00,28.0,93.33,28.0,100.00,0.0,100.00
+397,2024-08-16,合入验证,"22133(合入验证,优化)",优化,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=hjpQvl,ADD2,上海,万达广场,30.0,30.0,100.00,28.0,93.33,28.0,100.00,0.0,100.00

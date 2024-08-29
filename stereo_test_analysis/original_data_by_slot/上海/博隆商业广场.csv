@@ -1,5 +1,5 @@
-,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
-254,2024-07-25,发版14.0.0,"1287(发版14.0.0,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4fKwTDQUVGvXu35OR6f3PTg?sheet=vvj7bT,ADD2,上海,博隆商业广场,30.0,30.0,100.00,25.0,83.33,3.0,90.00
-260,2024-07-26,合入验证,"19638(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4sGJ2k6k7aWTJawdpGVAzUb?sheet=1ZedcT,ADD,上海,博隆商业广场,20.0,18.0,100.00,10.0,55.56,4.0,77.78
-280,2024-07-30,发版14.0.1,"1298(发版14.0.1,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4tRgUlJCo9UCHeRAIo7LGQg?sheet=x0NCmz,ADD,上海,博隆商业广场,20.0,18.0,100.00,14.0,77.78,1.0,94.44
-386,2024-08-15,合入验证,"21656(合入验证,回退)",回退,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=nfwj4A,ADD2,上海,博隆商业广场,20.0,20.0,100.00,17.0,85.00,0.0,100.00
+,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),泊车完成次数,泊车完成率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
+253,2024-07-25,发版14.0.0,"1287(发版14.0.0,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4fKwTDQUVGvXu35OR6f3PTg?sheet=vvj7bT,ADD2,上海,博隆商业广场,30.0,30.0,100.00,26.0,86.67,25.0,96.15,3.0,88.46
+263,2024-07-26,合入验证,"19638(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4sGJ2k6k7aWTJawdpGVAzUb?sheet=1ZedcT,ADD,上海,博隆商业广场,20.0,18.0,90.00,15.0,83.33,10.0,66.67,4.0,73.33
+278,2024-07-30,发版14.0.1,"1298(发版14.0.1,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4tRgUlJCo9UCHeRAIo7LGQg?sheet=x0NCmz,ADD,上海,博隆商业广场,20.0,18.0,90.00,17.0,94.44,14.0,82.35,1.0,94.12
+391,2024-08-15,合入验证,"21656(合入验证,回退)",回退,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=nfwj4A,ADD2,上海,博隆商业广场,20.0,20.0,100.00,18.0,90.00,17.0,94.44,0.0,100.00

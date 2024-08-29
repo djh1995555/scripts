@@ -1,6 +1,7 @@
-,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
-111,2024-07-11,泛化,"17934(泛化,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4PeAfYjxsSsrszsf36xo5Hg?sheet=8z6jXJ,ADD2,上海,首位奥特莱斯,24.0,24.0,100.00,23.0,95.83,1.0,95.83
-271,2024-07-28,合入验证,"19638(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4sGJ2k6k7aWTJawdpGVAzUb?sheet=ErvW8J,ADD,上海,首位奥特莱斯,22.0,22.0,100.00,21.0,95.45,17.0,22.73
-281,2024-07-30,发版14.0.1,"1298(发版14.0.1,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4tRgUlJCo9UCHeRAIo7LGQg?sheet=x0NCmz,ADD,上海,首位奥特莱斯,20.0,20.0,100.00,17.0,85.00,3.0,85.00
-387,2024-08-15,合入验证,"22133(合入验证,优化)",优化,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=nfwj4A,ADD2,上海,首位奥特莱斯,30.0,30.0,100.00,29.0,96.67,0.0,100.00
-401,2024-08-16,合入验证,"22133(合入验证,优化)",优化,https://xiaomi.f.mioffice.cn/sheets/shtk4a9gFPgzzKsN63DN2OevPkf?sheet=WHucUA,ADD,上海,首位奥特莱斯,30.0,29.0,100.00,29.0,100.00,18.0,37.93
+,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),泊车完成次数,泊车完成率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
+111,2024-07-11,泛化,"17934(泛化,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4PeAfYjxsSsrszsf36xo5Hg?sheet=8z6jXJ,ADD2,上海,首位奥特莱斯,24.0,24.0,100.00,23.0,95.83,23.0,100.00,1.0,95.65
+254,2024-07-25,发版14.0.0,"1287(发版14.0.0,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4fKwTDQUVGvXu35OR6f3PTg?sheet=vvj7bT,ADD2,上海,首位奥特莱斯,24.0,24.0,100.00,22.0,91.67,22.0,100.00,7.0,68.18
+269,2024-07-28,合入验证,"19638(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4sGJ2k6k7aWTJawdpGVAzUb?sheet=ErvW8J,ADD,上海,首位奥特莱斯,22.0,22.0,100.00,21.0,95.45,21.0,100.00,17.0,19.05
+279,2024-07-30,发版14.0.1,"1298(发版14.0.1,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4tRgUlJCo9UCHeRAIo7LGQg?sheet=x0NCmz,ADD,上海,首位奥特莱斯,20.0,20.0,100.00,17.0,85.00,17.0,100.00,3.0,82.35
+390,2024-08-15,合入验证,"22133(合入验证,优化)",优化,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=nfwj4A,ADD2,上海,首位奥特莱斯,30.0,30.0,100.00,29.0,96.67,29.0,100.00,0.0,100.00
+399,2024-08-16,合入验证,"22133(合入验证,优化)",优化,https://xiaomi.f.mioffice.cn/sheets/shtk4a9gFPgzzKsN63DN2OevPkf?sheet=WHucUA,ADD,上海,首位奥特莱斯,30.0,29.0,96.67,29.0,100.00,29.0,100.00,18.0,37.93

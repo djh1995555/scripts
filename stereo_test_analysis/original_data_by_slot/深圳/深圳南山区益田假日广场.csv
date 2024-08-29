@@ -1,7 +1,7 @@
-,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
-140,2024-07-15,发版,"18495(发版,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4TFo5Pl4fGE849LSWOo7ZPb?sheet=BMtndn,ADD2,深圳,深圳南山区益田假日广场,20.0,20.0,100.00,11.0,55.00,3.0,85.00
-170,2024-07-17,发版,"18495(发版,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4TFo5Pl4fGE849LSWOo7ZPb?sheet=74wsst,ADD2,深圳,深圳南山区益田假日广场,23.0,23.0,100.00,5.0,21.74,1.0,95.65
-186,2024-07-18,发版12.2.2,"1281(发版12.2.2,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4TFo5Pl4fGE849LSWOo7ZPb?sheet=EUQi9f,ADD2,深圳,深圳南山区益田假日广场,36.0,36.0,100.00,15.0,41.67,2.0,94.44
-194,2024-07-19,发版12.2.2,"1281(发版12.2.2,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4TFo5Pl4fGE849LSWOo7ZPb?sheet=1R7QMQ,ADD2,深圳,深圳南山区益田假日广场,1.0,1.0,100.00,0.0,0.00,0.0,100.00
-347,2024-08-08,合入验证,"21166(合入验证,回退)",回退,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=RSUybg,ADD2,深圳,深圳南山区益田假日广场,16.0,16.0,100.00,3.0,18.75,0.0,100.00
-442,2024-08-27,合入验证,"22971(合入验证,高配优化)",高配优化,https://xiaomi.f.mioffice.cn/sheets/shtk4tK4YsuCyUB2jeXjjRJf4zf?sheet=4q5CLi,ADD2,深圳,深圳南山区益田假日广场,7.0,7.0,100.00,5.0,71.43,1.0,85.71
+,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),泊车完成次数,泊车完成率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
+139,2024-07-15,发版,"18495(发版,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4TFo5Pl4fGE849LSWOo7ZPb?sheet=BMtndn,ADD2,深圳,深圳南山区益田假日广场,20.0,20.0,100.00,17.0,85.00,11.0,64.71,3.0,82.35
+154,2024-07-17,发版,"18495(发版,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4TFo5Pl4fGE849LSWOo7ZPb?sheet=74wsst,ADD2,深圳,深圳南山区益田假日广场,23.0,23.0,100.00,14.0,60.87,5.0,35.71,1.0,92.86
+184,2024-07-18,发版12.2.2,"1281(发版12.2.2,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4TFo5Pl4fGE849LSWOo7ZPb?sheet=EUQi9f,ADD2,深圳,深圳南山区益田假日广场,36.0,36.0,100.00,29.0,80.56,15.0,51.72,2.0,93.10
+199,2024-07-19,发版12.2.2,"1281(发版12.2.2,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4TFo5Pl4fGE849LSWOo7ZPb?sheet=1R7QMQ,ADD2,深圳,深圳南山区益田假日广场,1.0,1.0,100.00,1.0,100.00,0.0,0.00,0.0,100.00
+343,2024-08-08,合入验证,"21166(合入验证,回退)",回退,https://xiaomi.f.mioffice.cn/sheets/shtk4YzMk4zcNj6B7dM21yrdAJ2?sheet=RSUybg,ADD2,深圳,深圳南山区益田假日广场,16.0,16.0,100.00,13.0,81.25,3.0,23.08,0.0,100.00
+443,2024-08-27,合入验证,"22971(合入验证,高配优化)",高配优化,https://xiaomi.f.mioffice.cn/sheets/shtk4tK4YsuCyUB2jeXjjRJf4zf?sheet=4q5CLi,ADD2,深圳,深圳南山区益田假日广场,7.0,7.0,100.00,7.0,100.00,5.0,71.43,1.0,85.71

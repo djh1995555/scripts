@@ -1,5 +1,5 @@
-,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
-210,2024-07-20,发版12.2.3,"1285(发版12.2.3,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4eInSlrAdQl9VD22PZFpQJf?sheet=nSw9Jg,ADD,北京,榆垡临空经济创业发展中心,13.0,13.0,100.00,11.0,84.62,0.0,100.00
-308,2024-08-03,合入验证,"20589(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4a9gFPgzzKsN63DN2OevPkf?sheet=qEcYXB,ADD,北京,榆垡临空经济创业发展中心,25.0,25.0,100.00,10.0,40.00,0.0,100.00
-356,2024-08-10,发版14.1.2,"1317(发版14.1.2,回退)",回退,https://xiaomi.f.mioffice.cn/sheets/shtk4kO9f4sjJ5ANZQfpzZIvrnb?sheet=H9SfD4,ADD,北京,榆垡临空经济创业发展中心,21.0,21.0,100.00,8.0,38.10,0.0,100.00
-432,2024-08-24,合入验证,"22971(合入验证,高配优化)",高配优化,https://xiaomi.f.mioffice.cn/sheets/shtk42eeHvJheANjirdtW3eSSsb?sheet=PomU4s,ADD,北京,榆垡临空经济创业发展中心,25.0,25.0,100.00,14.0,56.00,2.0,92.00
+,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),泊车完成次数,泊车完成率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
+206,2024-07-20,发版12.2.3,"1285(发版12.2.3,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4eInSlrAdQl9VD22PZFpQJf?sheet=nSw9Jg,ADD,北京,榆垡临空经济创业发展中心,13.0,13.0,100.00,12.0,92.31,11.0,91.67,0.0,100.00
+308,2024-08-03,合入验证,"20589(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4a9gFPgzzKsN63DN2OevPkf?sheet=qEcYXB,ADD,北京,榆垡临空经济创业发展中心,25.0,25.0,100.00,24.0,96.00,10.0,41.67,0.0,100.00
+354,2024-08-10,发版14.1.2,"1317(发版14.1.2,回退)",回退,https://xiaomi.f.mioffice.cn/sheets/shtk4kO9f4sjJ5ANZQfpzZIvrnb?sheet=H9SfD4,ADD,北京,榆垡临空经济创业发展中心,21.0,21.0,100.00,20.0,95.24,8.0,40.00,0.0,100.00
+427,2024-08-24,合入验证,"22971(合入验证,高配优化)",高配优化,https://xiaomi.f.mioffice.cn/sheets/shtk42eeHvJheANjirdtW3eSSsb?sheet=PomU4s,ADD,北京,榆垡临空经济创业发展中心,25.0,25.0,100.00,25.0,100.00,14.0,56.00,2.0,92.00
