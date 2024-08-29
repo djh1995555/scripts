@@ -62,8 +62,13 @@ class JiraRecordDownloader():
                 adrn = f"adr::dataclip:{vehicle_type}::{start_timestamp}:{end_timestamp}"
                 self._adrn_record_downloader.download_record(adrn)
 
+    def download_from_jira_pairs(self):
+        for jira_id, event_ids in self._downloader_config['jira_pairs'].items():
+            for event_id in event_ids:
+                output_dir = os.path.join(self._output_dir, "jira", jira_id, event_id)
+                self._event_record_downloader.download_record(event_id, output_dir)
+
     def download_from_jira_csv(self):
-        
         jira_csv_filepath = self._downloader_config["jira_csv"]
         issues = pd.read_csv(jira_csv_filepath)
         target_issue_ids = self._downloader_config["issue_ids"]
@@ -81,7 +86,7 @@ class JiraRecordDownloader():
             tmp = description[position: position + 50]
             event_id = tmp.split('[')[1].split('|')[0]
             print(f"Event id of {issue_id} is {event_id}")
-            output_dir = os.path.join(self._output_dir, "issue_record", f"{issue_id}")
+            output_dir = os.path.join(self._output_dir, "jira", f"{issue_id}")
             self._event_record_downloader.download_record(event_id, output_dir)
 
             description_filepath = os.path.join(output_dir, f"{issue_id}_description.csv")
@@ -89,4 +94,7 @@ class JiraRecordDownloader():
     
 
     def download(self):
-        self.download_from_jira_csv()
+        if(self._downloader_config['download_source'] == 'jira_pairs'):
+            self.download_from_jira_pairs()
+        elif(self._downloader_config['download_source'] == 'jira_csv'):
+            self.download_from_jira_csv()

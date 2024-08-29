@@ -65,4 +65,6 @@ class EventRecordDownloader():
 
     
     def download(self):
-        self.download_record(self._downloader_config["event_id"])
+        event_ids = self._downloader_config["event_ids"]
+        for event_id in event_ids:
+            self.download_record(event_id)

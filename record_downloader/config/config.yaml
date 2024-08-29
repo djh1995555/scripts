@@ -1,6 +1,6 @@
 query_config: {
   filesystem: "fds",
-  query_method: "time_range", # event_id, path, adrn, time_range, jira
+  query_method: "jira", # event_id, path, adrn, time_range, jira
   common_config: {
     output_dir: "/home/mi/debug/scripts/record/test_record",
     # output_dir: "",
@@ -26,16 +26,18 @@ query_config: {
     ]
   },
   jira_record_downloader_config: {
-    download_source: "jira_api", # jira_api, jira_csv
+    download_source: "jira_pairs", # jira_pairs, jira_csv
     jira_csv: "/home/mi/debug/scripts/record_downloader/jira.csv",
-    issue_ids: [
-      "AD-84151",
-      "AD-84766",
-      "AD-84762",
-    ]
+    jira_pairs: {
+      'AD-191460':[
+        '1042250982',
+      ]
+    }
   },
   event_record_downloader_config: {
-    event_id: "7709523"
+    event_ids: [
+    "1040911517",
+    ]
   },
   path_record_downloader_config: {
     # path: "data-input/car/prod/mo1-mt/0227/2024-04-11/14-56-54/full_record.2024-04-11-14-59-19.00001",
