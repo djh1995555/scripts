@@ -1,0 +1,71 @@
+target_panel: {
+  # State: {
+  #   "apa_status": "apa_statemachine:status",
+  #   "segment_stage": "control_debug:segment_stage",
+  # },
+  # StopDistance: {
+  #   # "stop_distance_req": "control_cmd:stop_distance_req",
+  #   "end_y_error": "control_debug:end_y_error",
+  # },
+  # TailDistance: {
+  #   "distance_to_entrance_line": "control_debug:front_heading_error",
+  # },
+  Speed: {
+    "vehicle_speed": "chassis:vehicle_speed",
+    # "speed_error": "control_debug:speed_error",
+    "planned_speed": "control_debug:planned_speed",
+  },
+  Acc: {
+    "imu_acc_": "control_debug:imu_acc_",
+    "target_acc_mpss": "control_cmd:target_acc_mpss",
+    # "acc_cmd_closeloop":"control_debug:acc_cmd_closeloop",
+    # "feedforward_acc":"control_debug:previous_acceleration_reference",
+    # "feedback_acc":"control_debug:slope_acc",
+    # "p_error":"control_debug:p_error",
+    # "i_error":"control_debug:i_error",
+  },
+  pitch: {
+    "vehicle_pitch": "dr:pitch",
+  },
+  Torque: {
+    "front_motor_torque_nm": "chassis:front_motor_torque_nm",
+    "front_motor_torque_req_nm": "chassis:front_motor_torque_req_nm",
+    "rear_motor_torque_nm": "chassis:rear_motor_torque_nm",
+    "rear_motor_torque_req_nm": "chassis:rear_motor_torque_req_nm",
+  },
+  Brake: {
+    "master_pressure": "chassis:master_pressure",
+  },
+  # Collision: {
+  #   "collision_type": "hmi_report:collision_type_int",
+  #   "preview_environment_status": "control_debug:previous_ref_heading_acceleration",
+  #   "current_environment_status": "control_debug:previous_lateral_error_acceleration",
+  # },
+  # Gear: {
+  #   "gear_position": "chassis:gear_position",
+  #   # "target_gear": "control_cmd:target_gear",
+  # },
+  # APAState: {
+  #   "apa_state": "control_debug:mc_apa_state",
+  # },
+  # LatCmd: {
+  #   "feedward_kappa": "control_debug:feedward_kappa",
+  #   "preview_kappa": "control_debug:preview_kappa",
+  #   "preview_kappa_c": "control_debug:preview_kappa_c",
+  #   "origin_control_kappa": "control_debug:origin_control_kappa",
+  #   "origin_control_steer_deg": "control_debug:origin_control_steer_deg",
+  #   "reference_kappa": "control_debug:reference_kappa",
+  #   "reference_kappa_c": "control_debug:reference_kappa_c",
+  # },
+  # Steer: {
+  #   "steer_wheel_angle": "chassis:steer_wheel_angle",
+  #   "steer_wheel_angle_deg_bkp": "chassis:steer_wheel_angle_deg_bkp",
+  #   "target_steer_deg": "control_cmd:target_steer_deg",
+  # },
+  # Lat: {
+  #   "stanley_lateral_contribution": "control_debug:stanley_lateral_contribution",
+  # },
+  # Heading: {
+  #   "stanley_yaw_contribution": "control_debug:stanley_yaw_contribution",
+  # },
+}

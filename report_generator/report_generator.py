@@ -96,11 +96,17 @@ class ReportGenerator:
                 feedback_acc = self._all_data['control_debug']['slope_acc']
             if "planned_speed" in self._all_data["control_debug"].keys():
                 planned_speed = self._all_data['control_debug']['planned_speed']
+            if "end_y_error" in self._all_data["control_debug"].keys():
+                end_y_error = self._all_data['control_debug']['end_y_error']
+            if "front_heading_error" in self._all_data["control_debug"].keys():
+                distance_to_entrance_line = self._all_data['control_debug']['front_heading_error']
 
         gear_data = []
         if "chassis" in self._all_data.keys():
             if "gear_position" in self._all_data["chassis"].keys():
                 gear_data = self._all_data['chassis']['gear_position'] 
+            if "vehicle_speed" in self._all_data["chassis"].keys():
+                vehicle_speed = self._all_data['chassis']['vehicle_speed']
 
         if(len(imu_acc)>0 and len(gear_data)>0):
             min_length = min(len(imu_acc),len(gear_data))
@@ -116,6 +122,38 @@ class ReportGenerator:
             self._all_data['control_debug']['previous_acceleration_reference'] = feedforward_acc
             self._all_data['control_debug']['slope_acc'] = feedback_acc
             self._all_data['control_debug']['planned_speed'] = planned_speed
+        
+        speed_at_0 = 0.0
+        speed_at_10 = 0.0
+        speed_at_20 = 0.0
+        print(f'file_path:{file_path}')
+        min_length = min(len(end_y_error),len(vehicle_speed))
+        for i in range(min_length):
+            if(distance_to_entrance_line[i]<-2):
+                if(abs(end_y_error[i] - 0.0)< 0.01):
+                    speed_at_0 = vehicle_speed[i]
+                    print(f'speed_at_0:{speed_at_0}')
+                elif(abs(end_y_error[i] - (-0.1))< 0.01):
+                    speed_at_10 = vehicle_speed[i]
+                    print(f'speed_at_10:{speed_at_10}')
+                elif(abs(end_y_error[i] - (-0.2))< 0.01):
+                    speed_at_20 = vehicle_speed[i]
+                    print(f'speed_at_20:{speed_at_20}')
+
+
+        output_name = 'speed_at_zero.csv'
+        data = {
+            'file_path': file_path,
+            'speed_at_0': speed_at_0,
+            'speed_at_10': speed_at_10,
+            'speed_at_20': speed_at_20,
+        }
+
+        df = pd.DataFrame(data, index=[0,])
+
+        # 追加写入CSV文件
+        df.to_csv(output_name, mode='a', header=False, index=False, encoding='utf-8')
+
 
         self.select_target_signal()
         
