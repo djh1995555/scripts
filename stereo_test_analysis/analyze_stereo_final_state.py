@@ -35,12 +35,14 @@ change_state = {
 	'20589':'初版',
 	'21166':'回退',
 	'21656':'回退',
-	'22133':'优化',
-	'22519':'高配优化',
-	'22971':'高配优化',
-	'1334':'优化',
-	'23241':'高配优化',
+	'22133':'回退',
+	'22519':'change-1',
+	'22971':'change-1',
+	'1334':'回退',
+	'23241':'change-1',
 	'1338':'回退',
+	'23566':'change-1',
+	'1346':'回退',
 	}
 # 忽略所有的UserWarning
 warnings.filterwarnings('ignore', category=FutureWarning)
@@ -288,14 +290,15 @@ def plot_by_slot(df):
 	bar_width = 0.1
 	vertical_spacing = 0.04		
 	subplot_height = 100
-	width = 2000
+	width = 2250
 	
 	color_dict = {
 		f'ADD{POSTURE_RIGHT_RATE}':'green',  
 		f'ADD2{POSTURE_RIGHT_RATE}':'orange',  
 		f'ADD{NOT_HIT_WHEELSTOP_RATE}':'red',
 		f'ADD2{NOT_HIT_WHEELSTOP_RATE}':'pink'
-		}
+	}
+	df = df.sort_values(by='日期')
 	citys = df[CITY].unique()
 	print(citys)
 	pages = []
@@ -314,16 +317,31 @@ def plot_by_slot(df):
 			shutil.rmtree(city_dir_grouped)
 		os.makedirs(city_dir_grouped)
 
+		city_data_output_name = os.path.join(city_dir,f'{city}.csv')
+		city_df.to_csv(city_data_output_name)
+
 		slots = city_df[SLOT].unique()
 		slots_name_with_city = [f'{slot}({city})' for slot in slots]
-		slot_num = len(slots)
+		slots_name_with_city.insert(0,'city')
+		slot_num = len(slots_name_with_city)
 		
 		fig = make_subplots(rows= slot_num,
 												cols=1,
 												shared_xaxes=True, 
 												subplot_titles=slots_name_with_city,
 												)
-		slot_id = 1
+		bags = city_df[BAG].unique()
+		fig.add_trace(
+			go.Bar(
+				x = bags,
+				y = [None] * len(bags),
+				width = bar_width,
+			),
+			row=1, 
+			col=1
+		)
+		start_id = 2
+		slot_id = start_id
 		for slot in slots:
 			slot_df = city_df[city_df[SLOT]==slot]
 			output_name = os.path.join(city_dir,f'{slot}.csv')
@@ -338,7 +356,7 @@ def plot_by_slot(df):
 				if(slot_df_group[column][0]==None):
 					continue
 				showlegend = False
-				if(slot_id == 1):
+				if(slot_id == start_id):
 					showlegend= True
 				fig.add_trace(
 					go.Bar(

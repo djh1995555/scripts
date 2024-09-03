@@ -1,6 +1,0 @@
-,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),泊车完成次数,泊车完成率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
-83,2024-07-08,泛化,"17642(泛化,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4YfWTB4sSpSnXd1OOWvl1eg?sheet=lGyQ4K,ADD,成都,成都市金牛区人民医院地下停车场,28.0,28.0,100.00,17.0,60.71,17.0,100.00,4.0,76.47
-102,2024-07-10,泛化,"17934(泛化,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4YfWTB4sSpSnXd1OOWvl1eg?sheet=hp5ioU,ADD,成都,成都市金牛区人民医院地下停车场,13.0,13.0,100.00,0.0,0.00,0.0,-1,0.0,-1
-164,2024-07-17,发版,"18495(发版,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4xyPGHDDm9zc0LwswwKHVzd?sheet=Gtwpyk,ADD,成都,成都市金牛区人民医院地下停车场,37.0,35.0,94.59,17.0,48.57,17.0,100.00,4.0,76.47
-176,2024-07-18,合入验证,"19062(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4ULsU8DMlhnLjKKR5Ka43Of?sheet=wbqneW,ADD,成都,成都市金牛区人民医院地下停车场,40.0,39.0,97.50,27.0,69.23,26.0,96.30,6.0,77.78
-179,2024-07-18,发版12.2.2,"1281(发版12.2.2,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4xyPGHDDm9zc0LwswwKHVzd?sheet=jZ3wNG,ADD,成都,成都市金牛区人民医院地下停车场,23.0,21.0,91.30,13.0,61.90,12.0,92.31,4.0,69.23

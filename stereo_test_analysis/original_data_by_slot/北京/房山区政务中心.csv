@@ -1,8 +1,0 @@
-,日期,版本号,打包,change状态,原始数据链接,车辆类型,城市,停车场,泊车总次数,泊车释放次数,泊车释放率(%),泊车完成次数,泊车完成率(%),位姿达标次数,位姿达标率(%),撞轮挡次数,不撞轮挡率(%)
-121,2024-07-14,合入验证,"18333(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4yjD0XXNdmy71jBTO5y8Xmf?sheet=12YQf9,ADD,北京,房山区政务中心,33.0,33.0,100.00,33.0,100.00,33.0,100.00,11.0,66.67
-162,2024-07-17,合入验证,"18744(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4yjD0XXNdmy71jBTO5y8Xmf?sheet=1l6vmJ,ADD,北京,房山区政务中心,8.0,8.0,100.00,6.0,75.00,6.0,100.00,2.0,66.67
-274,2024-07-30,合入验证,"20275(合入验证,带)",带,https://xiaomi.f.mioffice.cn/sheets/shtk4a9gFPgzzKsN63DN2OevPkf?sheet=TvZ5aU,ADD,北京,房山区政务中心,12.0,12.0,100.00,12.0,100.00,12.0,100.00,5.0,58.33
-309,2024-08-03,合入验证,"20589(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4a9gFPgzzKsN63DN2OevPkf?sheet=qEcYXB,ADD,北京,房山区政务中心,20.0,20.0,100.00,20.0,100.00,20.0,100.00,8.0,60.00
-321,2024-08-05,合入验证,"20589(合入验证,初版)",初版,https://xiaomi.f.mioffice.cn/sheets/shtk4a9gFPgzzKsN63DN2OevPkf?sheet=2vyOOr,ADD,北京,房山区政务中心,2.0,2.0,100.00,1.0,50.00,1.0,100.00,0.0,100.00
-355,2024-08-10,发版14.1.2,"1317(发版14.1.2,回退)",回退,https://xiaomi.f.mioffice.cn/sheets/shtk4kO9f4sjJ5ANZQfpzZIvrnb?sheet=H9SfD4,ADD,北京,房山区政务中心,20.0,20.0,100.00,20.0,100.00,20.0,100.00,8.0,60.00
-428,2024-08-24,合入验证,"22971(合入验证,高配优化)",高配优化,https://xiaomi.f.mioffice.cn/sheets/shtk42eeHvJheANjirdtW3eSSsb?sheet=PomU4s,ADD,北京,房山区政务中心,20.0,20.0,100.00,19.0,95.00,19.0,100.00,6.0,68.42
