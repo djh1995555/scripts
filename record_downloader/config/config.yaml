@@ -1,6 +1,6 @@
 query_config: {
   filesystem: "fds",
-  query_method: "jira", # event_id, path, adrn, time_range, jira
+  query_method: "event_id", # event_id, path, adrn, time_range, jira
   common_config: {
     output_dir: "/home/mi/debug/scripts/record/test_record",
     # output_dir: "",
@@ -29,14 +29,46 @@ query_config: {
     download_source: "jira_pairs", # jira_pairs, jira_csv
     jira_csv: "/home/mi/debug/scripts/record_downloader/jira.csv",
     jira_pairs: {
-      'AD-191460':[
-        '1042250982',
-      ]
+      'AD-194752':[
+        '1069588345',
+      ],
+      'AD-194742':[
+        '1069417344',
+      ],
+      'AD-194729':[
+        '1069261092',
+      ],
+      'AD-191415':[
+        '1044607873',
+      ],
+      'AD-191435':[
+        '1044311279',
+      ],
+      'AD-191441':[
+        '1043995188',
+      ],
+      'AD-192343':[
+        '1055741295',
+      ],
+      'AD-193040':[
+        '1056053071',
+      ],
+      'AD-192323':[
+        '1054734838',
+      ],
     }
   },
   event_record_downloader_config: {
     event_ids: [
-    "1040911517",
+    "1134628597",
+    "1134629321",
+    "1134807414",
+    "1134812098",
+    "1134812164",
+    "1134812539",
+    "1134812605",
+    "1134824571",
+    "1134824664",
     ]
   },
   path_record_downloader_config: {
