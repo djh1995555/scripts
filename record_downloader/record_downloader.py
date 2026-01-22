@@ -8,7 +8,7 @@ from utils.path_record_downloader import PathRecordDownloader
 from utils.adrn_record_downloader import AdrnRecordDownloader
 from utils.time_range_record_downloader import TimeRangeRecordDownloader
 from utils.jira_record_downloader import JiraRecordDownloader
-
+from utils.jinshanyun_record_downloader import JinShanYunRecordDownloader
 class RecordDownloader():
     def __init__(self, args):
         self._args = args
@@ -39,7 +39,10 @@ class RecordDownloader():
             self._record_downloader = JiraRecordDownloader(config["query_config"]["common_config"], 
                                                            filesystem_kws,
                                                            config["query_config"]["jira_record_downloader_config"], )
-    
+        elif(config["query_config"]['query_method'] == "jinshanyun"):
+            self._record_downloader = JinShanYunRecordDownloader(config["query_config"]["common_config"], 
+                                                           filesystem_kws,
+                                                           config["query_config"]["jisnhanyun_record_downloader_config"], )   
     def get_env_and_filesystem_kws(self, config):
         if(config["query_config"]["filesystem"]== "ks3"):
             env = config["ks3_config"]["env"]

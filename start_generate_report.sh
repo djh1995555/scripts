@@ -2,23 +2,12 @@
 pwd=$(pwd -P)
 lwd=$(dirname $pwd)
 
-default_record_dir=$pwd/record/issue_record/84127
-default_record_dir=$pwd/record/test_record/2024-04-11/0227/14-56-54
-
-default_record_dir=$pwd/record/test_record/filepath/2024-04-11/0227/15-32-40
-# default_record_dir=$pwd/record/test_record/event/2024-04-11/MT227/15-44-26
-# default_record_dir=$pwd/record/test_record/download
-# default_record_dir=$pwd/record/test_record/adrn_path/2024-04-11/0227/15-32-40
-default_record_dir=$pwd/record/test_record/2024-04-18/MT091
-default_record_dir=$pwd/record/test_record/issue_record
-# default_record_dir=$pwd/record/test_record/2024-04-19/MT091/10-38-49
-default_record_dir=$pwd/record/test_record/2024-04-20/MT091
-default_record_dir=$pwd/record/test_record/2024-05-09/2141
-
+default_record_dir=$pwd/record/test_record/0121/2125
 record_dir=${1:-$default_record_dir}
 
-
-plot_signal_filepath=$pwd/report_generator/config/target_signal_lon.yaml
+plot_signal_filepath=$pwd/report_generator/config/target_signal_lon_torque_new.yaml
+# plot_signal_filepath=$pwd/report_generator/config/target_signal_lon_torque_tmp.yaml
+# plot_signal_filepath=$pwd/report_generator/config/target_signal_lon_torque_observer.yaml
 # plot_signal_filepath=$pwd/config/target_signal_lat.yaml
 
 
@@ -56,6 +45,7 @@ for dir in "${result_dirs[@]}"; do
         echo 'do not have json'
         $lwd/mi_tools/bazel-bin/mipilot/modules/parking/controller/avp_control_debug --record $dir 
     fi
+    # $lwd/mi_tools/bazel-bin/mipilot/modules/parking/controller/avp_control_debug --record $dir 
     for item in "$dir"/*; do
         if [[ "$item" == *.json ]]; then
             echo generate report for $dir

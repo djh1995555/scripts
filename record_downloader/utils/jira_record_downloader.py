@@ -71,11 +71,9 @@ class JiraRecordDownloader():
     def download_from_jira_csv(self):
         jira_csv_filepath = self._downloader_config["jira_csv"]
         issues = pd.read_csv(jira_csv_filepath)
-        target_issue_ids = self._downloader_config["issue_ids"]
-        target_issues = issues[issues['问题关键字'].isin(target_issue_ids)]
 
         # Extract the 'description' column data from the filtered rows
-        for index, row in target_issues.iterrows():
+        for index, row in issues.iterrows():
             description = row['描述']
             issue_id = row['问题关键字']
             print(issue_id)
@@ -86,7 +84,7 @@ class JiraRecordDownloader():
             tmp = description[position: position + 50]
             event_id = tmp.split('[')[1].split('|')[0]
             print(f"Event id of {issue_id} is {event_id}")
-            output_dir = os.path.join(self._output_dir, "jira", f"{issue_id}")
+            output_dir = os.path.join(self._output_dir, "jira", f"{issue_id}", event_id)
             self._event_record_downloader.download_record(event_id, output_dir)
 
             description_filepath = os.path.join(output_dir, f"{issue_id}_description.csv")

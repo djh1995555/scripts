@@ -1,6 +1,6 @@
 query_config: {
   filesystem: "fds",
-  query_method: "event_id", # event_id, path, adrn, time_range, jira
+  query_method: "jira", # event_id, path, adrn, time_range, jira, jinshanyun
   common_config: {
     output_dir: "/home/mi/debug/scripts/record/test_record",
     # output_dir: "",
@@ -29,47 +29,24 @@ query_config: {
     download_source: "jira_pairs", # jira_pairs, jira_csv
     jira_csv: "/home/mi/debug/scripts/record_downloader/jira.csv",
     jira_pairs: {
-      'AD-194752':[
-        '1069588345',
-      ],
-      'AD-194742':[
-        '1069417344',
-      ],
-      'AD-194729':[
-        '1069261092',
-      ],
-      'AD-191415':[
-        '1044607873',
-      ],
-      'AD-191435':[
-        '1044311279',
-      ],
-      'AD-191441':[
-        '1043995188',
-      ],
-      'AD-192343':[
-        '1055741295',
-      ],
-      'AD-193040':[
-        '1056053071',
-      ],
-      'AD-192323':[
-        '1054734838',
+      'ADM2-5294':[
+        '3183961280',
       ],
     }
   },
   event_record_downloader_config: {
     event_ids: [
-    "1134628597",
-    "1134629321",
-    "1134807414",
-    "1134812098",
-    "1134812164",
-    "1134812539",
-    "1134812605",
-    "1134824571",
-    "1134824664",
+      "2054863693",
+      "2062848311",
+      "2062714160",
     ]
+  },
+  jisnhanyun_record_downloader_config: {
+    jinshanyun_url: "https://test-raw-data-storage.ks3-cn-tianjin-xm01.ksyuncs.com/car/prod",
+    vehicle_type: "lm5-vp1",
+    vehicle_id: "0094",
+    target_times: "/home/mi/debug/scripts/record_downloader/jinshanyun/target_times.csv",
+    all_full_records: "/home/mi/debug/scripts/record_downloader/jinshanyun/all_full_records.csv",
   },
   path_record_downloader_config: {
     # path: "data-input/car/prod/mo1-mt/0227/2024-04-11/14-56-54/full_record.2024-04-11-14-59-19.00001",

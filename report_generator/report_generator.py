@@ -88,6 +88,8 @@ class ReportGenerator:
         if "control_debug" in self._all_data.keys():
             if "imu_acc_" in self._all_data["control_debug"].keys():
                 imu_acc = self._all_data['control_debug']['imu_acc_']
+            if "planned_acc" in self._all_data["control_debug"].keys():
+                planned_acc = self._all_data['control_debug']['planned_acc']
             if "acc_cmd_closeloop" in self._all_data["control_debug"].keys():
                 acc_cmd_closeloop = self._all_data['control_debug']['acc_cmd_closeloop']
             if "previous_acceleration_reference" in self._all_data["control_debug"].keys():
@@ -100,67 +102,151 @@ class ReportGenerator:
                 end_y_error = self._all_data['control_debug']['end_y_error']
             if "front_heading_error" in self._all_data["control_debug"].keys():
                 distance_to_entrance_line = self._all_data['control_debug']['front_heading_error']
+            if "vehiclestate_linear_velocity" in self._all_data["control_debug"].keys():
+                vehicle_speed = self._all_data['control_debug']['vehiclestate_linear_velocity']
+            if "vehiclestate_linear_velocity" in self._all_data["control_debug"].keys():
+                vehicle_speed = self._all_data['control_debug']['vehiclestate_linear_velocity']
+
 
         gear_data = []
         if "chassis" in self._all_data.keys():
-            if "gear_position" in self._all_data["chassis"].keys():
-                gear_data = self._all_data['chassis']['gear_position'] 
-            if "vehicle_speed" in self._all_data["chassis"].keys():
-                vehicle_speed = self._all_data['chassis']['vehicle_speed']
+            # if "gear_position" in self._all_data["chassis"].keys():
+            #     gear_data = self._all_data['chassis']['gear_position'] 
+            # if "vehicle_speed" in self._all_data["chassis"].keys():
+            #     chassis_speed = self._all_data['chassis']['vehicle_speed']
+            if "target_gear" in self._all_data["control_cmd"].keys():
+                target_gear = self._all_data['control_cmd']['target_gear']
 
-        if(len(imu_acc)>0 and len(gear_data)>0):
-            min_length = min(len(imu_acc),len(gear_data))
-            for i in range(min_length):
-                if(gear_data[i] == 1):
-                    imu_acc[i] *= -1
-                    acc_cmd_closeloop[i] *= -1
-                    feedforward_acc[i] *= -1
-                    feedback_acc[i] *= -1
-                    planned_speed[i] *= -1
-            self._all_data['control_debug']['imu_acc_'] = imu_acc
-            self._all_data['control_debug']['acc_cmd_closeloop'] = acc_cmd_closeloop
-            self._all_data['control_debug']['previous_acceleration_reference'] = feedforward_acc
-            self._all_data['control_debug']['slope_acc'] = feedback_acc
-            self._all_data['control_debug']['planned_speed'] = planned_speed
+        reverse_flag = False
+        if ("chassis" in self._all_data.keys() and "control_debug" in self._all_data.keys()):
+            if(len(imu_acc)>0 and len(target_gear)>0):
+                min_length = min(len(imu_acc),len(target_gear))
+                for i in range(min_length-1):
+                    if(not reverse_flag and target_gear[i] == 1 and target_gear[i+1] == 0):
+                        reverse_flag = True
+                    if(reverse_flag and target_gear[i] == 3 and target_gear[i+1] == 0):
+                        reverse_flag = False
+                    # imu_acc[i] *= -1
+                    if(reverse_flag):
+                        imu_acc[i] *= -1
+                        planned_acc[i] *= -1
+                        acc_cmd_closeloop[i] *= -1
+                        feedforward_acc[i] *= -1
+                        feedback_acc[i] *= -1
+                        # planned_speed[i] *= -1
+                        # vehicle_speed[i] *= -1
+                self._all_data['control_debug']['imu_acc_'] = imu_acc
+                self._all_data['control_debug']['planned_acc'] = planned_acc
+                self._all_data['control_debug']['acc_cmd_closeloop'] = acc_cmd_closeloop
+                self._all_data['control_debug']['previous_acceleration_reference'] = feedforward_acc
+                self._all_data['control_debug']['slope_acc'] = feedback_acc
+                # self._all_data['control_debug']['planned_speed'] = planned_speed
+                # self._all_data['control_debug']['vehiclestate_linear_velocity'] = vehicle_speed
+
+        self._all_data['control_debug']['previous_acceleration_reference'] = [0.5 for x in self._all_data['control_debug']['previous_acceleration_reference']]
+        self._all_data['control_debug']['slope_acc'] = [1.25 * x for x in self._all_data['control_debug']['planned_speed']]
+
+        # self.compute_slope_position2()
+        # self.compute_slope_position()
+
+        self.select_target_signal()
+        return True
+
+    def compute_slope_position2(self):
+        if "control_debug" in self._all_data.keys():
+            if "stereo_slot_brake_position" in self._all_data["control_debug"].keys():
+                rear_exit_slope_position = self._all_data['control_debug']['stereo_slot_brake_position']
+            if "stereo_slot_increase_torque_position" in self._all_data["control_debug"].keys():
+                rear_enter_slope_position = self._all_data['control_debug']['stereo_slot_increase_torque_position']
+        else:
+            return
+        front_enter_slope_position = []
+        front_exit_slope_position = []
+        distance_to_front_exit_slope_position = []
+        distance_to_entrance_line = self._all_data['control_debug']['front_heading_error']
+        wheel_base = 3.00
+        front_wheel_finish_climbing_offset = 0.0
+        if(len(rear_exit_slope_position)>0 and len(rear_enter_slope_position)>0):
+            for i in range(len(rear_enter_slope_position)):
+                front_enter_slope_position.append(rear_enter_slope_position[i] - wheel_base + 0.3)
+                front_exit_slope_position.append(rear_exit_slope_position[i] - wheel_base + front_wheel_finish_climbing_offset)
+                distance_to_front_exit_slope_position.append(distance_to_entrance_line[i] - (rear_exit_slope_position[i] - wheel_base + front_wheel_finish_climbing_offset))
+
+            self._all_data['control_debug']['front_enter_slope_position_'] = front_enter_slope_position
+            self._all_data['control_debug']['front_exit_slope_position_'] = front_exit_slope_position
+            self._all_data['control_debug']['rear_enter_slope_position_'] = rear_enter_slope_position
+            self._all_data['control_debug']['rear_exit_slope_position_'] = rear_exit_slope_position
+            self._all_data['control_debug']['distance_to_front_exit_slope_position'] = distance_to_front_exit_slope_position
+
+
+    def compute_slope_position(self):
+        if "control_debug" in self._all_data.keys():
+            if "stereo_slot_stop_distance" in self._all_data["control_debug"].keys():
+                stop_distance = self._all_data['control_debug']['stereo_slot_stop_distance']
+            if "stereo_slot_brake_position" in self._all_data["control_debug"].keys():
+                brake_position = self._all_data['control_debug']['stereo_slot_brake_position']
+            if "stereo_slot_increase_torque_position" in self._all_data["control_debug"].keys():
+                increase_torque_position = self._all_data['control_debug']['stereo_slot_increase_torque_position']
+        else:
+            return
+
+        front_enter_slope_position = []
+        front_exit_slope_position = []
+        rear_enter_slope_position = []
+        rear_exit_slope_position = []
+        wheel_base = 3.00
+        if(len(stop_distance)>0 and len(brake_position)>0 and len(increase_torque_position)>0):
+            for i in range(len(stop_distance)):
+                front_enter_slope_position.append(increase_torque_position[i] - 0.5)
+                front_exit_slope_position.append(brake_position[i] + stop_distance[i])
+                rear_enter_slope_position.append(increase_torque_position[i] - 0.5 + wheel_base)
+                rear_exit_slope_position.append(brake_position[i] + stop_distance[i] + wheel_base - 0.1)
+
+            self._all_data['control_debug']['front_enter_slope_position_'] = front_enter_slope_position
+            self._all_data['control_debug']['front_exit_slope_position_'] = front_exit_slope_position
+            self._all_data['control_debug']['rear_enter_slope_position_'] = rear_enter_slope_position
+            self._all_data['control_debug']['rear_exit_slope_position_'] = rear_exit_slope_position
+
+    def count_gear_switching_time(self,file_path):
+        apa_status = self._all_data['apa_statemachine']['status']
+        vehicle_speed = self._all_data['chassis']['vehicle_speed']
+        gear_data = self._all_data['chassis']['gear_position'] 
+        distance_to_entrance_line = self._all_data['control_debug']['front_heading_error']
+        lengths = []
+        count = 0
+        total_count = 0
+        for i in range(len(vehicle_speed)):
+            if((gear_data[i] == 1 or gear_data[i] ==3) and apa_status[i] == 5):
+                if vehicle_speed[i] == 0:
+                    count += 1
+                else:
+                    if count > 0:
+                        lengths.append(count * 0.02)
+                        count = 0
+                total_count += 1
+        if count > 0:
+            lengths.append(count * 0.02)
         
-        speed_at_0 = 0.0
-        speed_at_10 = 0.0
-        speed_at_20 = 0.0
-        print(f'file_path:{file_path}')
-        min_length = min(len(end_y_error),len(vehicle_speed))
-        for i in range(min_length):
-            if(distance_to_entrance_line[i]<-2):
-                if(abs(end_y_error[i] - 0.0)< 0.01):
-                    speed_at_0 = vehicle_speed[i]
-                    print(f'speed_at_0:{speed_at_0}')
-                elif(abs(end_y_error[i] - (-0.1))< 0.01):
-                    speed_at_10 = vehicle_speed[i]
-                    print(f'speed_at_10:{speed_at_10}')
-                elif(abs(end_y_error[i] - (-0.2))< 0.01):
-                    speed_at_20 = vehicle_speed[i]
-                    print(f'speed_at_20:{speed_at_20}')
-
-
-        output_name = 'speed_at_zero.csv'
+        gear_seitching_time = sum(lengths[1:-1])
+        total_time = total_count * 0.02
+        ratio = gear_seitching_time / total_time
+        output_name = 'gear_switching_time.csv'
         data = {
             'file_path': file_path,
-            'speed_at_0': speed_at_0,
-            'speed_at_10': speed_at_10,
-            'speed_at_20': speed_at_20,
+            'length': str(lengths),
+            'gear_seitching_time': f'{gear_seitching_time:2f}',
+            'total_time': f'{total_time:2f}',
+            'ratio': f'{ratio:2f}',
         }
 
         df = pd.DataFrame(data, index=[0,])
 
         # 追加写入CSV文件
         df.to_csv(output_name, mode='a', header=False, index=False, encoding='utf-8')
-
-
-        self.select_target_signal()
-        
-        # self.get_acc_response()
-
-        return True
-    
+        print(lengths)
+        print(sum(lengths[1:-1]))
+        print(ratio)
+                
     def select_target_signal(self):
         with open(self._args.target_signal_filepath, 'r') as f:
             target_signals = yaml.load(f, Loader=yaml.Loader)
@@ -183,17 +269,25 @@ class ReportGenerator:
             if(data_time[0]<start_timestamp):
                 start_timestamp = data_time[0]
 
+        def are_all_none(lst):
+            return all(element is None for element in lst)
+
         for sub_panel_name, sub_dict in self._data_selected.items():
             time_list=[]
             value_list=[]
             legend_list = []
             
             for signal_full_name, (data, data_time) in sub_dict.items():
+                if(are_all_none(data)):
+                    continue
                 if((data_time[0]-start_timestamp)/1000000000 > 10000):
                     time_list.append(np.array([(x - data_time[0])/1000000000 for x in data_time]))
                 else:
                     time_list.append(np.array([(x - start_timestamp)/1000000000 for x in data_time]))
                 df = pd.DataFrame({'data': data})
+                # if(signal_full_name == "sliping_flag"):
+                #     print(data)
+                # print(signal_full_name)
                 df_interp = df.interpolate(method='linear')
                 data_array = df_interp.T.to_numpy()
                 value_list.append(data_array[0])
@@ -246,6 +340,7 @@ class ReportGenerator:
         plot_html_str = ""
         plot_html_str += self._report_plotter.get_fuel_fig_html_str({"Comparison": self._subplot_figure})
         html_str = self._report_plotter.generate_html_fuel_report(plot_html_str)
+        print(f"output_filename:{output_filename}")
         with open(output_filename, 'w') as f:
             f.write(html_str)
 

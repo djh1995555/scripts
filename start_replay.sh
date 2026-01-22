@@ -2,11 +2,23 @@
 pwd=$(pwd -P)
 lwd=$(dirname $pwd)
 time=$(date "+%Y%m%d%H%M%S")
-target_project=/home/mi/tmp_repo_mipilot_mbf_1111_lo5nm2
-target_project=/home/mi/tmp_repo_mipilot_debug_41342_GRFRxH
-# target_project=/home/mi/tmp_repo_mipilot_mbf_1096_fLUN9k
-target_project=/home/mi/tmp_repo_mipilot_mbf_debug_11721_Aw3nfN
-
+target_project=/home/mi/tmp_repo_mipilot_mbf_2229_Qfutp4
+target_project=/home/mi/tmp_repo_mipilot_mbf_debug_v2_1111203_fd25ea
+target_project=/home/mi/tmp_repo_mipilot_mbf_2319_KCozRH
+target_project=/home/mi/tmp_repo_mipilot_mbf_debug_v2_1111936_Vz2goO
+target_project=/home/mi/tmp_repo_mipilot_mbf_2229_zc9idT
+target_project=/home/mi/tmp_repo_mipilot_mbf_debug_v2_1119280_Ln5KhN
+target_project=/home/mi/tmp_repo_mipilot_mbf_2382_ArX1Ht
+target_project=/home/mi/tmp_repo_mipilot_mbf_debug_v2_1125272_IzUo7V
+target_project=/home/mi/tmp_repo_mipilot_mbf_debug_v2_1126770_wSRYMS
+target_project=/home/mi/tmp_repo_mipilot_mbf_debug_v2_1132212_ZyzVGO
+target_project=/home/mi/tmp_repo_mipilot_mbf_debug_v2_1136966_5uXCLX
+# target_project=/home/mi/refactor
+target_project=/home/mi/tmp_repo_mipilot_mbf_2576_AUg0Us
+# target_project=/home/mi/tmp_repo_mipilot_mbf_debug_v2_1143677_zs6ZzV
+target_project=/home/mi/tmp_repo_mipilot_mbf_debug_v2_1144787_DEF3D3
+# target_project=/home/mi/tmp_repo_mipilot_mbf_debug_v2_1151460_7VMJmr
+# target_project=/home/mi/tmp_repo_mipilot_mbf_debug_v2_1155858_u2fSyN
 mode=$1
 
 RunReplay(){
@@ -16,6 +28,26 @@ RunReplay(){
     date_dir=$(dirname $parent_dir)
     output_dir=${pwd}/record/replay_record/$time/$(basename $date_dir)/$(basename $parent_dir)/$(basename $target_record_dir)
     output_filename=output.txt
+    found=0
+
+    target_record=$target_record_dir
+
+    for item in "$target_record_dir"/*; do
+        filename=$(basename $item)
+        if [[ "$filename" == *.record || "$filename" == full_record.* ]]; then
+            target_record=$item
+            found=1
+            break
+        fi
+    done
+    if [ $found -eq 0 ];then
+        echo "Error: No record file found in $target_record_dir"
+        exit 1
+    fi
+    echo target_record:$target_record
+    ./mcap_parse.sh $target_record $pwd
+    cat passward.txt | sudo -S cp $pwd/system.json /dat/prod/device_hub/
+
     python ${pwd}/record_replayer/record_replayer.py \
         --target-record-dir $target_record_dir \
         --output-dir $output_dir \
@@ -24,6 +56,7 @@ RunReplay(){
         >& $output_filename
     mv $output_filename $output_dir
     bash ${pwd}/start_generate_report.sh $output_dir
+    mv $pwd/system.json $output_dir
     echo "***************************************************************"
 }
     
@@ -105,4 +138,6 @@ elif [ ${mode} == 'replay_list' ];then
         start_time="00"
         RunReplay $dir $start_time
     done | sort -u
+else
+    echo "args wrong!"
 fi

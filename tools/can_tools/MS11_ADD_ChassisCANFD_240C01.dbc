@@ -1,0 +1,1940 @@
+// *************************************************************************** *
+// *                                                                           *
+// *                      Mentor Graphics Corporation                          *
+// *                          All rights reserved                              *
+// *                                                                           *
+// *************************************************************************** *
+// *                                                                           *
+// * Description:         Partial CANDB File (for ADD Node)                    *
+// * Generated at:        2024-09-06 15:48                                     *
+// * Node                 ADD                                                  *
+// *                                                                           *
+// *************************************************************************** *
+// *                                                                           *
+// *             THIS CONFIGURATION MIGHT CONTAIN SOME ERRORS                  *
+// *              IF THE INPUT MODEL WAS NOT PROPERLY FORMED!                  *
+// *                    Do Not Use this File directly!                         *
+// *                                                                           *
+// *************************************************************************** *
+
+
+VERSION "ADD"
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_ :
+
+BU_ : ADD
+
+BO_ 341 ADD_ChassisCANFD_0x155 : 32 ADD
+ SG_ HPPAVPRecoverIndCtrl : 135|2@0+ (1,0) [0|3] "" Vector__XXX
+ SG_ HPPAVPSteerReqSigGrpChks : 103|8@0+ (1.0,0.0) [0.0|255.0] "" Vector__XXX
+ SG_ HPPAVPSteerReqSigGrpCntr : 107|4@0+ (1.0,0.0) [0.0|15.0] "" Vector__XXX
+ SG_ HPPAVPSteerWhlAglReqVal : 119|15@0- (0.0625,0.0) [-780.0|780.0] "deg" Vector__XXX
+ SG_ HPPAVPSteerWhlCtrlReqSts : 133|2@0+ (1,0) [0|3] "" Vector__XXX
+ SG_ ParkAPBReqMainFrmADD : 73|2@0+ (1,0) [0|3] "" Vector__XXX
+ SG_ ParkEPSLateralCtrlTypeFrmADD : 186|3@0+ (1,0) [0|7] "" Vector__XXX
+ SG_ ParkRecoverIndCtrlFrmADD : 188|2@0+ (1,0) [0|3] "" Vector__XXX
+ SG_ ParkSteerWhlAglReqValFrmADD : 199|15@0- (0.0625,0.0) [-1024.0|1023.9375] "deg" Vector__XXX
+ SG_ ParkSteerWhlAngReqSigGrpChks : 175|8@0+ (1,0) [0|255] "" Vector__XXX
+ SG_ ParkSteerWhlAngReqSigGrpCntr : 179|4@0+ (1,0) [0|15] "" Vector__XXX
+ SG_ ParkSteerWhlCtrlReqStsFrmADD : 214|2@0+ (1,0) [0|3] "" Vector__XXX
+ SG_ PASBrkFcnModMainFrmADD : 15|3@0+ (1,0) [0|7] "" Vector__XXX
+ SG_ PASBrkFrmADDSigGrpChks : 7|8@0+ (1,0) [0|255] "" Vector__XXX
+ SG_ PASBrkFrmADDSigGrpCntr : 11|4@0+ (1,0) [0|15] "" Vector__XXX
+ SG_ PASEmgyBrkReqMainFrmADD : 77|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ PASLoLimForAccrCmftMainFrmADD : 47|8@0+ (0.01,0.0) [0.0|2.5500000000000003] "mps2" Vector__XXX
+ SG_ PASMaxAllwdJerkOfAccrMainFrmADD : 87|8@0+ (0.1,0.0) [0.0|25.5] "mps3" Vector__XXX
+ SG_ PASMinAllwdJerkOfAccrMainFrmADD : 71|8@0+ (0.1,0.0) [0.0|25.5] "mps3" Vector__XXX
+ SG_ PASRemaDstMainFrmADD : 55|12@0+ (1.0,0.0) [0.0|4095.0] "" Vector__XXX
+ SG_ PASReqAccCtrlEnaMainFrmADD : 12|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ PASReqBrkPrfeMainFrmADD : 27|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ PASReqDclUtiStslMainFrmADD : 78|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ PASReqDrvOffMainFrmADD : 79|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ PASShdModReqMainFrmADD : 75|2@0+ (1,0) [0|3] "" Vector__XXX
+ SG_ PASUpprLimForAccrCmftMainFrmADD : 39|8@0+ (0.01,0.0) [0.0|2.5500000000000003] "mps2" Vector__XXX
+ SG_ PASVlcTarAccFromPASMainFrmADD : 23|12@0+ (0.01,-10.0) [-10.0|30.950000000000003] "mps2" Vector__XXX
+
+BO_ 493 ADD_ChassisCANFD_0x1ED : 8 ADD
+ SG_ DrvAirSuspReqFrmADD : 31|2@0+ (1,0) [0|3] "" Vector__XXX
+ SG_ ParkAirSuspReqFrmADD : 23|2@0+ (1,0) [0|3] "" Vector__XXX
+ SG_ ParkCtrlAirSuspSigGrpChks : 7|8@0+ (1.0,0.0) [0.0|255.0] "" Vector__XXX
+ SG_ ParkCtrlAirSuspSigGrpCntr : 11|4@0+ (1.0,0.0) [0.0|15.0] "" Vector__XXX
+
+BO_ 661 ADD_ChassisCANFD_0x295 : 32 ADD
+ SG_ ADSRCTBBrkReqFrmADD : 31|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ ADSRCTBBrkSigGrpChks : 7|8@0+ (1,0) [0|255] "" Vector__XXX
+ SG_ ADSRCTBBrkSigGrpCntr : 11|4@0+ (1,0) [0|15] "" Vector__XXX
+ SG_ ADSRCTBTarDecelFrmADD : 23|8@0+ (0.05,-10.0) [-10.0|2.75] "mps2" Vector__XXX
+ SG_ BmpTrk1ConfFrmADD : 199|7@0+ (1.0,0.0) [0.0|127.0] "%" Vector__XXX
+ SG_ BmpTrk1HeiFrmADD : 231|16@0+ (0.05,-1638.4) [-1638.4|1638.35] "" Vector__XXX
+ SG_ BmpTrk1TypFrmADD : 207|5@0+ (1.0,0.0) [0.0|31.0] "" Vector__XXX
+ SG_ BmpTrk2ConfFrmADD : 183|7@0+ (1.0,0.0) [0.0|127.0] "" Vector__XXX
+ SG_ BmpTrk2HeiFrmADD : 167|16@0+ (0.05,-1638.4) [-1638.4|1638.35] "" Vector__XXX
+ SG_ BmpTrk2TypFrmADD : 191|5@0+ (1.0,0.0) [0.0|31.0] "" Vector__XXX
+ SG_ Road1EndPotXRiFrmADD : 39|16@0+ (0.1,-3276.8) [-3276.8|3276.7] "" Vector__XXX
+ SG_ Road1EndPotYRiFrmADD : 103|16@0+ (0.1,-3276.8) [-3276.8|3276.7] "" Vector__XXX
+ SG_ Road1StrtPotXLeFrmADD : 55|16@0+ (0.1,-3276.8) [-3276.8|3276.7] "" Vector__XXX
+ SG_ Road1StrtPotYLeFrmADD : 119|16@0+ (0.1,-3276.8) [-3276.8|3276.7] "" Vector__XXX
+ SG_ Road2EndPotXRiFrmADD : 71|16@0+ (0.1,-3276.8) [-3276.8|3276.7] "" Vector__XXX
+ SG_ Road2EndPotYRiFrmADD : 135|16@0+ (0.1,-3276.8) [-3276.8|3276.7] "" Vector__XXX
+ SG_ Road2StrtPotXLeFrmADD : 87|16@0+ (0.1,-3276.8) [-3276.8|3276.7] "" Vector__XXX
+ SG_ Road2StrtPotYLeFrmADD : 151|16@0+ (0.1,-3276.8) [-3276.8|3276.7] "" Vector__XXX
+
+BO_ 177 ADD_ChassisCANFD_0xB1 : 32 ADD
+ SG_ ADSABALvlFrmADD : 183|3@0+ (1,0) [0|7] "" Vector__XXX
+ SG_ ADSABAReqFrmADD : 180|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ ADSABPReqFrmADD : 179|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ ADSAEBReqFrmADD : 178|3@0+ (1,0) [0|7] "" Vector__XXX
+ SG_ ADSAEBTarDecelFrmADD : 191|10@0+ (0.03125,-16.0) [-16.0|15.96875] "mps2" Vector__XXX
+ SG_ ADSAWBAESLvlFrmADD : 197|3@0+ (1,0) [0|7] "" Vector__XXX
+ SG_ ADSAWBAESReqFrmADD : 194|2@0+ (1,0) [0|3] "" Vector__XXX
+ SG_ ADSMAIAccrPerReqFrmADD : 231|8@0+ (1.0,0.0) [0.0|255.0] "" Vector__XXX
+ SG_ ADSMAIAccrPerReqVldFrmADD : 223|1@0+ (1.0,0.0) [0.0|1.0] "" Vector__XXX
+ SG_ ADSMAIReqFrmADD : 222|1@0+ (1.0,0.0) [0.0|1.0] "" Vector__XXX
+ SG_ ADSMAIReqVldFrmADD : 221|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ ADSVibActvFrmADD : 143|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ DrvAxTarEnaMainFrmADD : 31|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ DrvAxTarLowerComfBandMainFrmADD : 30|7@0+ (0.01,0.0) [0.0|1.27] "mps2" Vector__XXX
+ SG_ DrvAxTarReqMainFrmADD : 55|15@0+ (0.001,-20.48) [-20.48|12.287000000000003] "mps2" Vector__XXX
+ SG_ DrvAxTarUpperComfBandMainFrmADD : 22|7@0+ (0.01,0.0) [0.0|1.27] "mps2" Vector__XXX
+ SG_ DrvBrakePreferredMainFrmADD : 47|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ DrvCtrlAvailabilityMainFrmADD : 15|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ DrvdAxTarLowerLimitMainFrmADD : 46|7@0+ (0.1,0.0) [0.0|12.700000000000001] "mps3" Vector__XXX
+ SG_ DrvdAxTarUpperLimitMainFrmADD : 70|7@0+ (0.1,0.0) [0.0|12.700000000000001] "mps3" Vector__XXX
+ SG_ DrvDriveAwayReqMainFrmADD : 36|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ DrvFcn2FrmADDSigGrpChks : 7|8@0+ (1,0) [0|255] "" Vector__XXX
+ SG_ DrvFcn2FrmADDSigGrpCntr : 11|4@0+ (1,0) [0|15] "" Vector__XXX
+ SG_ DrvFcn3FrmADDSigGrpChks : 167|8@0+ (1,0) [0|255] "" Vector__XXX
+ SG_ DrvFcn3FrmADDSigGrpCntr : 171|4@0+ (1,0) [0|15] "" Vector__XXX
+ SG_ DrvFcn4FrmADDSigGrpChks : 215|8@0+ (1,0) [0|255] "" Vector__XXX
+ SG_ DrvFcn4FrmADDSigGrpCntr : 219|4@0+ (1,0) [0|15] "" Vector__XXX
+ SG_ DrvPinStrAglReqStsFrmADD : 129|2@0+ (1,0) [0|3] "" Vector__XXX
+ SG_ DrvPinStrAglReqValFrmADD : 102|15@0+ (0.05,-819.2) [-819.2|819.1500000000001] "deg" Vector__XXX
+ SG_ DrvPrecsReqFrmADD : 142|7@0+ (1.0,0.0) [0.0|126.0] "%" Vector__XXX
+ SG_ DrvReqModeMainFrmADD : 13|2@0+ (1,0) [0|3] "" Vector__XXX
+ SG_ DrvReqTypeMainFrmADD : 14|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ DrvSecureReqMainFrmADD : 23|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ DrvShutdownModeMainFrmADD : 38|2@0+ (1,0) [0|3] "" Vector__XXX
+ SG_ DrvSteerWhlReqFrmADDSigGrpChks : 87|8@0+ (1,0) [0|255] "" Vector__XXX
+ SG_ DrvSteerWhlReqFrmADDSigGrpCntr : 91|4@0+ (1,0) [0|15] "" Vector__XXX
+ SG_ DrvSteerWhlTqLimFrmADD : 119|11@0+ (0.01,-10.24) [-10.24|10.229999999999999] "Nm" Vector__XXX
+ SG_ DrvUseUpperComfBandMainFrmADD : 39|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ DrvVehStopReqMainFrmADD : 56|1@0+ (1,0) [0|1] "" Vector__XXX
+
+BO_ 239 ADD_ChassisCANFD_0xEF : 24 ADD
+ SG_ ADDIMUSigGrpChks : 7|8@0+ (1,0) [0|255] "" Vector__XXX
+ SG_ ADDIMUSigGrpCntr : 11|4@0+ (1,0) [0|15] "" Vector__XXX
+ SG_ XAccelStaFrmADD : 33|2@0+ (1,0) [0|3] "" Vector__XXX
+ SG_ XAccelValFrmADD : 23|20@0+ (0.001,-98.1) [-98.1|98.10000000000002] "m/s^2" Vector__XXX
+ SG_ XAngRateStaFrmADD : 177|2@0+ (1,0) [0|3] "" Vector__XXX
+ SG_ XAngRateValFrmADD : 47|22@0+ (0.00001,-8.72665) [-8.72665|8.726650000000003] "rad/s" Vector__XXX
+ SG_ YAccelStaFrmADD : 161|2@0+ (1,0) [0|3] "" Vector__XXX
+ SG_ YAccelValFrmADD : 71|20@0+ (0.001,-98.1) [-98.1|98.10000000000002] "m/s^2" Vector__XXX
+ SG_ YAngRateStaFrmADD : 163|2@0+ (1,0) [0|3] "" Vector__XXX
+ SG_ YAngRateValFrmADD : 95|22@0+ (0.00001,-8.72665) [-8.72665|8.726650000000003] "rad/s" Vector__XXX
+ SG_ ZAccelStaFrmADD : 171|2@0+ (1,0) [0|3] "" Vector__XXX
+ SG_ ZAccelValFrmADD : 119|20@0+ (0.001,-98.1) [-98.1|98.10000000000002] "m/s^2" Vector__XXX
+ SG_ ZAngRateStaFrmADD : 169|2@0+ (1,0) [0|3] "" Vector__XXX
+ SG_ ZAngRateValFrmADD : 143|22@0+ (0.00001,-8.72665) [-8.72665|8.726650000000003] "rad/s" Vector__XXX
+
+BO_ 1329 ADDChassisCanfdNMFrA : 8 ADD
+ SG_ ADDChassisCanfdActiveWakeup : 12|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ ADDChassisCanfdNodeAddress : 7|8@0+ (1.0,0.0) [0.0|255.0] "" Vector__XXX
+ SG_ ADDChassisCanfdRepeatMsgReq : 8|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ ADDChassisCanfdRepeatMsgSt : 16|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ NMKeepAwkRsnADD : 48|9@0+ (1.0,0.0) [0.0|511.0] "" Vector__XXX
+ SG_ UDB17ADD : 17|1@0+ (1.0,0.0) [0.0|1.0] "" Vector__XXX
+ SG_ UDB18ADD : 18|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB19ADD : 19|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB20ADD : 20|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB21ADD : 21|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB22ADD : 22|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB23ADD : 23|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB24ADD : 24|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB25ADD : 25|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB26ADD : 26|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB27ADD : 27|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB28ADD : 28|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB29ADD : 29|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB30ADD : 30|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB31ADD : 31|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB32ADD : 32|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB33ADD : 33|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB34ADD : 34|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB35ADD : 35|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB36ADD : 36|1@0+ (1.0,0.0) [0.0|1.0] "" Vector__XXX
+ SG_ UDB37ADD : 37|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB38ADD : 38|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB39ADD : 39|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB40ADD : 40|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB41ADD : 41|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB42ADD : 42|1@0+ (1.0,0.0) [0.0|1.0] "" Vector__XXX
+ SG_ UDB43ADD : 43|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB44ADD : 44|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB45ADD : 45|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB46ADD : 46|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB47ADD : 47|1@0+ (1,0) [0|1] "" Vector__XXX
+
+BO_ 1325 ADDChassisCanfdNMFrB : 8 ADD
+ SG_ ADDChassisCanfdActiveWakeup1 : 12|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ ADDChassisCanfdNodeAddress1 : 7|8@0+ (1.0,0.0) [0.0|255.0] "" Vector__XXX
+ SG_ ADDChassisCanfdRepeatMsgReq1 : 8|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ ADDChassisCanfdRepeatMsgSt1 : 16|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ NMKeepAwkRsnADD : 48|9@0+ (1.0,0.0) [0.0|511.0] "" Vector__XXX
+ SG_ UDB17ADD : 17|1@0+ (1.0,0.0) [0.0|1.0] "" Vector__XXX
+ SG_ UDB18ADD : 18|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB19ADD : 19|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB20ADD : 20|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB21ADD : 21|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB22ADD : 22|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB23ADD : 23|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB24ADD : 24|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB25ADD : 25|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB26ADD : 26|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB27ADD : 27|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB28ADD : 28|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB29ADD : 29|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB30ADD : 30|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB31ADD : 31|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB32ADD : 32|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB33ADD : 33|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB34ADD : 34|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB35ADD : 35|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB36ADD : 36|1@0+ (1.0,0.0) [0.0|1.0] "" Vector__XXX
+ SG_ UDB37ADD : 37|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB38ADD : 38|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB39ADD : 39|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB40ADD : 40|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB41ADD : 41|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB42ADD : 42|1@0+ (1.0,0.0) [0.0|1.0] "" Vector__XXX
+ SG_ UDB43ADD : 43|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB44ADD : 44|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB45ADD : 45|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB46ADD : 46|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ UDB47ADD : 47|1@0+ (1,0) [0|1] "" Vector__XXX
+
+BO_ 336 BCP_ChassisCANFD_0x150 : 16 Vector__XXX
+ SG_ ABAActv : 94|1@0+ (1,0) [0|1] "" ADD
+ SG_ ABAAvl : 95|1@0+ (1,0) [0|1] "" ADD
+ SG_ APBAplAvlBCP : 61|2@0+ (1.0,0.0) [0.0|2.0] "" ADD
+ SG_ APBRelAvlBCP : 59|2@0+ (1,0) [0|3] "" ADD
+ SG_ APBStsBkp : 91|3@0+ (1,0) [0|7] "" ADD
+ SG_ BCPBrkLiIllmnReq : 19|1@0+ (1,0) [0|1] "" ADD
+ SG_ BCPBrkSysWarnText : 45|3@0+ (1,0) [0|7] "" ADD
+ SG_ BCPMstCylP : 57|10@0+ (0.3,-30.0) [-30.0|276.59999999999997] "bar" ADD
+ SG_ BCPMstCylPVld : 15|2@0+ (1,0) [0|3] "" ADD
+ SG_ BCPSimulatorP : 41|10@0+ (0.3,-30.0) [-30.0|276.59999999999997] "bar" ADD
+ SG_ BCPSimulatorPVld : 63|2@0+ (1.0,0.0) [0.0|2.0] "" ADD
+ SG_ BCPSysSts : 47|2@0+ (1,0) [0|3] "" ADD
+ SG_ BcpSysStsSigGrpChks : 7|8@0+ (1,0) [0|255] "" ADD
+ SG_ BcpSysStsSigGrpCntr : 11|4@0+ (1,0) [0|15] "" ADD
+ SG_ BrkAssSigGrpChks : 79|8@0+ (1,0) [0|255] "" ADD
+ SG_ BrkAssSigGrpCntr : 83|4@0+ (1,0) [0|15] "" ADD
+ SG_ BrkFldWarn : 23|1@0+ (1,0) [0|1] "" ADD
+ SG_ BrkFldWarnVld : 42|1@0+ (1,0) [0|1] "" ADD
+ SG_ BrkPedlAppld : 22|1@0+ (1,0) [0|1] "" ADD
+ SG_ BrkPedlAppldVld : 21|2@0+ (1,0) [0|3] "" ADD
+ SG_ BrkPedlPerct : 38|7@0+ (1.0,0.0) [0.0|100.0] "%" ADD
+ SG_ BrkPedlPerctVld : 39|1@0+ (1,0) [0|1] "" ADD
+ SG_ HBAActv : 92|1@0+ (1,0) [0|1] "" ADD
+ SG_ HBAAvl : 93|1@0+ (1,0) [0|1] "" ADD
+ SG_ HBBActv : 110|1@0+ (1,0) [0|1] "" ADD
+ SG_ InpRodStk : 17|10@0+ (0.05,-5.0) [-5.0|46.1] "mm" ADD
+ SG_ InpRodStkVld : 18|1@0+ (1,0) [0|1] "" ADD
+
+BO_ 337 BCS_ChassisCANFD_0x151 : 32 Vector__XXX
+ SG_ ABPActv : 191|1@0+ (1,0) [0|1] "" ADD
+ SG_ ABPAvl : 197|1@0+ (1,0) [0|1] "" ADD
+ SG_ ABSActv : 16|1@0+ (1,0) [0|1] "" ADD
+ SG_ ABSErrDetd : 29|1@0+ (1,0) [0|1] "" ADD
+ SG_ AEBActv : 189|1@0+ (1,0) [0|1] "" ADD
+ SG_ AEBAvl : 190|1@0+ (1,0) [0|1] "" ADD
+ SG_ APBAplAvlBCS : 135|2@0+ (1.0,0.0) [0.0|2.0] "" ADD
+ SG_ APBErrDetd : 115|2@0+ (1,0) [0|3] "" ADD
+ SG_ APBRelAvlBCS : 133|2@0+ (1,0) [0|3] "" ADD
+ SG_ APBSts : 118|3@0+ (1,0) [0|7] "" ADD
+ SG_ APBTxtDip : 43|4@0+ (1,0) [0|15] "" ADD
+ SG_ AVHAvl : 139|1@0+ (1,0) [0|1] "" ADD
+ SG_ AVHSts : 141|2@0+ (1,0) [0|3] "" ADD
+ SG_ AWBActv : 198|1@0+ (1,0) [0|1] "" ADD
+ SG_ AWBAvl : 199|1@0+ (1,0) [0|1] "" ADD
+ SG_ BcsBasicFcnSigGrpChks : 87|8@0+ (1,0) [0|255] "" ADD
+ SG_ BcsBasicFcnSigGrpCntr : 91|4@0+ (1,0) [0|15] "" ADD
+ SG_ BCSBrkSysWarnText : 52|3@0+ (1,0) [0|7] "" ADD
+ SG_ BcsExtdFcnSigGrpChks : 175|8@0+ (1,0) [0|255] "" ADD
+ SG_ BcsExtdFcnSigGrpCntr : 179|4@0+ (1,0) [0|15] "" ADD
+ SG_ BcsSysCtrSigGrpChks : 7|8@0+ (1,0) [0|255] "" ADD
+ SG_ BcsSysCtrSigGrpCntr : 11|4@0+ (1,0) [0|15] "" ADD
+ SG_ BrkLiIllmnReq : 15|1@0+ (1,0) [0|1] "" ADD
+ SG_ BrkSysWarnLamp : 23|2@0+ (1,0) [0|3] "" ADD
+ SG_ CDPActv : 137|1@0+ (1,0) [0|1] "" ADD
+ SG_ CDPAvl : 136|1@0+ (1,0) [0|1] "" ADD
+ SG_ CSTSts : 58|2@0+ (1,0) [0|3] "" ADD
+ SG_ DrvOffTqThd : 103|15@0+ (1.0,0.0) [0.0|30000.0] "Nm" ADD
+ SG_ DSTActv : 119|1@0+ (1,0) [0|1] "" ADD
+ SG_ DSTSteerTqReq : 112|9@0- (0.1,0.0) [-6.0|6.0] "Nm" ADD
+ SG_ EBAActv : 188|1@0+ (1,0) [0|1] "" ADD
+ SG_ EBDActv : 31|1@0+ (1,0) [0|1] "" ADD
+ SG_ EBDErrDetd : 28|1@0+ (1,0) [0|1] "" ADD
+ SG_ EmgyBrkLiReq : 27|1@0+ (1,0) [0|1] "" ADD
+ SG_ ESCErrDetd : 30|1@0+ (1,0) [0|1] "" ADD
+ SG_ ESCIntvLamp : 19|1@0+ (1,0) [0|1] "" ADD
+ SG_ ESCPataLamp : 21|2@0+ (1,0) [0|3] "" ADD
+ SG_ ESCSwitchAvl : 55|3@0+ (1,0) [0|7] "" ADD
+ SG_ EstimdSumOfVehHydBrkEachWhl : 71|15@0+ (8.0,-250000.0) [-250000.0|0.0] "N" ADD
+ SG_ HBBSts : 63|2@0+ (1,0) [0|3] "" ADD
+ SG_ HBCActv : 56|1@0+ (1,0) [0|1] "" ADD
+ SG_ HDCAvl : 61|1@0+ (1,0) [0|1] "" ADD
+ SG_ HDCCtrlSts : 60|2@0+ (1,0) [0|3] "" ADD
+ SG_ HHCActv : 143|1@0+ (1,0) [0|1] "" ADD
+ SG_ HHCAvl : 142|1@0+ (1,0) [0|1] "" ADD
+ SG_ HRBActv : 25|1@0+ (1,0) [0|1] "" ADD
+ SG_ HRBAvl : 26|1@0+ (1,0) [0|1] "" ADD
+ SG_ HydBrkFExist : 14|1@0+ (1,0) [0|1] "" ADD
+ SG_ MstCylPCmp : 39|12@0+ (0.1,0.0) [0.0|250.0] "bar" ADD
+ SG_ MstCylPVld : 48|1@0+ (1,0) [0|1] "" ADD
+ SG_ SCMActv : 104|1@0+ (1,0) [0|1] "" ADD
+ SG_ SCMAvl : 138|1@0+ (1,0) [0|1] "" ADD
+ SG_ TCSActv : 17|1@0+ (1,0) [0|1] "" ADD
+ SG_ VDCActv : 18|1@0+ (1,0) [0|1] "" ADD
+ SG_ VehStandStillIndcr : 13|1@0+ (1,0) [0|1] "" ADD
+ SG_ VehStandStillIndcrVld : 12|1@0+ (1,0) [0|1] "" ADD
+
+BO_ 338 BCS_ChassisCANFD_0x152 : 24 Vector__XXX
+ SG_ APAActrAvl : 163|1@0+ (1,0) [0|1] "" ADD
+ SG_ APCActvVehHld : 175|1@0+ (1,0) [0|1] "" ADD
+ SG_ APCDrvrBrkOvrdFlg : 174|1@0+ (1,0) [0|1] "" ADD
+ SG_ APCFailrSts : 167|4@0+ (1,0) [0|15] "" ADD
+ SG_ ApcFcnSigGrpChks : 151|8@0+ (1,0) [0|255] "" ADD
+ SG_ ApcFcnSigGrpCntr : 155|4@0+ (1,0) [0|15] "" ADD
+ SG_ APCSts : 162|3@0+ (1.0,0.0) [0.0|4.0] "" ADD
+ SG_ BCSLgtCtrlPtTarTq : 39|16@0- (1.0,0.0) [-30000.0|30000.0] "Nm" ADD
+ SG_ BCSLgtCtrlPtTarTqEna : 24|1@0+ (1,0) [0|1] "" ADD
+ SG_ BcsTqCtrlSigGrpChks : 7|8@0+ (1,0) [0|255] "" ADD
+ SG_ BcsTqCtrlSigGrpCntr : 11|4@0+ (1,0) [0|15] "" ADD
+ SG_ BiasMaxFrntAxle : 119|7@0+ (1.0,0.0) [0.0|100.0] "%" ADD
+ SG_ BiasMaxReAxle : 127|7@0+ (1.0,0.0) [0.0|100.0] "%" ADD
+ SG_ CstRgnBlendSts : 135|2@0+ (1,0) [0|3] "" ADD
+ SG_ CstRgnBlendTqReqFA : 55|16@0- (1.0,0.0) [-30000.0|30000.0] "Nm" ADD
+ SG_ CstRgnBlendTqReqRA : 71|16@0- (1.0,0.0) [-30000.0|30000.0] "Nm" ADD
+ SG_ DrgTqCtrlActvFA : 112|1@0+ (1,0) [0|1] "" ADD
+ SG_ DrgTqCtrlActvRA : 120|1@0+ (1,0) [0|1] "" ADD
+ SG_ PtTqRednActvFA : 14|1@0+ (1,0) [0|1] "" ADD
+ SG_ PtTqRednActvRA : 15|1@0+ (1,0) [0|1] "" ADD
+ SG_ RPAAVPActrAvl : 173|2@0+ (1,0) [0|3] "" ADD
+ SG_ TarRdcdPtTqFA : 87|16@0- (1.0,0.0) [-30000.0|30000.0] "Nm" ADD
+ SG_ TarRdcdPtTqRA : 103|16@0- (1.0,0.0) [-30000.0|30000.0] "Nm" ADD
+ SG_ TarRecuTqReq : 23|15@0+ (1.0,-32767.0) [-32767.0|0.0] "Nm" ADD
+ SG_ TarRecuTqReqSts : 13|2@0+ (1,0) [0|3] "" ADD
+
+BO_ 179 BCS_ChassisCANFD_0xB3 : 32 Vector__XXX
+ SG_ AdcFcnSigGrpChks : 223|8@0+ (1,0) [0|255] "" ADD
+ SG_ AdcFcnSigGrpCntr : 227|4@0+ (1,0) [0|15] "" ADD
+ SG_ BCSActrActvForADC : 231|2@0+ (1,0) [0|3] "" ADD
+ SG_ BCSActrAvlStsForADC : 239|3@0+ (1,0) [0|7] "" ADD
+ SG_ BCSActrAvlStsForADCL3 : 236|3@0+ (1,0) [0|7] "" ADD
+ SG_ BCSActrRampOffStsForADC : 229|2@0+ (1,0) [0|3] "" ADD
+ SG_ BCSActrVldForADC : 233|1@0+ (1,0) [0|1] "" ADD
+ SG_ VehSpd : 87|16@0+ (0.05625,0.0) [0.0|360.0] "kph" ADD
+ SG_ VehSpdVld : 103|1@0+ (1,0) [0|1] "" ADD
+ SG_ WhlDirFrntLe : 101|2@0+ (1,0) [0|3] "" ADD
+ SG_ WhlDirFrntLeVld : 102|1@0+ (1,0) [0|1] "" ADD
+ SG_ WhlDirFrntRi : 97|2@0+ (1,0) [0|3] "" ADD
+ SG_ WhlDirFrntRiVld : 98|1@0+ (1,0) [0|1] "" ADD
+ SG_ WhlDirReLe : 117|2@0+ (1,0) [0|3] "" ADD
+ SG_ WhlDirReLeVld : 118|1@0+ (1,0) [0|1] "" ADD
+ SG_ WhlDirReRi : 113|2@0+ (1,0) [0|3] "" ADD
+ SG_ WhlDirReRiVld : 114|1@0+ (1,0) [0|1] "" ADD
+ SG_ WhlDstTiStampFrntLe : 159|16@0+ (1.0,0.0) [0.0|65535.0] "ms" ADD
+ SG_ WhlDstTiStampFrntRi : 175|16@0+ (1.0,0.0) [0.0|65535.0] "ms" ADD
+ SG_ WhlDstTiStampReLe : 191|16@0+ (1.0,0.0) [0.0|65535.0] "ms" ADD
+ SG_ WhlDstTiStampReRi : 207|16@0+ (1.0,0.0) [0.0|65535.0] "ms" ADD
+ SG_ WhlSpdEdgeFrntLe : 111|8@0+ (1.0,0.0) [0.0|255.0] "" ADD
+ SG_ WhlSpdEdgeFrntLeVld : 99|1@0+ (1,0) [0|1] "" ADD
+ SG_ WhlSpdEdgeFrntRi : 127|8@0+ (1.0,0.0) [0.0|255.0] "" ADD
+ SG_ WhlSpdEdgeFrntRiVld : 119|1@0+ (1,0) [0|1] "" ADD
+ SG_ WhlSpdEdgeReLe : 135|8@0+ (1.0,0.0) [0.0|255.0] "" ADD
+ SG_ WhlSpdEdgeReLeVld : 115|1@0+ (1,0) [0|1] "" ADD
+ SG_ WhlSpdEdgeReRi : 151|8@0+ (1.0,0.0) [0.0|255.0] "" ADD
+ SG_ WhlSpdEdgeReRiVld : 143|1@0+ (1,0) [0|1] "" ADD
+ SG_ WhlSpdFrntLe : 23|16@0+ (0.05625,0.0) [0.0|360.0] "kph" ADD
+ SG_ WhlSpdFrntLeVld : 15|1@0+ (1,0) [0|1] "" ADD
+ SG_ WhlSpdFrntRi : 39|16@0+ (0.05625,0.0) [0.0|360.0] "kph" ADD
+ SG_ WhlSpdFrntRiVld : 14|1@0+ (1,0) [0|1] "" ADD
+ SG_ WhlSpdReLe : 55|16@0+ (0.05625,0.0) [0.0|360.0] "kph" ADD
+ SG_ WhlSpdReLeVld : 13|1@0+ (1,0) [0|1] "" ADD
+ SG_ WhlSpdReRi : 71|16@0+ (0.05625,0.0) [0.0|360.0] "kph" ADD
+ SG_ WhlSpdReRiVld : 12|1@0+ (1,0) [0|1] "" ADD
+ SG_ WhlStsSigGrpChks : 7|8@0+ (1,0) [0|255] "" ADD
+ SG_ WhlStsSigGrpCntr : 11|4@0+ (1,0) [0|15] "" ADD
+
+BO_ 353 EPS_ChassisCANFD_0x161 : 16 Vector__XXX
+ SG_ DSTReqCtrlSts : 23|3@0+ (1,0) [0|7] "" ADD
+ SG_ FailrSts : 15|3@0+ (1,0) [0|7] "" ADD
+ SG_ FailrStsSigGrpChks : 7|8@0+ (1,0) [0|255] "" ADD
+ SG_ FailrStsSigGrpCntr : 11|4@0+ (1,0) [0|15] "" ADD
+ SG_ HODQly : 31|8@0+ (1.0,0.0) [0.0|100.0] "%" ADD
+ SG_ HODSts : 20|2@0+ (1,0) [0|3] "" ADD
+ SG_ HODVld : 18|1@0+ (1,0) [0|1] "" ADD
+ SG_ PASReqFbSts : 55|3@0+ (1,0) [0|7] "" ADD
+ SG_ PASReqFltSts : 52|4@0+ (1,0) [0|15] "" ADD
+ SG_ PasReqSigGrpChks : 39|8@0+ (1,0) [0|255] "" ADD
+ SG_ PasReqSigGrpCntr : 43|4@0+ (1,0) [0|15] "" ADD
+
+BO_ 668 EPS_ChassisCANFD_0x29C : 8 Vector__XXX
+ SG_ AVPHPPCtrlAvlSts : 27|2@0+ (1,0) [0|3] "" ADD
+ SG_ AVPHPPCtrSts : 20|1@0+ (1,0) [0|1] "" ADD
+ SG_ AVPHPPReqFbSts : 23|3@0+ (1,0) [0|7] "" ADD
+ SG_ AVPHPPReqFltSts : 31|4@0+ (1,0) [0|15] "" ADD
+ SG_ EPSAVPHPPCtrlStsSigGrpChks : 15|8@0+ (1.0,0.0) [0.0|255.0] "" ADD
+ SG_ EPSAVPHPPCtrlStsSigGrpCntr : 19|4@0+ (1.0,0.0) [0.0|15.0] "" ADD
+
+BO_ 992 EPS_ChassisCANFD_0x3E0 : 8 Vector__XXX
+ SG_ CcwEOTDet : 9|1@0+ (1,0) [0|1] "" ADD
+ SG_ CcwEOTValue : 7|14@0+ (0.0625,0.0) [0.0|780.0] "deg" ADD
+ SG_ CwEOTDet : 8|1@0+ (1,0) [0|1] "" ADD
+ SG_ CwEOTValue : 23|14@0+ (0.0625,-780.0) [-780.0|0.0] "" ADD
+
+BO_ 181 EPS_ChassisCANFD_0xB5 : 32 Vector__XXX
+ SG_ PinionAglSpdV2C : 199|12@0- (1.0,0.0) [-2048.0|2047.0] "deg/s" ADD
+ SG_ PinionSteerAgl : 151|15@0- (0.0625,0.0) [-780.0|780.0] "°(deg)" ADD
+ SG_ PinionSteerAglSpd : 183|12@0- (1.0,0.0) [-2048.0|2047.0] "deg/s" ADD
+ SG_ PinionSteerAglSpdVld : 187|1@0+ (1,0) [0|1] "" ADD
+ SG_ PinionSteerAglSpdVldV2C : 186|1@0+ (1,0) [0|1] "" ADD
+ SG_ PinionSteerAglV2C : 215|15@0- (0.0625,0.0) [-780.0|780.0] "°（deg）" ADD
+ SG_ PinionSteerAglVld : 152|1@0+ (1,0) [0|1] "" ADD
+ SG_ PinionSteerAglVldV2C : 185|1@0+ (1,0) [0|1] "" ADD
+ SG_ PinionSteerSigGrpChks : 135|8@0+ (1,0) [0|255] "" ADD
+ SG_ PinionSteerSigGrpCntr : 139|4@0+ (1,0) [0|15] "" ADD
+ SG_ SteerWhlTq : 167|11@0- (0.01,0.0) [-10.24|10.23] "Nm" ADD
+ SG_ SteerWhlTqVld : 172|1@0+ (1,0) [0|1] "" ADD
+
+BO_ 226 EPS_ChassisCANFD_0xE2 : 8 Vector__XXX
+ SG_ AdasReqCtrlADDSigGrpChks : 7|8@0+ (1,0) [0|255] "" ADD
+ SG_ AdasReqCtrlADDSigGrpCntr : 11|4@0+ (1,0) [0|15] "" ADD
+ SG_ ADASReqFbStsADD : 18|3@0+ (1,0) [0|7] "" ADD
+ SG_ ADASReqFltStsADD : 21|3@0+ (1,0) [0|7] "" ADD
+ SG_ ADASReqOvlySteerWhlTqADD : 55|11@0- (0.01,0.0) [-10.24|10.23] "Nm" ADD
+ SG_ ADASReqOvlyTqADD : 29|14@0- (0.00390625,0.0) [-30.0|30.0] "Nm" ADD
+ SG_ DrvrSteerActvADD : 40|1@0+ (1,0) [0|1] "" ADD
+ SG_ SteerWhlVibStsADD : 41|1@0+ (1,0) [0|1] "" ADD
+
+BO_ 601 PSGM_ChassisCANFD_0x259 : 24 Vector__XXX
+ SG_ ARSPosnSts : 15|4@0+ (1,0) [0|15] "" ADD
+
+BO_ 1312 VCCDChassisCanfdNMFr : 8 Vector__XXX
+ SG_ NMKeepAwkRsnVCCD : 48|9@0+ (1.0,0.0) [0.0|511.0] "" ADD
+ SG_ UDB17VCCD : 17|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB18VCCD : 18|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB19VCCD : 19|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB20VCCD : 20|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB21VCCD : 21|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB22VCCD : 22|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB23VCCD : 23|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB24VCCD : 24|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB25VCCD : 25|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB26VCCD : 26|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB27VCCD : 27|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB28VCCD : 28|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB29VCCD : 29|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB30VCCD : 30|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB31VCCD : 31|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB32VCCD : 32|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB33VCCD : 33|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB34VCCD : 34|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB36VCCD : 36|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB37VCCD : 37|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB38VCCD : 38|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB39VCCD : 39|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB40VCCD : 40|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB41VCCD : 41|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB42VCCD : 42|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB43VCCD : 43|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB44VCCD : 44|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB45VCCD : 45|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB46VCCD : 46|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB47VCCD : 47|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB49VCCD : 49|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB50VCCD : 50|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB51VCCD : 51|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB52VCCD : 52|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ UDB53VCCD : 53|1@0+ (1.0,0.0) [0.0|1.0] "" ADD
+ SG_ VCCDChassisCanfdActiveWakeup : 12|1@0+ (1,0) [0|1] "" ADD
+ SG_ VCCDChassisCanfdNodeAddress : 7|8@0+ (1.0,0.0) [0.0|255.0] "" ADD
+ SG_ VCCDChassisCanfdRepeatMsgReq : 8|1@0+ (1,0) [0|1] "" ADD
+ SG_ VCCDChassisCanfdRepeatMsgSt : 16|1@0+ (1,0) [0|1] "" ADD
+
+
+// Signal Comments
+CM_ SG_ 341 HPPAVPRecoverIndCtrl "HPP AVP recovery interrupt indication";
+CM_ SG_ 341 HPPAVPSteerWhlAglReqVal "HPP AVP  Steering Wheel Angle Request Value";
+CM_ SG_ 341 HPPAVPSteerWhlCtrlReqSts "HPP AVP Steering Wheel Control Request Status";
+CM_ SG_ 341 ParkAPBReqMainFrmADD "Parking APB request";
+CM_ SG_ 341 ParkEPSLateralCtrlTypeFrmADD "The type of lateral control  Which contain  APA RPA HPP AVP";
+CM_ SG_ 341 ParkRecoverIndCtrlFrmADD "Parking recovery interrupt indication";
+CM_ SG_ 341 ParkSteerWhlAglReqValFrmADD "Parking  Steering Wheel Angle Request Value";
+CM_ SG_ 341 ParkSteerWhlCtrlReqStsFrmADD "Parking Steering Wheel Control Request Status";
+CM_ SG_ 341 PASBrkFcnModMainFrmADD "Indicate APA or RPA Backup";
+CM_ SG_ 341 PASEmgyBrkReqMainFrmADD "Emergency Brake Request Backup";
+CM_ SG_ 341 PASLoLimForAccrCmftMainFrmADD "low limit for acceleration comfort zone Backup";
+CM_ SG_ 341 PASMaxAllwdJerkOfAccrMainFrmADD "the maximum allowed jerk of the target acceleration";
+CM_ SG_ 341 PASMinAllwdJerkOfAccrMainFrmADD "the minimum allowd jerk of the target acceleration Backup";
+CM_ SG_ 341 PASRemaDstMainFrmADD "Remaining Distance Backup";
+CM_ SG_ 341 PASReqAccCtrlEnaMainFrmADD "PAS request target acc deceleration control valid Backup";
+CM_ SG_ 341 PASReqBrkPrfeMainFrmADD "PAS request Brake Preferred Backup";
+CM_ SG_ 341 PASReqDclUtiStslMainFrmADD "PAS request ESP VLC to decelerate untill standstill Backup";
+CM_ SG_ 341 PASReqDrvOffMainFrmADD "PAS request ESP CDD S  drive off Backup";
+CM_ SG_ 341 PASShdModReqMainFrmADD "the shutdown mode request to ESC VLC Backup";
+CM_ SG_ 341 PASUpprLimForAccrCmftMainFrmADD "upper limit for acceleration comfort zone Backup";
+CM_ SG_ 341 PASVlcTarAccFromPASMainFrmADD "VLC target acc/deceleration from PAS Backup";
+CM_ SG_ 493 DrvAirSuspReqFrmADD "driving air suspension request";
+CM_ SG_ 493 ParkAirSuspReqFrmADD "Parking Control Air Suspension Request";
+CM_ SG_ 661 ADSRCTBBrkReqFrmADD "ADD发出的RCTB制动请求状态";
+CM_ SG_ 661 ADSRCTBTarDecelFrmADD "ADD发出的RCTB减速度请求";
+CM_ SG_ 661 BmpTrk1ConfFrmADD "Bumpy Track Type conf";
+CM_ SG_ 661 BmpTrk1HeiFrmADD "Bumpy Track Height";
+CM_ SG_ 661 BmpTrk1TypFrmADD "Bumpy Track Type";
+CM_ SG_ 661 BmpTrk2ConfFrmADD "减速带2置信度
+Bumpy Track Confidence level";
+CM_ SG_ 661 BmpTrk2HeiFrmADD "减速带2高度
+Bumpy Track Height";
+CM_ SG_ 661 BmpTrk2TypFrmADD "Bumpy Track Type
+减速带类型";
+CM_ SG_ 661 Road1EndPotXRiFrmADD "减速带1右侧终止点 X坐标
+Road1 End PointX Right";
+CM_ SG_ 661 Road1EndPotYRiFrmADD "Road1 End PointY right";
+CM_ SG_ 661 Road1StrtPotXLeFrmADD "减速带1 左侧起始点 X坐标
+Road1 Start PointX left";
+CM_ SG_ 661 Road1StrtPotYLeFrmADD "Road1 Start PointY left";
+CM_ SG_ 661 Road2EndPotXRiFrmADD "减速带2右侧终止点 X坐标
+Road1 End PointX Right";
+CM_ SG_ 661 Road2EndPotYRiFrmADD "Road2 End PointY right";
+CM_ SG_ 661 Road2StrtPotXLeFrmADD "减速带2 左侧起始点 X坐标
+Road1 Start PointX left";
+CM_ SG_ 661 Road2StrtPotYLeFrmADD "Road2 Start PointY left";
+CM_ SG_ 177 ADSABALvlFrmADD "ABA level to the ESP HBA.";
+CM_ SG_ 177 ADSABAReqFrmADD "Request of the ABA support from ESP.";
+CM_ SG_ 177 ADSABPReqFrmADD "Request of the Prefill to ESP.";
+CM_ SG_ 177 ADSAEBReqFrmADD "Request of the deceleration control.";
+CM_ SG_ 177 ADSAEBTarDecelFrmADD "Target deceleration value from AEB EBA AEB VRU";
+CM_ SG_ 177 ADSAWBAESLvlFrmADD "Different level request of the brake jerk.";
+CM_ SG_ 177 ADSAWBAESReqFrmADD "Request of the brake jerk warning to ESP.";
+CM_ SG_ 177 ADSMAIAccrPerReqFrmADD "MAI 加速控制百分比";
+CM_ SG_ 177 ADSMAIAccrPerReqVldFrmADD "MAI 加速控制有效性";
+CM_ SG_ 177 ADSMAIReqFrmADD "MAI的抑制请求标志位";
+CM_ SG_ 177 ADSVibActvFrmADD "Steering wheel vibration request";
+CM_ SG_ 177 DrvAxTarEnaMainFrmADD "ADSAxTarEnaMain";
+CM_ SG_ 177 DrvAxTarLowerComfBandMainFrmADD "ADSAxTarLowerComfBandMain";
+CM_ SG_ 177 DrvAxTarReqMainFrmADD "ADSAxTarReqMain";
+CM_ SG_ 177 DrvAxTarUpperComfBandMainFrmADD "ADSAxTarUpperComfBandMain";
+CM_ SG_ 177 DrvBrakePreferredMainFrmADD "ADSBrakePreferredMain";
+CM_ SG_ 177 DrvCtrlAvailabilityMainFrmADD "ADSCtrlAvailabilityMain";
+CM_ SG_ 177 DrvdAxTarLowerLimitMainFrmADD "ADSdAxTarLowerLimitMain";
+CM_ SG_ 177 DrvdAxTarUpperLimitMainFrmADD "ADSdAxTarUpperLimitMain";
+CM_ SG_ 177 DrvDriveAwayReqMainFrmADD "Autonomous Driving system Drive Off Request";
+CM_ SG_ 177 DrvPinStrAglReqStsFrmADD "Pinion steering angle request STATE for driving functions";
+CM_ SG_ 177 DrvPinStrAglReqValFrmADD "Pinion steering angle request for driving functions";
+CM_ SG_ 177 DrvPrecsReqFrmADD "Precision request for torque";
+CM_ SG_ 177 DrvReqModeMainFrmADD "ADSReqModeMain";
+CM_ SG_ 177 DrvReqTypeMainFrmADD "ADSReqTypeMain";
+CM_ SG_ 177 DrvSecureReqMainFrmADD "ADSSecureReqMain";
+CM_ SG_ 177 DrvShutdownModeMainFrmADD "ADSShutdownModeMain";
+CM_ SG_ 177 DrvSteerWhlTqLimFrmADD "Steering Wheel Torque limit";
+CM_ SG_ 177 DrvUseUpperComfBandMainFrmADD "ADSUseUpperComfBandMain";
+CM_ SG_ 177 DrvVehStopReqMainFrmADD "Autonomous Driving system Standstill Request";
+CM_ SG_ 239 XAccelStaFrmADD "IMUx轴加速度状态位 0正常 1功能安全异常 2超量程 3无效数值";
+CM_ SG_ 239 XAccelValFrmADD "IMUx轴加速度，m/s^2
+[-10g,10g], g:9.81";
+CM_ SG_ 239 XAngRateStaFrmADD "IMUx轴角速度状态位 0正常 1功能安全异常 2超量程 3无效数值";
+CM_ SG_ 239 XAngRateValFrmADD "'IMUx轴角速率，rad/s
+[-500°/s，500°/s],pi:3.1415926'
+";
+CM_ SG_ 239 YAccelStaFrmADD "IMUy轴加速度状态位 0正常 1功能安全异常 2超量程 3无效数值";
+CM_ SG_ 239 YAccelValFrmADD "IMUy轴加速度 m s^2
+  10g 10g  g 9.81";
+CM_ SG_ 239 YAngRateStaFrmADD "IMUy轴角速度状态位 0正常 1功能安全异常 2超量程 3无效数值";
+CM_ SG_ 239 YAngRateValFrmADD "IMUy轴角速率 rad s
+  500 s 500 s  pi 3.1415926";
+CM_ SG_ 239 ZAccelStaFrmADD "IMUz轴加速度状态位 0正常 1功能安全异常 2超量程 3无效数值";
+CM_ SG_ 239 ZAccelValFrmADD "IMUz轴加速度 m s^2
+  10g 10g  g 9.81";
+CM_ SG_ 239 ZAngRateStaFrmADD "IMUz轴角速度状态位 0正常 1功能安全异常 2超量程 3无效数值";
+CM_ SG_ 239 ZAngRateValFrmADD "IMUz轴角速率 rad s
+  500 s 500 s  pi 3.1415926";
+CM_ SG_ 1329 ADDChassisCanfdActiveWakeup "Active Wakeup Bit";
+CM_ SG_ 1329 ADDChassisCanfdNodeAddress "Node source address";
+CM_ SG_ 1329 ADDChassisCanfdRepeatMsgReq "Repeat Message Request Bit";
+CM_ SG_ 1329 ADDChassisCanfdRepeatMsgSt "Repeat Message State indication";
+CM_ SG_ 1325 ADDChassisCanfdActiveWakeup1 "Active Wakeup Bit";
+CM_ SG_ 1325 ADDChassisCanfdNodeAddress1 "Node source address";
+CM_ SG_ 1325 ADDChassisCanfdRepeatMsgReq1 "Repeat Message Request Bit";
+CM_ SG_ 1325 ADDChassisCanfdRepeatMsgSt1 "Repeat Message State indication";
+CM_ SG_ 336 ABAActv "ABA active";
+CM_ SG_ 336 ABAAvl "ABA available";
+CM_ SG_ 336 APBAplAvlBCP "APB Apply Avalible from BCP
+BCP侧卡钳是否可以夹紧";
+CM_ SG_ 336 APBRelAvlBCP "APB Release Avalible from BCP
+BCP侧卡钳是否可以释放";
+CM_ SG_ 336 APBStsBkp "BCP&BCS APB Status";
+CM_ SG_ 336 BCPBrkLiIllmnReq "Request to illuminate brake light from BCP";
+CM_ SG_ 336 BCPBrkSysWarnText "BCP Brake System Warning Text";
+CM_ SG_ 336 BCPMstCylP "PressureintheBCPmastercylinder";
+CM_ SG_ 336 BCPMstCylPVld "QualifierforBCPmastercyclinder spressuresignal";
+CM_ SG_ 336 BCPSimulatorP "Pressure in the BCP Plunger";
+CM_ SG_ 336 BCPSimulatorPVld "Qualifier for BCP Plunger's pressure signal";
+CM_ SG_ 336 BCPSysSts "BCP System Status";
+CM_ SG_ 336 BrkFldWarn "Brake Fluid Warning";
+CM_ SG_ 336 BrkFldWarnVld "Qualifier for Brake Fluid Warning Signal";
+CM_ SG_ 336 BrkPedlAppld "Indicates whether the driver operates the
+ brake pedal. Only active when the driver brakes";
+CM_ SG_ 336 BrkPedlAppldVld "Qualifier for brake pedal applied signal";
+CM_ SG_ 336 BrkPedlPerct "Brake Pedal Percentage";
+CM_ SG_ 336 BrkPedlPerctVld "Qualifier for Brake Pedal Percentage signal";
+CM_ SG_ 336 HBAActv "HBA active";
+CM_ SG_ 336 HBAAvl "HBA available";
+CM_ SG_ 336 HBBActv "HBB active";
+CM_ SG_ 336 InpRodStk "Input Rod Stroke";
+CM_ SG_ 336 InpRodStkVld "Qualifier for Input Rod Stroke signal";
+CM_ SG_ 337 ABPActv "ABP active";
+CM_ SG_ 337 ABPAvl "ABP available";
+CM_ SG_ 337 ABSActv "ABS Control Active";
+CM_ SG_ 337 ABSErrDetd "ABS error detected";
+CM_ SG_ 337 AEBActv "AEB active";
+CM_ SG_ 337 AEBAvl "AEB available";
+CM_ SG_ 337 APBAplAvlBCS "APB Apply Avalible from BCS
+BCS侧卡钳是否可以夹紧";
+CM_ SG_ 337 APBErrDetd "APB Error Status";
+CM_ SG_ 337 APBRelAvlBCS "APB Release avalialbe from BCS
+BCS侧卡钳是否可以释放";
+CM_ SG_ 337 APBSts "APB Status";
+CM_ SG_ 337 APBTxtDip "APB Text Display";
+CM_ SG_ 337 AVHAvl "AVH available";
+CM_ SG_ 337 AVHSts "AVH function status";
+CM_ SG_ 337 AWBActv "AWB active";
+CM_ SG_ 337 AWBAvl "AWB available";
+CM_ SG_ 337 BCSBrkSysWarnText "BCS Brake System Warning Text";
+CM_ SG_ 337 BrkLiIllmnReq "Request to illuminate brake light";
+CM_ SG_ 337 BrkSysWarnLamp "Brake System Warning Lamp";
+CM_ SG_ 337 CDPActv "CDP active";
+CM_ SG_ 337 CDPAvl "CDP available";
+CM_ SG_ 337 CSTSts "CST function status";
+CM_ SG_ 337 DrvOffTqThd "Drive off torque threshold";
+CM_ SG_ 337 DSTActv "DST active";
+CM_ SG_ 337 DSTSteerTqReq "Steering wheel torque requested from DST";
+CM_ SG_ 337 EBAActv "EBA active";
+CM_ SG_ 337 EBDActv "EBD Control Active";
+CM_ SG_ 337 EBDErrDetd "EBD error detected";
+CM_ SG_ 337 EmgyBrkLiReq "Emergency brake light request";
+CM_ SG_ 337 ESCErrDetd "ESC error detected";
+CM_ SG_ 337 ESCIntvLamp "ESC Intervention Lamp";
+CM_ SG_ 337 ESCPataLamp "ESC diable status";
+CM_ SG_ 337 ESCSwitchAvl "ESC Switch availability
+ESC开关可用状态";
+CM_ SG_ 337 EstimdSumOfVehHydBrkEachWhl "Estimated sum of vehicle hydraulic brake force acting on each wheel";
+CM_ SG_ 337 HBBSts "HBB function status";
+CM_ SG_ 337 HBCActv "HBC active";
+CM_ SG_ 337 HDCAvl "HDC function available";
+CM_ SG_ 337 HDCCtrlSts "HDC function control status";
+CM_ SG_ 337 HHCActv "HHC active";
+CM_ SG_ 337 HHCAvl "HHC available";
+CM_ SG_ 337 HRBActv "HRB available";
+CM_ SG_ 337 HRBAvl "HRB active";
+CM_ SG_ 337 HydBrkFExist "Hydraulic brake force exsit";
+CM_ SG_ 337 MstCylPCmp "Pressure in the master cylinder  offset is included .";
+CM_ SG_ 337 MstCylPVld "Qualifier for the master cylinder pressure signal";
+CM_ SG_ 337 SCMActv "SCM active";
+CM_ SG_ 337 SCMAvl "SCM Available";
+CM_ SG_ 337 TCSActv "TCS Controller Active";
+CM_ SG_ 337 VDCActv "VDC Controller Active";
+CM_ SG_ 337 VehStandStillIndcr "Indicate whether the vehicle is standstill or not";
+CM_ SG_ 337 VehStandStillIndcrVld "Qualifier for vehicle standstill indicate signal";
+CM_ SG_ 338 APAActrAvl "Flag indicate APA availability for longitudinal control";
+CM_ SG_ 338 APCActvVehHld "Flag indicate that vehicle is activly hold by longitudinal actuator controller";
+CM_ SG_ 338 APCDrvrBrkOvrdFlg "Indicate driver brakes more than the system.";
+CM_ SG_ 338 APCFailrSts "detailed information why this APC maneuver failed";
+CM_ SG_ 338 APCSts "Longitudinal controller status";
+CM_ SG_ 338 BCSLgtCtrlPtTarTq "BCS longitudinal powertrain target torque";
+CM_ SG_ 338 BCSLgtCtrlPtTarTqEna "BCS longitudinal powertrain torque request";
+CM_ SG_ 338 BiasMaxFrntAxle "The maxium percentage of Target Recuperation Torque executed on front axle";
+CM_ SG_ 338 BiasMaxReAxle "The maxium percentage of Target Recuperation Torque executed on rear axle";
+CM_ SG_ 338 CstRgnBlendSts "Coast Regen Blending Status";
+CM_ SG_ 338 CstRgnBlendTqReqFA "Coast Regen Blending Torque Request FA";
+CM_ SG_ 338 CstRgnBlendTqReqRA "Coast Regen Blending Torque Request FA";
+CM_ SG_ 338 DrgTqCtrlActvFA "Drag torque control active on front axle";
+CM_ SG_ 338 DrgTqCtrlActvRA "Drag torque control active on rear axle";
+CM_ SG_ 338 PtTqRednActvFA "Powertrain torque reduction active FA";
+CM_ SG_ 338 PtTqRednActvRA "Powertrain torque reduction active RA";
+CM_ SG_ 338 RPAAVPActrAvl "Flag indicate RPA  AVP availability for longitudinal control";
+CM_ SG_ 338 TarRdcdPtTqFA "Target reduced powertrain torque FA";
+CM_ SG_ 338 TarRdcdPtTqRA "Target reduced powertrain torque RA";
+CM_ SG_ 338 TarRecuTqReq "Target Recuperation Torque Request to Generator";
+CM_ SG_ 338 TarRecuTqReqSts "Status of Target Recuperation torque of Generator";
+CM_ SG_ 179 BCSActrActvForADC "BCS actuator active for ADC";
+CM_ SG_ 179 BCSActrAvlStsForADC "BCS actuator available status for ADC";
+CM_ SG_ 179 BCSActrAvlStsForADCL3 "BCS available status for ADC L3";
+CM_ SG_ 179 BCSActrRampOffStsForADC "BCS actuator ramp off status for ADC";
+CM_ SG_ 179 BCSActrVldForADC "BCS actuator valid for ADC";
+CM_ SG_ 179 VehSpd "Vehicle speed";
+CM_ SG_ 179 VehSpdVld "Qualifier for vehicle speed signal";
+CM_ SG_ 179 WhlDirFrntLe "Wheel moving direction front left";
+CM_ SG_ 179 WhlDirFrntLeVld "Qualifier for wheel moving direction front left";
+CM_ SG_ 179 WhlDirFrntRi "Wheel moving direction front right";
+CM_ SG_ 179 WhlDirFrntRiVld "Qualifier for wheel moving direction front right";
+CM_ SG_ 179 WhlDirReLe "Wheel moving direction rear left";
+CM_ SG_ 179 WhlDirReLeVld "Qualifier for wheel moving direction rear left";
+CM_ SG_ 179 WhlDirReRi "Wheel moving direction rear right";
+CM_ SG_ 179 WhlDirReRiVld "Qualifier for wheel moving direction rear right";
+CM_ SG_ 179 WhlDstTiStampFrntLe "Wheel distance time stamp for front left";
+CM_ SG_ 179 WhlDstTiStampFrntRi "Wheel distance time stamp for front right";
+CM_ SG_ 179 WhlDstTiStampReLe "Wheel distance time stamp for rear left";
+CM_ SG_ 179 WhlDstTiStampReRi "Wheel distance time stamp for rear left";
+CM_ SG_ 179 WhlSpdEdgeFrntLe "Wheel speed Edges front left";
+CM_ SG_ 179 WhlSpdEdgeFrntLeVld "Qualifier for wheel speed Edges front left";
+CM_ SG_ 179 WhlSpdEdgeFrntRi "Wheel speed Edges front right";
+CM_ SG_ 179 WhlSpdEdgeFrntRiVld "Qualifier for wheel speed Edges front right";
+CM_ SG_ 179 WhlSpdEdgeReLe "Wheel speed Edges rear left";
+CM_ SG_ 179 WhlSpdEdgeReLeVld "Qualifier for wheel speed Edges rear left";
+CM_ SG_ 179 WhlSpdEdgeReRi "Wheel speed Edges rear right";
+CM_ SG_ 179 WhlSpdEdgeReRiVld "Qualifier for wheel speed Edges rear right";
+CM_ SG_ 179 WhlSpdFrntLe "Wheel speed front left";
+CM_ SG_ 179 WhlSpdFrntLeVld "Status of wheel speed front left";
+CM_ SG_ 179 WhlSpdFrntRi "Wheel speed front right";
+CM_ SG_ 179 WhlSpdFrntRiVld "Status of wheel speed front right";
+CM_ SG_ 179 WhlSpdReLe "Wheel speed rear left";
+CM_ SG_ 179 WhlSpdReLeVld "Status of wheel speed rear left";
+CM_ SG_ 179 WhlSpdReRi "Wheel speed rear right";
+CM_ SG_ 179 WhlSpdReRiVld "Status of wheel speed rear right";
+CM_ SG_ 353 DSTReqCtrlSts "EPS 反馈BCS当前DST功能的fault状态
+EPS status related to execution of DST from BCS";
+CM_ SG_ 353 FailrSts "EPS 故障状态
+EPS Failure Status";
+CM_ SG_ 353 HODQly "HOD 信号置信度值
+Indicate the HOD signal confidence  spcifically for hands off detect.";
+CM_ SG_ 353 HODSts "EPS 检测驾驶员手是否在方向盘上
+EPS indicate the driver hands on the steering wheel or not";
+CM_ SG_ 353 HODVld "HOD 信号有效位
+HOD signal Valid Flag";
+CM_ SG_ 353 PASReqFbSts "EPS 对于PAS的请求反馈
+EPS feedback for PAS request";
+CM_ SG_ 353 PASReqFltSts "EPS 反馈PAS当前Fault 状态
+EPS status related to execution of PAS";
+CM_ SG_ 668 AVPHPPCtrlAvlSts "EPS AVP/HPP Feature Control Avaliable Status
+EPS对于 AVP/HPP 功能的控制可用状态";
+CM_ SG_ 668 AVPHPPCtrSts "What channel of the EPS is in control
+表征EPS目前正在响应的通道";
+CM_ SG_ 668 AVPHPPReqFbSts "EPS feedback for AVP/HPP Request
+EPS对于AVP/HPP的请求反馈";
+CM_ SG_ 668 AVPHPPReqFltSts "EPS fault status related to execution of AVP/HPP
+EPS反馈AVP/HPP当前的故障状态";
+CM_ SG_ 992 CcwEOTDet "Counter Clock wise End of Stop Value Learned Flag. 逆时针软止点(末端)位置学习成功标志位";
+CM_ SG_ 992 CcwEOTValue "Counter Clock wise End of Stop Value,Direction: Counter Clock wise is.逆时针软止点(末端)位置, 方向:逆时针为正";
+CM_ SG_ 992 CwEOTDet "Clock wise End of Stop Value Learned Flag. 顺时针软止点(末端)位置学习成功标志位";
+CM_ SG_ 992 CwEOTValue "Clock wise End of Stop Value, Direction:Clock wise is.顺时针软止点(末端)位置, 方向:顺时针为负";
+CM_ SG_ 181 PinionAglSpdV2C "Convert VGR Pinion Velocity to CGR Velocity. Direction: Clockwise; Counter Clockwise.VGR方向盘转速转成CGR转速.顺时针为负,逆时针为正";
+CM_ SG_ 181 PinionSteerAgl "方向盘转角
+Steering Wheel Angle
+方向 
+Anticlockwise direction of steering wheel increase angle output.
+Clockwise direction of steering wheel decrease angle output.";
+CM_ SG_ 181 PinionSteerAglSpd "方向盘转速
+Steering Wheel Velocity
+方向  Clockwise     Anti Clockwise";
+CM_ SG_ 181 PinionSteerAglSpdVld "方向盘转速有效位
+Steering Wheel Velocity Valid Flag";
+CM_ SG_ 181 PinionSteerAglSpdVldV2C "Pinion Velocity Valid Flag
+方向盘转速有效位";
+CM_ SG_ 181 PinionSteerAglV2C "Convert Variable Gear Ratio(VGR) PinionAngle to a Constant Gear Ratio(CGR) Pinion Angle.将VGR方向盘转角转成CGR 转角";
+CM_ SG_ 181 PinionSteerAglVld "方向盘转角有效位
+Steering Wheel Angle Valid Flag";
+CM_ SG_ 181 PinionSteerAglVldV2C "PinionAngle Valid Flag
+方向盘转交有效位";
+CM_ SG_ 181 SteerWhlTq "方向盘扭矩
+Steering Wheel Torque
+方向  Clockwise     Anti Clockwise";
+CM_ SG_ 181 SteerWhlTqVld "方向盘扭矩有效位
+Steering Wheel torque Valid Flag";
+CM_ SG_ 226 ADASReqFbStsADD "Feedback status to ADD driving lateral control request";
+CM_ SG_ 226 ADASReqFltStsADD "Feedback fault status to ADD driving lateral control request";
+CM_ SG_ 226 ADASReqOvlySteerWhlTqADD "Equivalent steering wheel torque from ADD driving lateral control request
+'+' as the equivalent torque generate Anti Clockwise of steering wheel
+' ' as the equivalent torque generate Clockwise of steering wheel";
+CM_ SG_ 226 ADASReqOvlyTqADD "Overlay Torque  Motor Torque  from ADD driving lateral control request
+方向 
+顺时针转动方向盘请求  
+逆时针转动方向盘请求";
+CM_ SG_ 226 DrvrSteerActvADD "Indicate if the driver override or not to ADD driving lateral control request";
+CM_ SG_ 226 SteerWhlVibStsADD "Indicate the steering wheel vibration active or not to ADD";
+CM_ SG_ 601 ARSPosnSts "Active Rear Spoiler Position Status";
+CM_ SG_ 1312 VCCDChassisCanfdActiveWakeup "Active Wakeup Bit";
+CM_ SG_ 1312 VCCDChassisCanfdNodeAddress "Node source address";
+CM_ SG_ 1312 VCCDChassisCanfdRepeatMsgReq "Repeat Message Request Bit";
+CM_ SG_ 1312 VCCDChassisCanfdRepeatMsgSt "Repeat Message State indication";
+
+// Attribute definitions
+BA_DEF_  "BaudRateCANFD" FLOAT 1000 10000000; // [bps]
+BA_DEF_  "Baudrate" INT 1000 1000000; // 
+BA_DEF_  "BusType" STRING;
+BA_DEF_  "DBName" STRING;
+BA_DEF_  "ProtocolType" STRING;
+BA_DEF_ BU_ "NmAsrNode" ENUM "No","Yes"; // 
+BA_DEF_ BU_ "NmAsrNodeIdentifier" INT 0 255;
+BA_DEF_ BO_ "CANFD_BRS" ENUM "0","1";
+BA_DEF_ BO_ "DiagRequest" ENUM "No","Yes"; // 
+BA_DEF_ BO_ "DiagResponse" ENUM "No","Yes"; // 
+BA_DEF_ BO_ "DiagState" ENUM "No","Yes"; // 
+BA_DEF_ BO_ "GenMsgCycleTime" INT 0 30000; // 
+BA_DEF_ BO_ "GenMsgCycleTimeFast" INT 0 30000; // 
+BA_DEF_ BO_ "GenMsgDelayTime" INT 0 100000; // 
+BA_DEF_ BO_ "GenMsgNrOfRepetition" INT 0 100000;
+BA_DEF_ BO_ "GenMsgSendType" ENUM "cyclic","spontaneous","cyclicIfActive","spontaneousWithDelay","cyclicAndSpontaneous","cyclicAndSpontaneousWithDelay","IfActive","NoMsgSendType"; // [us]
+BA_DEF_ BO_ "GenMsgStartDelayTime" INT 0 100000; // 
+BA_DEF_ BO_ "NmAsrBaseAddress" HEX 0 536870911; // 
+BA_DEF_ BO_ "NmMessage" ENUM "No","Yes"; // 
+BA_DEF_ BO_ "VFrameFormat" ENUM "StandardCAN","ExtendedCAN","reserved","J1939PG","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","StandardCAN_FD","ExtendedCAN_FD";
+BA_DEF_ SG_ "GenSigSendType" ENUM "Cyclic","OnWrite","OnWriteWithRepetition","OnChange","OnChangeWithRepetition","IfActive","IfActiveWithRepetition","NoSigSendType";
+BA_DEF_ SG_ "GenSigStartValue" FLOAT -1.7976931348623157E308 18446744073709551615;
+
+BA_DEF_DEF_ "Baudrate" 1000;
+BA_DEF_DEF_ "BusType" "CANFD";
+BA_DEF_DEF_ "DBName" "";
+BA_DEF_DEF_ "ProtocolType" "";
+BA_DEF_DEF_ "NmAsrNode" "Yes";
+BA_DEF_DEF_ "NmAsrNodeIdentifier" 0;
+BA_DEF_DEF_ "CANFD_BRS" "1";
+BA_DEF_DEF_ "GenMsgCycleTime" 0;
+BA_DEF_DEF_ "GenMsgCycleTimeFast" 0;
+BA_DEF_DEF_ "GenMsgDelayTime" 0;
+BA_DEF_DEF_ "GenMsgNrOfRepetition" 0;
+BA_DEF_DEF_ "GenSigStartValue" 0;
+BA_DEF_DEF_ "GenMsgStartDelayTime" 0;
+BA_DEF_DEF_ "NmAsrBaseAddress" 1280;
+BA_DEF_DEF_ "VFrameFormat" "J1939PG";
+BA_DEF_DEF_ "GenSigSendType" "Cyclic";
+
+// Network
+BA_ "BaudRateCANFD" 2000000;
+BA_ "Baudrate" 500000;
+BA_ "BusType" "CAN FD";
+BA_ "DBName" "ADD_ChassisCANFD";
+BA_ "ProtocolType" "CAN";
+// ECU: ADD
+BA_ "NmAsrNode" BU_ ADD 1;
+// Frame: ADDChassisCanfdNMFrA
+BA_ "GenMsgDelayTime" BO_ 1329 20.000;
+BA_ "GenMsgSendType" BO_ 1329 1;
+BA_ "VFrameFormat" BO_ 1329 0;
+// Frame: ADDChassisCanfdNMFrB
+BA_ "GenMsgDelayTime" BO_ 1325 20.000;
+BA_ "GenMsgSendType" BO_ 1325 1;
+BA_ "VFrameFormat" BO_ 1325 0;
+// Frame: ADD_ChassisCANFD_0x155
+BA_ "GenMsgCycleTime" BO_ 341 20.000;
+BA_ "GenMsgSendType" BO_ 341 0;
+BA_ "GenMsgStartDelayTime" BO_ 341 0.000;
+BA_ "VFrameFormat" BO_ 341 14;
+// Frame: ADD_ChassisCANFD_0x1ED
+BA_ "GenMsgCycleTime" BO_ 493 50.000;
+BA_ "GenMsgSendType" BO_ 493 0;
+BA_ "GenMsgStartDelayTime" BO_ 493 0.000;
+BA_ "VFrameFormat" BO_ 493 14;
+// Frame: ADD_ChassisCANFD_0x295
+BA_ "GenMsgCycleTime" BO_ 661 20.000;
+BA_ "GenMsgSendType" BO_ 661 0;
+BA_ "GenMsgStartDelayTime" BO_ 661 0.000;
+BA_ "VFrameFormat" BO_ 661 14;
+// Frame: ADD_ChassisCANFD_0xB1
+BA_ "GenMsgCycleTime" BO_ 177 10.000;
+BA_ "GenMsgSendType" BO_ 177 0;
+BA_ "GenMsgStartDelayTime" BO_ 177 0.000;
+BA_ "VFrameFormat" BO_ 177 14;
+// Frame: ADD_ChassisCANFD_0xEF
+BA_ "GenMsgCycleTime" BO_ 239 10.000;
+BA_ "GenMsgSendType" BO_ 239 0;
+BA_ "GenMsgStartDelayTime" BO_ 239 0.000;
+BA_ "VFrameFormat" BO_ 239 14;
+// Frame: BCP_ChassisCANFD_0x150
+BA_ "GenMsgCycleTime" BO_ 336 20.000;
+BA_ "GenMsgSendType" BO_ 336 0;
+BA_ "GenMsgStartDelayTime" BO_ 336 0.000;
+BA_ "VFrameFormat" BO_ 336 14;
+// Frame: BCS_ChassisCANFD_0x151
+BA_ "GenMsgCycleTime" BO_ 337 20.000;
+BA_ "GenMsgSendType" BO_ 337 0;
+BA_ "GenMsgStartDelayTime" BO_ 337 0.000;
+BA_ "VFrameFormat" BO_ 337 14;
+// Frame: BCS_ChassisCANFD_0x152
+BA_ "GenMsgCycleTime" BO_ 338 10.000;
+BA_ "GenMsgSendType" BO_ 338 0;
+BA_ "GenMsgStartDelayTime" BO_ 338 0.000;
+BA_ "VFrameFormat" BO_ 338 14;
+// Frame: BCS_ChassisCANFD_0xB3
+BA_ "GenMsgCycleTime" BO_ 179 10.000;
+BA_ "GenMsgSendType" BO_ 179 0;
+BA_ "GenMsgStartDelayTime" BO_ 179 0.000;
+BA_ "VFrameFormat" BO_ 179 14;
+// Frame: EPS_ChassisCANFD_0x161
+BA_ "GenMsgCycleTime" BO_ 353 20.000;
+BA_ "GenMsgSendType" BO_ 353 0;
+BA_ "GenMsgStartDelayTime" BO_ 353 0.000;
+BA_ "VFrameFormat" BO_ 353 14;
+// Frame: EPS_ChassisCANFD_0x29C
+BA_ "GenMsgCycleTime" BO_ 668 20.000;
+BA_ "GenMsgSendType" BO_ 668 0;
+BA_ "GenMsgStartDelayTime" BO_ 668 0.000;
+BA_ "VFrameFormat" BO_ 668 14;
+// Frame: EPS_ChassisCANFD_0x3E0
+BA_ "GenMsgCycleTime" BO_ 992 1000.000;
+BA_ "GenMsgSendType" BO_ 992 0;
+BA_ "GenMsgStartDelayTime" BO_ 992 0.000;
+BA_ "VFrameFormat" BO_ 992 14;
+// Frame: EPS_ChassisCANFD_0xB5
+BA_ "GenMsgCycleTime" BO_ 181 10.000;
+BA_ "GenMsgSendType" BO_ 181 0;
+BA_ "GenMsgStartDelayTime" BO_ 181 0.000;
+BA_ "VFrameFormat" BO_ 181 14;
+// Frame: EPS_ChassisCANFD_0xE2
+BA_ "GenMsgCycleTime" BO_ 226 10.000;
+BA_ "GenMsgSendType" BO_ 226 0;
+BA_ "GenMsgStartDelayTime" BO_ 226 0.000;
+BA_ "VFrameFormat" BO_ 226 14;
+// Frame: PSGM_ChassisCANFD_0x259
+BA_ "GenMsgCycleTime" BO_ 601 50.000;
+BA_ "GenMsgSendType" BO_ 601 0;
+BA_ "GenMsgStartDelayTime" BO_ 601 0.000;
+BA_ "VFrameFormat" BO_ 601 14;
+// Frame: VCCDChassisCanfdNMFr
+BA_ "GenMsgDelayTime" BO_ 1312 20.000;
+BA_ "GenMsgSendType" BO_ 1312 1;
+BA_ "VFrameFormat" BO_ 1312 0;
+BA_ "GenSigSendType" SG_ 336 ABAActv 0;
+BA_ "GenSigStartValue" SG_ 336 ABAActv 0;
+BA_ "GenSigSendType" SG_ 336 ABAAvl 0;
+BA_ "GenSigStartValue" SG_ 336 ABAAvl 0;
+BA_ "GenSigSendType" SG_ 337 ABPActv 0;
+BA_ "GenSigStartValue" SG_ 337 ABPActv 0;
+BA_ "GenSigSendType" SG_ 337 ABPAvl 0;
+BA_ "GenSigStartValue" SG_ 337 ABPAvl 0;
+BA_ "GenSigSendType" SG_ 337 ABSActv 0;
+BA_ "GenSigStartValue" SG_ 337 ABSActv 0;
+BA_ "GenSigSendType" SG_ 337 ABSErrDetd 0;
+BA_ "GenSigStartValue" SG_ 337 ABSErrDetd 0;
+BA_ "GenSigSendType" SG_ 226 ADASReqFbStsADD 0;
+BA_ "GenSigStartValue" SG_ 226 ADASReqFbStsADD 0;
+BA_ "GenSigSendType" SG_ 226 ADASReqFltStsADD 0;
+BA_ "GenSigStartValue" SG_ 226 ADASReqFltStsADD 0;
+BA_ "GenSigSendType" SG_ 226 ADASReqOvlySteerWhlTqADD 0;
+BA_ "GenSigStartValue" SG_ 226 ADASReqOvlySteerWhlTqADD 0;
+BA_ "GenSigSendType" SG_ 226 ADASReqOvlyTqADD 0;
+BA_ "GenSigStartValue" SG_ 226 ADASReqOvlyTqADD 0;
+BA_ "GenSigSendType" SG_ 1329 ADDChassisCanfdActiveWakeup 1;
+BA_ "GenSigStartValue" SG_ 1329 ADDChassisCanfdActiveWakeup 0;
+BA_ "GenSigSendType" SG_ 1325 ADDChassisCanfdActiveWakeup1 1;
+BA_ "GenSigStartValue" SG_ 1325 ADDChassisCanfdActiveWakeup1 0;
+BA_ "GenSigSendType" SG_ 1329 ADDChassisCanfdNodeAddress 1;
+BA_ "GenSigStartValue" SG_ 1329 ADDChassisCanfdNodeAddress 0;
+BA_ "GenSigSendType" SG_ 1325 ADDChassisCanfdNodeAddress1 1;
+BA_ "GenSigStartValue" SG_ 1325 ADDChassisCanfdNodeAddress1 0;
+BA_ "GenSigSendType" SG_ 1329 ADDChassisCanfdRepeatMsgReq 1;
+BA_ "GenSigStartValue" SG_ 1329 ADDChassisCanfdRepeatMsgReq 0;
+BA_ "GenSigSendType" SG_ 1325 ADDChassisCanfdRepeatMsgReq1 1;
+BA_ "GenSigStartValue" SG_ 1325 ADDChassisCanfdRepeatMsgReq1 0;
+BA_ "GenSigSendType" SG_ 1329 ADDChassisCanfdRepeatMsgSt 1;
+BA_ "GenSigStartValue" SG_ 1329 ADDChassisCanfdRepeatMsgSt 0;
+BA_ "GenSigSendType" SG_ 1325 ADDChassisCanfdRepeatMsgSt1 1;
+BA_ "GenSigStartValue" SG_ 1325 ADDChassisCanfdRepeatMsgSt1 0;
+BA_ "GenSigSendType" SG_ 239 ADDIMUSigGrpChks 0;
+BA_ "GenSigStartValue" SG_ 239 ADDIMUSigGrpChks 0;
+BA_ "GenSigSendType" SG_ 239 ADDIMUSigGrpCntr 0;
+BA_ "GenSigStartValue" SG_ 239 ADDIMUSigGrpCntr 0;
+BA_ "GenSigSendType" SG_ 177 ADSABALvlFrmADD 0;
+BA_ "GenSigStartValue" SG_ 177 ADSABALvlFrmADD 0;
+BA_ "GenSigSendType" SG_ 177 ADSABAReqFrmADD 0;
+BA_ "GenSigStartValue" SG_ 177 ADSABAReqFrmADD 0;
+BA_ "GenSigSendType" SG_ 177 ADSABPReqFrmADD 0;
+BA_ "GenSigStartValue" SG_ 177 ADSABPReqFrmADD 0;
+BA_ "GenSigSendType" SG_ 177 ADSAEBReqFrmADD 0;
+BA_ "GenSigStartValue" SG_ 177 ADSAEBReqFrmADD 0;
+BA_ "GenSigSendType" SG_ 177 ADSAEBTarDecelFrmADD 0;
+BA_ "GenSigStartValue" SG_ 177 ADSAEBTarDecelFrmADD 512;
+BA_ "GenSigSendType" SG_ 177 ADSAWBAESLvlFrmADD 0;
+BA_ "GenSigStartValue" SG_ 177 ADSAWBAESLvlFrmADD 0;
+BA_ "GenSigSendType" SG_ 177 ADSAWBAESReqFrmADD 0;
+BA_ "GenSigStartValue" SG_ 177 ADSAWBAESReqFrmADD 0;
+BA_ "GenSigSendType" SG_ 177 ADSMAIAccrPerReqFrmADD 0;
+BA_ "GenSigSendType" SG_ 177 ADSMAIAccrPerReqVldFrmADD 0;
+BA_ "GenSigSendType" SG_ 177 ADSMAIReqFrmADD 0;
+BA_ "GenSigSendType" SG_ 177 ADSMAIReqVldFrmADD 0;
+BA_ "GenSigSendType" SG_ 661 ADSRCTBBrkReqFrmADD 0;
+BA_ "GenSigStartValue" SG_ 661 ADSRCTBBrkReqFrmADD 0;
+BA_ "GenSigSendType" SG_ 661 ADSRCTBBrkSigGrpChks 0;
+BA_ "GenSigStartValue" SG_ 661 ADSRCTBBrkSigGrpChks 0;
+BA_ "GenSigSendType" SG_ 661 ADSRCTBBrkSigGrpCntr 0;
+BA_ "GenSigStartValue" SG_ 661 ADSRCTBBrkSigGrpCntr 0;
+BA_ "GenSigSendType" SG_ 661 ADSRCTBTarDecelFrmADD 0;
+BA_ "GenSigStartValue" SG_ 661 ADSRCTBTarDecelFrmADD 200;
+BA_ "GenSigSendType" SG_ 177 ADSVibActvFrmADD 0;
+BA_ "GenSigStartValue" SG_ 177 ADSVibActvFrmADD 0;
+BA_ "GenSigSendType" SG_ 337 AEBActv 0;
+BA_ "GenSigStartValue" SG_ 337 AEBActv 0;
+BA_ "GenSigSendType" SG_ 337 AEBAvl 0;
+BA_ "GenSigStartValue" SG_ 337 AEBAvl 0;
+BA_ "GenSigSendType" SG_ 338 APAActrAvl 0;
+BA_ "GenSigStartValue" SG_ 338 APAActrAvl 0;
+BA_ "GenSigSendType" SG_ 336 APBAplAvlBCP 0;
+BA_ "GenSigStartValue" SG_ 336 APBAplAvlBCP 0;
+BA_ "GenSigSendType" SG_ 337 APBAplAvlBCS 0;
+BA_ "GenSigStartValue" SG_ 337 APBAplAvlBCS 0;
+BA_ "GenSigSendType" SG_ 337 APBErrDetd 0;
+BA_ "GenSigStartValue" SG_ 337 APBErrDetd 0;
+BA_ "GenSigSendType" SG_ 336 APBRelAvlBCP 0;
+BA_ "GenSigStartValue" SG_ 336 APBRelAvlBCP 0;
+BA_ "GenSigSendType" SG_ 337 APBRelAvlBCS 0;
+BA_ "GenSigStartValue" SG_ 337 APBRelAvlBCS 0;
+BA_ "GenSigSendType" SG_ 337 APBSts 0;
+BA_ "GenSigStartValue" SG_ 337 APBSts 0;
+BA_ "GenSigSendType" SG_ 336 APBStsBkp 0;
+BA_ "GenSigStartValue" SG_ 336 APBStsBkp 0;
+BA_ "GenSigSendType" SG_ 337 APBTxtDip 0;
+BA_ "GenSigStartValue" SG_ 337 APBTxtDip 0;
+BA_ "GenSigSendType" SG_ 338 APCActvVehHld 0;
+BA_ "GenSigStartValue" SG_ 338 APCActvVehHld 0;
+BA_ "GenSigSendType" SG_ 338 APCDrvrBrkOvrdFlg 0;
+BA_ "GenSigStartValue" SG_ 338 APCDrvrBrkOvrdFlg 0;
+BA_ "GenSigSendType" SG_ 338 APCFailrSts 0;
+BA_ "GenSigStartValue" SG_ 338 APCFailrSts 0;
+BA_ "GenSigSendType" SG_ 338 APCSts 0;
+BA_ "GenSigStartValue" SG_ 338 APCSts 0;
+BA_ "GenSigSendType" SG_ 601 ARSPosnSts 0;
+BA_ "GenSigStartValue" SG_ 601 ARSPosnSts 0;
+BA_ "GenSigSendType" SG_ 337 AVHAvl 0;
+BA_ "GenSigStartValue" SG_ 337 AVHAvl 0;
+BA_ "GenSigSendType" SG_ 337 AVHSts 0;
+BA_ "GenSigStartValue" SG_ 337 AVHSts 0;
+BA_ "GenSigSendType" SG_ 668 AVPHPPCtrSts 0;
+BA_ "GenSigStartValue" SG_ 668 AVPHPPCtrSts 0;
+BA_ "GenSigSendType" SG_ 668 AVPHPPCtrlAvlSts 0;
+BA_ "GenSigStartValue" SG_ 668 AVPHPPCtrlAvlSts 0;
+BA_ "GenSigSendType" SG_ 668 AVPHPPReqFbSts 0;
+BA_ "GenSigStartValue" SG_ 668 AVPHPPReqFbSts 0;
+BA_ "GenSigSendType" SG_ 668 AVPHPPReqFltSts 0;
+BA_ "GenSigStartValue" SG_ 668 AVPHPPReqFltSts 0;
+BA_ "GenSigSendType" SG_ 337 AWBActv 0;
+BA_ "GenSigStartValue" SG_ 337 AWBActv 0;
+BA_ "GenSigSendType" SG_ 337 AWBAvl 0;
+BA_ "GenSigStartValue" SG_ 337 AWBAvl 0;
+BA_ "GenSigSendType" SG_ 226 AdasReqCtrlADDSigGrpChks 0;
+BA_ "GenSigStartValue" SG_ 226 AdasReqCtrlADDSigGrpChks 0;
+BA_ "GenSigSendType" SG_ 226 AdasReqCtrlADDSigGrpCntr 0;
+BA_ "GenSigStartValue" SG_ 226 AdasReqCtrlADDSigGrpCntr 0;
+BA_ "GenSigSendType" SG_ 179 AdcFcnSigGrpChks 0;
+BA_ "GenSigStartValue" SG_ 179 AdcFcnSigGrpChks 0;
+BA_ "GenSigSendType" SG_ 179 AdcFcnSigGrpCntr 0;
+BA_ "GenSigStartValue" SG_ 179 AdcFcnSigGrpCntr 0;
+BA_ "GenSigSendType" SG_ 338 ApcFcnSigGrpChks 0;
+BA_ "GenSigStartValue" SG_ 338 ApcFcnSigGrpChks 0;
+BA_ "GenSigSendType" SG_ 338 ApcFcnSigGrpCntr 0;
+BA_ "GenSigStartValue" SG_ 338 ApcFcnSigGrpCntr 0;
+BA_ "GenSigSendType" SG_ 336 BCPBrkLiIllmnReq 0;
+BA_ "GenSigStartValue" SG_ 336 BCPBrkLiIllmnReq 0;
+BA_ "GenSigSendType" SG_ 336 BCPBrkSysWarnText 0;
+BA_ "GenSigStartValue" SG_ 336 BCPBrkSysWarnText 0;
+BA_ "GenSigSendType" SG_ 336 BCPMstCylP 0;
+BA_ "GenSigStartValue" SG_ 336 BCPMstCylP 100;
+BA_ "GenSigSendType" SG_ 336 BCPMstCylPVld 0;
+BA_ "GenSigStartValue" SG_ 336 BCPMstCylPVld 0;
+BA_ "GenSigSendType" SG_ 336 BCPSimulatorP 0;
+BA_ "GenSigStartValue" SG_ 336 BCPSimulatorP 100;
+BA_ "GenSigSendType" SG_ 336 BCPSimulatorPVld 0;
+BA_ "GenSigStartValue" SG_ 336 BCPSimulatorPVld 0;
+BA_ "GenSigSendType" SG_ 336 BCPSysSts 0;
+BA_ "GenSigStartValue" SG_ 336 BCPSysSts 0;
+BA_ "GenSigSendType" SG_ 179 BCSActrActvForADC 0;
+BA_ "GenSigStartValue" SG_ 179 BCSActrActvForADC 0;
+BA_ "GenSigSendType" SG_ 179 BCSActrAvlStsForADC 0;
+BA_ "GenSigStartValue" SG_ 179 BCSActrAvlStsForADC 0;
+BA_ "GenSigSendType" SG_ 179 BCSActrAvlStsForADCL3 0;
+BA_ "GenSigStartValue" SG_ 179 BCSActrAvlStsForADCL3 0;
+BA_ "GenSigSendType" SG_ 179 BCSActrRampOffStsForADC 0;
+BA_ "GenSigStartValue" SG_ 179 BCSActrRampOffStsForADC 0;
+BA_ "GenSigSendType" SG_ 179 BCSActrVldForADC 0;
+BA_ "GenSigStartValue" SG_ 179 BCSActrVldForADC 0;
+BA_ "GenSigSendType" SG_ 337 BCSBrkSysWarnText 0;
+BA_ "GenSigStartValue" SG_ 337 BCSBrkSysWarnText 0;
+BA_ "GenSigSendType" SG_ 338 BCSLgtCtrlPtTarTq 0;
+BA_ "GenSigStartValue" SG_ 338 BCSLgtCtrlPtTarTq 0;
+BA_ "GenSigSendType" SG_ 338 BCSLgtCtrlPtTarTqEna 0;
+BA_ "GenSigStartValue" SG_ 338 BCSLgtCtrlPtTarTqEna 0;
+BA_ "GenSigSendType" SG_ 336 BcpSysStsSigGrpChks 0;
+BA_ "GenSigStartValue" SG_ 336 BcpSysStsSigGrpChks 0;
+BA_ "GenSigSendType" SG_ 336 BcpSysStsSigGrpCntr 0;
+BA_ "GenSigStartValue" SG_ 336 BcpSysStsSigGrpCntr 0;
+BA_ "GenSigSendType" SG_ 337 BcsBasicFcnSigGrpChks 0;
+BA_ "GenSigStartValue" SG_ 337 BcsBasicFcnSigGrpChks 0;
+BA_ "GenSigSendType" SG_ 337 BcsBasicFcnSigGrpCntr 0;
+BA_ "GenSigStartValue" SG_ 337 BcsBasicFcnSigGrpCntr 0;
+BA_ "GenSigSendType" SG_ 337 BcsExtdFcnSigGrpChks 0;
+BA_ "GenSigStartValue" SG_ 337 BcsExtdFcnSigGrpChks 0;
+BA_ "GenSigSendType" SG_ 337 BcsExtdFcnSigGrpCntr 0;
+BA_ "GenSigStartValue" SG_ 337 BcsExtdFcnSigGrpCntr 0;
+BA_ "GenSigSendType" SG_ 337 BcsSysCtrSigGrpChks 0;
+BA_ "GenSigStartValue" SG_ 337 BcsSysCtrSigGrpChks 0;
+BA_ "GenSigSendType" SG_ 337 BcsSysCtrSigGrpCntr 0;
+BA_ "GenSigStartValue" SG_ 337 BcsSysCtrSigGrpCntr 0;
+BA_ "GenSigSendType" SG_ 338 BcsTqCtrlSigGrpChks 0;
+BA_ "GenSigStartValue" SG_ 338 BcsTqCtrlSigGrpChks 0;
+BA_ "GenSigSendType" SG_ 338 BcsTqCtrlSigGrpCntr 0;
+BA_ "GenSigStartValue" SG_ 338 BcsTqCtrlSigGrpCntr 0;
+BA_ "GenSigSendType" SG_ 338 BiasMaxFrntAxle 0;
+BA_ "GenSigStartValue" SG_ 338 BiasMaxFrntAxle 100;
+BA_ "GenSigSendType" SG_ 338 BiasMaxReAxle 0;
+BA_ "GenSigStartValue" SG_ 338 BiasMaxReAxle 100;
+BA_ "GenSigSendType" SG_ 661 BmpTrk1ConfFrmADD 0;
+BA_ "GenSigStartValue" SG_ 661 BmpTrk1ConfFrmADD 0;
+BA_ "GenSigSendType" SG_ 661 BmpTrk1HeiFrmADD 0;
+BA_ "GenSigStartValue" SG_ 661 BmpTrk1HeiFrmADD 0;
+BA_ "GenSigSendType" SG_ 661 BmpTrk1TypFrmADD 0;
+BA_ "GenSigStartValue" SG_ 661 BmpTrk1TypFrmADD 0;
+BA_ "GenSigSendType" SG_ 661 BmpTrk2ConfFrmADD 0;
+BA_ "GenSigStartValue" SG_ 661 BmpTrk2ConfFrmADD 0;
+BA_ "GenSigSendType" SG_ 661 BmpTrk2HeiFrmADD 0;
+BA_ "GenSigStartValue" SG_ 661 BmpTrk2HeiFrmADD 0;
+BA_ "GenSigSendType" SG_ 661 BmpTrk2TypFrmADD 0;
+BA_ "GenSigStartValue" SG_ 661 BmpTrk2TypFrmADD 0;
+BA_ "GenSigSendType" SG_ 336 BrkAssSigGrpChks 0;
+BA_ "GenSigStartValue" SG_ 336 BrkAssSigGrpChks 0;
+BA_ "GenSigSendType" SG_ 336 BrkAssSigGrpCntr 0;
+BA_ "GenSigStartValue" SG_ 336 BrkAssSigGrpCntr 0;
+BA_ "GenSigSendType" SG_ 336 BrkFldWarn 0;
+BA_ "GenSigStartValue" SG_ 336 BrkFldWarn 0;
+BA_ "GenSigSendType" SG_ 336 BrkFldWarnVld 0;
+BA_ "GenSigStartValue" SG_ 336 BrkFldWarnVld 0;
+BA_ "GenSigSendType" SG_ 337 BrkLiIllmnReq 0;
+BA_ "GenSigStartValue" SG_ 337 BrkLiIllmnReq 0;
+BA_ "GenSigSendType" SG_ 336 BrkPedlAppld 0;
+BA_ "GenSigStartValue" SG_ 336 BrkPedlAppld 0;
+BA_ "GenSigSendType" SG_ 336 BrkPedlAppldVld 0;
+BA_ "GenSigStartValue" SG_ 336 BrkPedlAppldVld 0;
+BA_ "GenSigSendType" SG_ 336 BrkPedlPerct 0;
+BA_ "GenSigStartValue" SG_ 336 BrkPedlPerct 0;
+BA_ "GenSigSendType" SG_ 336 BrkPedlPerctVld 0;
+BA_ "GenSigStartValue" SG_ 336 BrkPedlPerctVld 0;
+BA_ "GenSigSendType" SG_ 337 BrkSysWarnLamp 0;
+BA_ "GenSigStartValue" SG_ 337 BrkSysWarnLamp 0;
+BA_ "GenSigSendType" SG_ 337 CDPActv 0;
+BA_ "GenSigStartValue" SG_ 337 CDPActv 0;
+BA_ "GenSigSendType" SG_ 337 CDPAvl 0;
+BA_ "GenSigStartValue" SG_ 337 CDPAvl 0;
+BA_ "GenSigSendType" SG_ 337 CSTSts 0;
+BA_ "GenSigStartValue" SG_ 337 CSTSts 0;
+BA_ "GenSigSendType" SG_ 992 CcwEOTDet 0;
+BA_ "GenSigStartValue" SG_ 992 CcwEOTDet 0;
+BA_ "GenSigSendType" SG_ 992 CcwEOTValue 0;
+BA_ "GenSigStartValue" SG_ 992 CcwEOTValue 0;
+BA_ "GenSigSendType" SG_ 338 CstRgnBlendSts 0;
+BA_ "GenSigStartValue" SG_ 338 CstRgnBlendSts 0;
+BA_ "GenSigSendType" SG_ 338 CstRgnBlendTqReqFA 0;
+BA_ "GenSigStartValue" SG_ 338 CstRgnBlendTqReqFA 0;
+BA_ "GenSigSendType" SG_ 338 CstRgnBlendTqReqRA 0;
+BA_ "GenSigStartValue" SG_ 338 CstRgnBlendTqReqRA 0;
+BA_ "GenSigSendType" SG_ 992 CwEOTDet 0;
+BA_ "GenSigStartValue" SG_ 992 CwEOTDet 0;
+BA_ "GenSigSendType" SG_ 992 CwEOTValue 0;
+BA_ "GenSigStartValue" SG_ 992 CwEOTValue 12480;
+BA_ "GenSigSendType" SG_ 337 DSTActv 0;
+BA_ "GenSigStartValue" SG_ 337 DSTActv 0;
+BA_ "GenSigSendType" SG_ 353 DSTReqCtrlSts 0;
+BA_ "GenSigStartValue" SG_ 353 DSTReqCtrlSts 0;
+BA_ "GenSigSendType" SG_ 337 DSTSteerTqReq 0;
+BA_ "GenSigStartValue" SG_ 337 DSTSteerTqReq 0;
+BA_ "GenSigSendType" SG_ 338 DrgTqCtrlActvFA 0;
+BA_ "GenSigStartValue" SG_ 338 DrgTqCtrlActvFA 0;
+BA_ "GenSigSendType" SG_ 338 DrgTqCtrlActvRA 0;
+BA_ "GenSigStartValue" SG_ 338 DrgTqCtrlActvRA 0;
+BA_ "GenSigSendType" SG_ 493 DrvAirSuspReqFrmADD 0;
+BA_ "GenSigStartValue" SG_ 493 DrvAirSuspReqFrmADD 0;
+BA_ "GenSigSendType" SG_ 177 DrvAxTarEnaMainFrmADD 0;
+BA_ "GenSigStartValue" SG_ 177 DrvAxTarEnaMainFrmADD 0;
+BA_ "GenSigSendType" SG_ 177 DrvAxTarLowerComfBandMainFrmADD 0;
+BA_ "GenSigStartValue" SG_ 177 DrvAxTarLowerComfBandMainFrmADD 0;
+BA_ "GenSigSendType" SG_ 177 DrvAxTarReqMainFrmADD 0;
+BA_ "GenSigStartValue" SG_ 177 DrvAxTarReqMainFrmADD 20480;
+BA_ "GenSigSendType" SG_ 177 DrvAxTarUpperComfBandMainFrmADD 0;
+BA_ "GenSigStartValue" SG_ 177 DrvAxTarUpperComfBandMainFrmADD 0;
+BA_ "GenSigSendType" SG_ 177 DrvBrakePreferredMainFrmADD 0;
+BA_ "GenSigStartValue" SG_ 177 DrvBrakePreferredMainFrmADD 0;
+BA_ "GenSigSendType" SG_ 177 DrvCtrlAvailabilityMainFrmADD 0;
+BA_ "GenSigStartValue" SG_ 177 DrvCtrlAvailabilityMainFrmADD 0;
+BA_ "GenSigSendType" SG_ 177 DrvDriveAwayReqMainFrmADD 0;
+BA_ "GenSigStartValue" SG_ 177 DrvDriveAwayReqMainFrmADD 0;
+BA_ "GenSigSendType" SG_ 177 DrvFcn2FrmADDSigGrpChks 0;
+BA_ "GenSigStartValue" SG_ 177 DrvFcn2FrmADDSigGrpChks 0;
+BA_ "GenSigSendType" SG_ 177 DrvFcn2FrmADDSigGrpCntr 0;
+BA_ "GenSigStartValue" SG_ 177 DrvFcn2FrmADDSigGrpCntr 0;
+BA_ "GenSigSendType" SG_ 177 DrvFcn3FrmADDSigGrpChks 0;
+BA_ "GenSigStartValue" SG_ 177 DrvFcn3FrmADDSigGrpChks 0;
+BA_ "GenSigSendType" SG_ 177 DrvFcn3FrmADDSigGrpCntr 0;
+BA_ "GenSigStartValue" SG_ 177 DrvFcn3FrmADDSigGrpCntr 0;
+BA_ "GenSigSendType" SG_ 177 DrvFcn4FrmADDSigGrpChks 0;
+BA_ "GenSigSendType" SG_ 177 DrvFcn4FrmADDSigGrpCntr 0;
+BA_ "GenSigSendType" SG_ 337 DrvOffTqThd 0;
+BA_ "GenSigStartValue" SG_ 337 DrvOffTqThd 0;
+BA_ "GenSigSendType" SG_ 177 DrvPinStrAglReqStsFrmADD 0;
+BA_ "GenSigStartValue" SG_ 177 DrvPinStrAglReqStsFrmADD 0;
+BA_ "GenSigSendType" SG_ 177 DrvPinStrAglReqValFrmADD 0;
+BA_ "GenSigStartValue" SG_ 177 DrvPinStrAglReqValFrmADD 16384;
+BA_ "GenSigSendType" SG_ 177 DrvPrecsReqFrmADD 0;
+BA_ "GenSigStartValue" SG_ 177 DrvPrecsReqFrmADD 0;
+BA_ "GenSigSendType" SG_ 177 DrvReqModeMainFrmADD 0;
+BA_ "GenSigStartValue" SG_ 177 DrvReqModeMainFrmADD 0;
+BA_ "GenSigSendType" SG_ 177 DrvReqTypeMainFrmADD 0;
+BA_ "GenSigStartValue" SG_ 177 DrvReqTypeMainFrmADD 0;
+BA_ "GenSigSendType" SG_ 177 DrvSecureReqMainFrmADD 0;
+BA_ "GenSigStartValue" SG_ 177 DrvSecureReqMainFrmADD 0;
+BA_ "GenSigSendType" SG_ 177 DrvShutdownModeMainFrmADD 0;
+BA_ "GenSigStartValue" SG_ 177 DrvShutdownModeMainFrmADD 0;
+BA_ "GenSigSendType" SG_ 177 DrvSteerWhlReqFrmADDSigGrpChks 0;
+BA_ "GenSigStartValue" SG_ 177 DrvSteerWhlReqFrmADDSigGrpChks 0;
+BA_ "GenSigSendType" SG_ 177 DrvSteerWhlReqFrmADDSigGrpCntr 0;
+BA_ "GenSigStartValue" SG_ 177 DrvSteerWhlReqFrmADDSigGrpCntr 0;
+BA_ "GenSigSendType" SG_ 177 DrvSteerWhlTqLimFrmADD 0;
+BA_ "GenSigStartValue" SG_ 177 DrvSteerWhlTqLimFrmADD 1024;
+BA_ "GenSigSendType" SG_ 177 DrvUseUpperComfBandMainFrmADD 0;
+BA_ "GenSigStartValue" SG_ 177 DrvUseUpperComfBandMainFrmADD 0;
+BA_ "GenSigSendType" SG_ 177 DrvVehStopReqMainFrmADD 0;
+BA_ "GenSigStartValue" SG_ 177 DrvVehStopReqMainFrmADD 0;
+BA_ "GenSigSendType" SG_ 177 DrvdAxTarLowerLimitMainFrmADD 0;
+BA_ "GenSigStartValue" SG_ 177 DrvdAxTarLowerLimitMainFrmADD 0;
+BA_ "GenSigSendType" SG_ 177 DrvdAxTarUpperLimitMainFrmADD 0;
+BA_ "GenSigStartValue" SG_ 177 DrvdAxTarUpperLimitMainFrmADD 0;
+BA_ "GenSigSendType" SG_ 226 DrvrSteerActvADD 0;
+BA_ "GenSigStartValue" SG_ 226 DrvrSteerActvADD 0;
+BA_ "GenSigSendType" SG_ 337 EBAActv 0;
+BA_ "GenSigStartValue" SG_ 337 EBAActv 0;
+BA_ "GenSigSendType" SG_ 337 EBDActv 0;
+BA_ "GenSigStartValue" SG_ 337 EBDActv 0;
+BA_ "GenSigSendType" SG_ 337 EBDErrDetd 0;
+BA_ "GenSigStartValue" SG_ 337 EBDErrDetd 0;
+BA_ "GenSigSendType" SG_ 668 EPSAVPHPPCtrlStsSigGrpChks 0;
+BA_ "GenSigStartValue" SG_ 668 EPSAVPHPPCtrlStsSigGrpChks 0;
+BA_ "GenSigSendType" SG_ 668 EPSAVPHPPCtrlStsSigGrpCntr 0;
+BA_ "GenSigStartValue" SG_ 668 EPSAVPHPPCtrlStsSigGrpCntr 0;
+BA_ "GenSigSendType" SG_ 337 ESCErrDetd 0;
+BA_ "GenSigStartValue" SG_ 337 ESCErrDetd 0;
+BA_ "GenSigSendType" SG_ 337 ESCIntvLamp 0;
+BA_ "GenSigStartValue" SG_ 337 ESCIntvLamp 0;
+BA_ "GenSigSendType" SG_ 337 ESCPataLamp 0;
+BA_ "GenSigStartValue" SG_ 337 ESCPataLamp 0;
+BA_ "GenSigSendType" SG_ 337 ESCSwitchAvl 0;
+BA_ "GenSigStartValue" SG_ 337 ESCSwitchAvl 0;
+BA_ "GenSigSendType" SG_ 337 EmgyBrkLiReq 0;
+BA_ "GenSigStartValue" SG_ 337 EmgyBrkLiReq 0;
+BA_ "GenSigSendType" SG_ 337 EstimdSumOfVehHydBrkEachWhl 0;
+BA_ "GenSigStartValue" SG_ 337 EstimdSumOfVehHydBrkEachWhl 31250;
+BA_ "GenSigSendType" SG_ 353 FailrSts 0;
+BA_ "GenSigStartValue" SG_ 353 FailrSts 0;
+BA_ "GenSigSendType" SG_ 353 FailrStsSigGrpChks 0;
+BA_ "GenSigStartValue" SG_ 353 FailrStsSigGrpChks 0;
+BA_ "GenSigSendType" SG_ 353 FailrStsSigGrpCntr 0;
+BA_ "GenSigStartValue" SG_ 353 FailrStsSigGrpCntr 0;
+BA_ "GenSigSendType" SG_ 336 HBAActv 0;
+BA_ "GenSigStartValue" SG_ 336 HBAActv 0;
+BA_ "GenSigSendType" SG_ 336 HBAAvl 0;
+BA_ "GenSigStartValue" SG_ 336 HBAAvl 0;
+BA_ "GenSigSendType" SG_ 336 HBBActv 0;
+BA_ "GenSigStartValue" SG_ 336 HBBActv 0;
+BA_ "GenSigSendType" SG_ 337 HBBSts 0;
+BA_ "GenSigStartValue" SG_ 337 HBBSts 0;
+BA_ "GenSigSendType" SG_ 337 HBCActv 0;
+BA_ "GenSigStartValue" SG_ 337 HBCActv 0;
+BA_ "GenSigSendType" SG_ 337 HDCAvl 0;
+BA_ "GenSigStartValue" SG_ 337 HDCAvl 0;
+BA_ "GenSigSendType" SG_ 337 HDCCtrlSts 0;
+BA_ "GenSigStartValue" SG_ 337 HDCCtrlSts 0;
+BA_ "GenSigSendType" SG_ 337 HHCActv 0;
+BA_ "GenSigStartValue" SG_ 337 HHCActv 0;
+BA_ "GenSigSendType" SG_ 337 HHCAvl 0;
+BA_ "GenSigStartValue" SG_ 337 HHCAvl 0;
+BA_ "GenSigSendType" SG_ 353 HODQly 0;
+BA_ "GenSigStartValue" SG_ 353 HODQly 0;
+BA_ "GenSigSendType" SG_ 353 HODSts 0;
+BA_ "GenSigStartValue" SG_ 353 HODSts 0;
+BA_ "GenSigSendType" SG_ 353 HODVld 0;
+BA_ "GenSigStartValue" SG_ 353 HODVld 0;
+BA_ "GenSigSendType" SG_ 341 HPPAVPRecoverIndCtrl 0;
+BA_ "GenSigStartValue" SG_ 341 HPPAVPRecoverIndCtrl 0;
+BA_ "GenSigSendType" SG_ 341 HPPAVPSteerReqSigGrpChks 0;
+BA_ "GenSigStartValue" SG_ 341 HPPAVPSteerReqSigGrpChks 0;
+BA_ "GenSigSendType" SG_ 341 HPPAVPSteerReqSigGrpCntr 0;
+BA_ "GenSigStartValue" SG_ 341 HPPAVPSteerReqSigGrpCntr 0;
+BA_ "GenSigSendType" SG_ 341 HPPAVPSteerWhlAglReqVal 0;
+BA_ "GenSigStartValue" SG_ 341 HPPAVPSteerWhlAglReqVal 0;
+BA_ "GenSigSendType" SG_ 341 HPPAVPSteerWhlCtrlReqSts 0;
+BA_ "GenSigStartValue" SG_ 341 HPPAVPSteerWhlCtrlReqSts 0;
+BA_ "GenSigSendType" SG_ 337 HRBActv 0;
+BA_ "GenSigStartValue" SG_ 337 HRBActv 0;
+BA_ "GenSigSendType" SG_ 337 HRBAvl 0;
+BA_ "GenSigStartValue" SG_ 337 HRBAvl 0;
+BA_ "GenSigSendType" SG_ 337 HydBrkFExist 0;
+BA_ "GenSigStartValue" SG_ 337 HydBrkFExist 0;
+BA_ "GenSigSendType" SG_ 336 InpRodStk 0;
+BA_ "GenSigStartValue" SG_ 336 InpRodStk 100;
+BA_ "GenSigSendType" SG_ 336 InpRodStkVld 0;
+BA_ "GenSigStartValue" SG_ 336 InpRodStkVld 0;
+BA_ "GenSigSendType" SG_ 337 MstCylPCmp 0;
+BA_ "GenSigStartValue" SG_ 337 MstCylPCmp 0;
+BA_ "GenSigSendType" SG_ 337 MstCylPVld 0;
+BA_ "GenSigStartValue" SG_ 337 MstCylPVld 0;
+BA_ "GenSigSendType" SG_ 1329 NMKeepAwkRsnADD 1;
+BA_ "GenSigSendType" SG_ 1325 NMKeepAwkRsnADD 1;
+BA_ "GenSigStartValue" SG_ 1329 NMKeepAwkRsnADD 0;
+BA_ "GenSigStartValue" SG_ 1325 NMKeepAwkRsnADD 0;
+BA_ "GenSigSendType" SG_ 1312 NMKeepAwkRsnVCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 NMKeepAwkRsnVCCD 0;
+BA_ "GenSigSendType" SG_ 341 PASBrkFcnModMainFrmADD 0;
+BA_ "GenSigStartValue" SG_ 341 PASBrkFcnModMainFrmADD 0;
+BA_ "GenSigSendType" SG_ 341 PASBrkFrmADDSigGrpChks 0;
+BA_ "GenSigStartValue" SG_ 341 PASBrkFrmADDSigGrpChks 0;
+BA_ "GenSigSendType" SG_ 341 PASBrkFrmADDSigGrpCntr 0;
+BA_ "GenSigStartValue" SG_ 341 PASBrkFrmADDSigGrpCntr 0;
+BA_ "GenSigSendType" SG_ 341 PASEmgyBrkReqMainFrmADD 0;
+BA_ "GenSigStartValue" SG_ 341 PASEmgyBrkReqMainFrmADD 0;
+BA_ "GenSigSendType" SG_ 341 PASLoLimForAccrCmftMainFrmADD 0;
+BA_ "GenSigStartValue" SG_ 341 PASLoLimForAccrCmftMainFrmADD 0;
+BA_ "GenSigSendType" SG_ 341 PASMaxAllwdJerkOfAccrMainFrmADD 0;
+BA_ "GenSigStartValue" SG_ 341 PASMaxAllwdJerkOfAccrMainFrmADD 0;
+BA_ "GenSigSendType" SG_ 341 PASMinAllwdJerkOfAccrMainFrmADD 0;
+BA_ "GenSigStartValue" SG_ 341 PASMinAllwdJerkOfAccrMainFrmADD 0;
+BA_ "GenSigSendType" SG_ 341 PASRemaDstMainFrmADD 0;
+BA_ "GenSigStartValue" SG_ 341 PASRemaDstMainFrmADD 0;
+BA_ "GenSigSendType" SG_ 341 PASReqAccCtrlEnaMainFrmADD 0;
+BA_ "GenSigStartValue" SG_ 341 PASReqAccCtrlEnaMainFrmADD 0;
+BA_ "GenSigSendType" SG_ 341 PASReqBrkPrfeMainFrmADD 0;
+BA_ "GenSigStartValue" SG_ 341 PASReqBrkPrfeMainFrmADD 0;
+BA_ "GenSigSendType" SG_ 341 PASReqDclUtiStslMainFrmADD 0;
+BA_ "GenSigStartValue" SG_ 341 PASReqDclUtiStslMainFrmADD 0;
+BA_ "GenSigSendType" SG_ 341 PASReqDrvOffMainFrmADD 0;
+BA_ "GenSigStartValue" SG_ 341 PASReqDrvOffMainFrmADD 0;
+BA_ "GenSigSendType" SG_ 353 PASReqFbSts 0;
+BA_ "GenSigStartValue" SG_ 353 PASReqFbSts 0;
+BA_ "GenSigSendType" SG_ 353 PASReqFltSts 0;
+BA_ "GenSigStartValue" SG_ 353 PASReqFltSts 0;
+BA_ "GenSigSendType" SG_ 341 PASShdModReqMainFrmADD 0;
+BA_ "GenSigStartValue" SG_ 341 PASShdModReqMainFrmADD 0;
+BA_ "GenSigSendType" SG_ 341 PASUpprLimForAccrCmftMainFrmADD 0;
+BA_ "GenSigStartValue" SG_ 341 PASUpprLimForAccrCmftMainFrmADD 0;
+BA_ "GenSigSendType" SG_ 341 PASVlcTarAccFromPASMainFrmADD 0;
+BA_ "GenSigStartValue" SG_ 341 PASVlcTarAccFromPASMainFrmADD 1000;
+BA_ "GenSigSendType" SG_ 341 ParkAPBReqMainFrmADD 0;
+BA_ "GenSigStartValue" SG_ 341 ParkAPBReqMainFrmADD 0;
+BA_ "GenSigSendType" SG_ 493 ParkAirSuspReqFrmADD 0;
+BA_ "GenSigStartValue" SG_ 493 ParkAirSuspReqFrmADD 0;
+BA_ "GenSigSendType" SG_ 493 ParkCtrlAirSuspSigGrpChks 0;
+BA_ "GenSigStartValue" SG_ 493 ParkCtrlAirSuspSigGrpChks 0;
+BA_ "GenSigSendType" SG_ 493 ParkCtrlAirSuspSigGrpCntr 0;
+BA_ "GenSigStartValue" SG_ 493 ParkCtrlAirSuspSigGrpCntr 0;
+BA_ "GenSigSendType" SG_ 341 ParkEPSLateralCtrlTypeFrmADD 0;
+BA_ "GenSigStartValue" SG_ 341 ParkEPSLateralCtrlTypeFrmADD 0;
+BA_ "GenSigSendType" SG_ 341 ParkRecoverIndCtrlFrmADD 0;
+BA_ "GenSigStartValue" SG_ 341 ParkRecoverIndCtrlFrmADD 0;
+BA_ "GenSigSendType" SG_ 341 ParkSteerWhlAglReqValFrmADD 0;
+BA_ "GenSigStartValue" SG_ 341 ParkSteerWhlAglReqValFrmADD 0;
+BA_ "GenSigSendType" SG_ 341 ParkSteerWhlAngReqSigGrpChks 0;
+BA_ "GenSigStartValue" SG_ 341 ParkSteerWhlAngReqSigGrpChks 0;
+BA_ "GenSigSendType" SG_ 341 ParkSteerWhlAngReqSigGrpCntr 0;
+BA_ "GenSigStartValue" SG_ 341 ParkSteerWhlAngReqSigGrpCntr 0;
+BA_ "GenSigSendType" SG_ 341 ParkSteerWhlCtrlReqStsFrmADD 0;
+BA_ "GenSigStartValue" SG_ 341 ParkSteerWhlCtrlReqStsFrmADD 0;
+BA_ "GenSigSendType" SG_ 353 PasReqSigGrpChks 0;
+BA_ "GenSigStartValue" SG_ 353 PasReqSigGrpChks 0;
+BA_ "GenSigSendType" SG_ 353 PasReqSigGrpCntr 0;
+BA_ "GenSigStartValue" SG_ 353 PasReqSigGrpCntr 0;
+BA_ "GenSigSendType" SG_ 181 PinionAglSpdV2C 0;
+BA_ "GenSigStartValue" SG_ 181 PinionAglSpdV2C 0;
+BA_ "GenSigSendType" SG_ 181 PinionSteerAgl 0;
+BA_ "GenSigStartValue" SG_ 181 PinionSteerAgl 0;
+BA_ "GenSigSendType" SG_ 181 PinionSteerAglSpd 0;
+BA_ "GenSigStartValue" SG_ 181 PinionSteerAglSpd 0;
+BA_ "GenSigSendType" SG_ 181 PinionSteerAglSpdVld 0;
+BA_ "GenSigStartValue" SG_ 181 PinionSteerAglSpdVld 0;
+BA_ "GenSigSendType" SG_ 181 PinionSteerAglSpdVldV2C 0;
+BA_ "GenSigStartValue" SG_ 181 PinionSteerAglSpdVldV2C 0;
+BA_ "GenSigSendType" SG_ 181 PinionSteerAglV2C 0;
+BA_ "GenSigStartValue" SG_ 181 PinionSteerAglV2C 0;
+BA_ "GenSigSendType" SG_ 181 PinionSteerAglVld 0;
+BA_ "GenSigStartValue" SG_ 181 PinionSteerAglVld 0;
+BA_ "GenSigSendType" SG_ 181 PinionSteerAglVldV2C 0;
+BA_ "GenSigStartValue" SG_ 181 PinionSteerAglVldV2C 0;
+BA_ "GenSigSendType" SG_ 181 PinionSteerSigGrpChks 0;
+BA_ "GenSigStartValue" SG_ 181 PinionSteerSigGrpChks 0;
+BA_ "GenSigSendType" SG_ 181 PinionSteerSigGrpCntr 0;
+BA_ "GenSigStartValue" SG_ 181 PinionSteerSigGrpCntr 0;
+BA_ "GenSigSendType" SG_ 338 PtTqRednActvFA 0;
+BA_ "GenSigStartValue" SG_ 338 PtTqRednActvFA 0;
+BA_ "GenSigSendType" SG_ 338 PtTqRednActvRA 0;
+BA_ "GenSigStartValue" SG_ 338 PtTqRednActvRA 0;
+BA_ "GenSigSendType" SG_ 338 RPAAVPActrAvl 0;
+BA_ "GenSigStartValue" SG_ 338 RPAAVPActrAvl 0;
+BA_ "GenSigSendType" SG_ 661 Road1EndPotXRiFrmADD 0;
+BA_ "GenSigStartValue" SG_ 661 Road1EndPotXRiFrmADD 0;
+BA_ "GenSigSendType" SG_ 661 Road1EndPotYRiFrmADD 0;
+BA_ "GenSigStartValue" SG_ 661 Road1EndPotYRiFrmADD 0;
+BA_ "GenSigSendType" SG_ 661 Road1StrtPotXLeFrmADD 0;
+BA_ "GenSigStartValue" SG_ 661 Road1StrtPotXLeFrmADD 0;
+BA_ "GenSigSendType" SG_ 661 Road1StrtPotYLeFrmADD 0;
+BA_ "GenSigStartValue" SG_ 661 Road1StrtPotYLeFrmADD 0;
+BA_ "GenSigSendType" SG_ 661 Road2EndPotXRiFrmADD 0;
+BA_ "GenSigStartValue" SG_ 661 Road2EndPotXRiFrmADD 0;
+BA_ "GenSigSendType" SG_ 661 Road2EndPotYRiFrmADD 0;
+BA_ "GenSigStartValue" SG_ 661 Road2EndPotYRiFrmADD 0;
+BA_ "GenSigSendType" SG_ 661 Road2StrtPotXLeFrmADD 0;
+BA_ "GenSigStartValue" SG_ 661 Road2StrtPotXLeFrmADD 0;
+BA_ "GenSigSendType" SG_ 661 Road2StrtPotYLeFrmADD 0;
+BA_ "GenSigStartValue" SG_ 661 Road2StrtPotYLeFrmADD 0;
+BA_ "GenSigSendType" SG_ 337 SCMActv 0;
+BA_ "GenSigStartValue" SG_ 337 SCMActv 0;
+BA_ "GenSigSendType" SG_ 337 SCMAvl 0;
+BA_ "GenSigStartValue" SG_ 337 SCMAvl 0;
+BA_ "GenSigSendType" SG_ 181 SteerWhlTq 0;
+BA_ "GenSigStartValue" SG_ 181 SteerWhlTq 0;
+BA_ "GenSigSendType" SG_ 181 SteerWhlTqVld 0;
+BA_ "GenSigStartValue" SG_ 181 SteerWhlTqVld 0;
+BA_ "GenSigSendType" SG_ 226 SteerWhlVibStsADD 0;
+BA_ "GenSigStartValue" SG_ 226 SteerWhlVibStsADD 0;
+BA_ "GenSigSendType" SG_ 337 TCSActv 0;
+BA_ "GenSigStartValue" SG_ 337 TCSActv 0;
+BA_ "GenSigSendType" SG_ 338 TarRdcdPtTqFA 0;
+BA_ "GenSigStartValue" SG_ 338 TarRdcdPtTqFA 30000;
+BA_ "GenSigSendType" SG_ 338 TarRdcdPtTqRA 0;
+BA_ "GenSigStartValue" SG_ 338 TarRdcdPtTqRA 30000;
+BA_ "GenSigSendType" SG_ 338 TarRecuTqReq 0;
+BA_ "GenSigStartValue" SG_ 338 TarRecuTqReq 32767;
+BA_ "GenSigSendType" SG_ 338 TarRecuTqReqSts 0;
+BA_ "GenSigStartValue" SG_ 338 TarRecuTqReqSts 0;
+BA_ "GenSigSendType" SG_ 1329 UDB17ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB17ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB17ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB17ADD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB17VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB17VCCD 0;
+BA_ "GenSigSendType" SG_ 1329 UDB18ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB18ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB18ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB18ADD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB18VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB18VCCD 0;
+BA_ "GenSigSendType" SG_ 1329 UDB19ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB19ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB19ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB19ADD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB19VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB19VCCD 0;
+BA_ "GenSigSendType" SG_ 1329 UDB20ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB20ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB20ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB20ADD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB20VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB20VCCD 0;
+BA_ "GenSigSendType" SG_ 1329 UDB21ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB21ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB21ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB21ADD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB21VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB21VCCD 0;
+BA_ "GenSigSendType" SG_ 1329 UDB22ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB22ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB22ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB22ADD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB22VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB22VCCD 0;
+BA_ "GenSigSendType" SG_ 1329 UDB23ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB23ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB23ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB23ADD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB23VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB23VCCD 0;
+BA_ "GenSigSendType" SG_ 1329 UDB24ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB24ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB24ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB24ADD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB24VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB24VCCD 0;
+BA_ "GenSigSendType" SG_ 1329 UDB25ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB25ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB25ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB25ADD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB25VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB25VCCD 0;
+BA_ "GenSigSendType" SG_ 1329 UDB26ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB26ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB26ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB26ADD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB26VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB26VCCD 0;
+BA_ "GenSigSendType" SG_ 1329 UDB27ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB27ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB27ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB27ADD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB27VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB27VCCD 0;
+BA_ "GenSigSendType" SG_ 1329 UDB28ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB28ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB28ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB28ADD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB28VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB28VCCD 0;
+BA_ "GenSigSendType" SG_ 1329 UDB29ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB29ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB29ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB29ADD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB29VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB29VCCD 0;
+BA_ "GenSigSendType" SG_ 1329 UDB30ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB30ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB30ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB30ADD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB30VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB30VCCD 0;
+BA_ "GenSigSendType" SG_ 1329 UDB31ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB31ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB31ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB31ADD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB31VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB31VCCD 0;
+BA_ "GenSigSendType" SG_ 1329 UDB32ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB32ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB32ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB32ADD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB32VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB32VCCD 0;
+BA_ "GenSigSendType" SG_ 1329 UDB33ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB33ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB33ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB33ADD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB33VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB33VCCD 0;
+BA_ "GenSigSendType" SG_ 1329 UDB34ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB34ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB34ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB34ADD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB34VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB34VCCD 0;
+BA_ "GenSigSendType" SG_ 1329 UDB35ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB35ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB35ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB35ADD 0;
+BA_ "GenSigSendType" SG_ 1329 UDB36ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB36ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB36ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB36ADD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB36VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB36VCCD 0;
+BA_ "GenSigSendType" SG_ 1329 UDB37ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB37ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB37ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB37ADD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB37VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB37VCCD 0;
+BA_ "GenSigSendType" SG_ 1329 UDB38ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB38ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB38ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB38ADD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB38VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB38VCCD 0;
+BA_ "GenSigSendType" SG_ 1329 UDB39ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB39ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB39ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB39ADD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB39VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB39VCCD 0;
+BA_ "GenSigSendType" SG_ 1329 UDB40ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB40ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB40ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB40ADD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB40VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB40VCCD 0;
+BA_ "GenSigSendType" SG_ 1329 UDB41ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB41ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB41ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB41ADD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB41VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB41VCCD 0;
+BA_ "GenSigSendType" SG_ 1329 UDB42ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB42ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB42ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB42ADD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB42VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB42VCCD 0;
+BA_ "GenSigSendType" SG_ 1329 UDB43ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB43ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB43ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB43ADD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB43VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB43VCCD 0;
+BA_ "GenSigSendType" SG_ 1329 UDB44ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB44ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB44ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB44ADD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB44VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB44VCCD 0;
+BA_ "GenSigSendType" SG_ 1329 UDB45ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB45ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB45ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB45ADD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB45VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB45VCCD 0;
+BA_ "GenSigSendType" SG_ 1329 UDB46ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB46ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB46ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB46ADD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB46VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB46VCCD 0;
+BA_ "GenSigSendType" SG_ 1329 UDB47ADD 1;
+BA_ "GenSigSendType" SG_ 1325 UDB47ADD 1;
+BA_ "GenSigStartValue" SG_ 1329 UDB47ADD 0;
+BA_ "GenSigStartValue" SG_ 1325 UDB47ADD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB47VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB47VCCD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB49VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB49VCCD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB50VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB50VCCD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB51VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB51VCCD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB52VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB52VCCD 0;
+BA_ "GenSigSendType" SG_ 1312 UDB53VCCD 1;
+BA_ "GenSigStartValue" SG_ 1312 UDB53VCCD 0;
+BA_ "GenSigSendType" SG_ 1312 VCCDChassisCanfdActiveWakeup 1;
+BA_ "GenSigStartValue" SG_ 1312 VCCDChassisCanfdActiveWakeup 0;
+BA_ "GenSigSendType" SG_ 1312 VCCDChassisCanfdNodeAddress 1;
+BA_ "GenSigStartValue" SG_ 1312 VCCDChassisCanfdNodeAddress 0;
+BA_ "GenSigSendType" SG_ 1312 VCCDChassisCanfdRepeatMsgReq 1;
+BA_ "GenSigStartValue" SG_ 1312 VCCDChassisCanfdRepeatMsgReq 0;
+BA_ "GenSigSendType" SG_ 1312 VCCDChassisCanfdRepeatMsgSt 1;
+BA_ "GenSigStartValue" SG_ 1312 VCCDChassisCanfdRepeatMsgSt 0;
+BA_ "GenSigSendType" SG_ 337 VDCActv 0;
+BA_ "GenSigStartValue" SG_ 337 VDCActv 0;
+BA_ "GenSigSendType" SG_ 179 VehSpd 0;
+BA_ "GenSigStartValue" SG_ 179 VehSpd 0;
+BA_ "GenSigSendType" SG_ 179 VehSpdVld 0;
+BA_ "GenSigStartValue" SG_ 179 VehSpdVld 0;
+BA_ "GenSigSendType" SG_ 337 VehStandStillIndcr 0;
+BA_ "GenSigStartValue" SG_ 337 VehStandStillIndcr 0;
+BA_ "GenSigSendType" SG_ 337 VehStandStillIndcrVld 0;
+BA_ "GenSigStartValue" SG_ 337 VehStandStillIndcrVld 0;
+BA_ "GenSigSendType" SG_ 179 WhlDirFrntLe 0;
+BA_ "GenSigStartValue" SG_ 179 WhlDirFrntLe 0;
+BA_ "GenSigSendType" SG_ 179 WhlDirFrntLeVld 0;
+BA_ "GenSigStartValue" SG_ 179 WhlDirFrntLeVld 0;
+BA_ "GenSigSendType" SG_ 179 WhlDirFrntRi 0;
+BA_ "GenSigStartValue" SG_ 179 WhlDirFrntRi 0;
+BA_ "GenSigSendType" SG_ 179 WhlDirFrntRiVld 0;
+BA_ "GenSigStartValue" SG_ 179 WhlDirFrntRiVld 0;
+BA_ "GenSigSendType" SG_ 179 WhlDirReLe 0;
+BA_ "GenSigStartValue" SG_ 179 WhlDirReLe 0;
+BA_ "GenSigSendType" SG_ 179 WhlDirReLeVld 0;
+BA_ "GenSigStartValue" SG_ 179 WhlDirReLeVld 0;
+BA_ "GenSigSendType" SG_ 179 WhlDirReRi 0;
+BA_ "GenSigStartValue" SG_ 179 WhlDirReRi 0;
+BA_ "GenSigSendType" SG_ 179 WhlDirReRiVld 0;
+BA_ "GenSigStartValue" SG_ 179 WhlDirReRiVld 0;
+BA_ "GenSigSendType" SG_ 179 WhlDstTiStampFrntLe 0;
+BA_ "GenSigStartValue" SG_ 179 WhlDstTiStampFrntLe 0;
+BA_ "GenSigSendType" SG_ 179 WhlDstTiStampFrntRi 0;
+BA_ "GenSigStartValue" SG_ 179 WhlDstTiStampFrntRi 0;
+BA_ "GenSigSendType" SG_ 179 WhlDstTiStampReLe 0;
+BA_ "GenSigStartValue" SG_ 179 WhlDstTiStampReLe 0;
+BA_ "GenSigSendType" SG_ 179 WhlDstTiStampReRi 0;
+BA_ "GenSigStartValue" SG_ 179 WhlDstTiStampReRi 0;
+BA_ "GenSigSendType" SG_ 179 WhlSpdEdgeFrntLe 0;
+BA_ "GenSigStartValue" SG_ 179 WhlSpdEdgeFrntLe 0;
+BA_ "GenSigSendType" SG_ 179 WhlSpdEdgeFrntLeVld 0;
+BA_ "GenSigStartValue" SG_ 179 WhlSpdEdgeFrntLeVld 0;
+BA_ "GenSigSendType" SG_ 179 WhlSpdEdgeFrntRi 0;
+BA_ "GenSigStartValue" SG_ 179 WhlSpdEdgeFrntRi 0;
+BA_ "GenSigSendType" SG_ 179 WhlSpdEdgeFrntRiVld 0;
+BA_ "GenSigStartValue" SG_ 179 WhlSpdEdgeFrntRiVld 0;
+BA_ "GenSigSendType" SG_ 179 WhlSpdEdgeReLe 0;
+BA_ "GenSigStartValue" SG_ 179 WhlSpdEdgeReLe 0;
+BA_ "GenSigSendType" SG_ 179 WhlSpdEdgeReLeVld 0;
+BA_ "GenSigStartValue" SG_ 179 WhlSpdEdgeReLeVld 0;
+BA_ "GenSigSendType" SG_ 179 WhlSpdEdgeReRi 0;
+BA_ "GenSigStartValue" SG_ 179 WhlSpdEdgeReRi 0;
+BA_ "GenSigSendType" SG_ 179 WhlSpdEdgeReRiVld 0;
+BA_ "GenSigStartValue" SG_ 179 WhlSpdEdgeReRiVld 0;
+BA_ "GenSigSendType" SG_ 179 WhlSpdFrntLe 0;
+BA_ "GenSigStartValue" SG_ 179 WhlSpdFrntLe 0;
+BA_ "GenSigSendType" SG_ 179 WhlSpdFrntLeVld 0;
+BA_ "GenSigStartValue" SG_ 179 WhlSpdFrntLeVld 0;
+BA_ "GenSigSendType" SG_ 179 WhlSpdFrntRi 0;
+BA_ "GenSigStartValue" SG_ 179 WhlSpdFrntRi 0;
+BA_ "GenSigSendType" SG_ 179 WhlSpdFrntRiVld 0;
+BA_ "GenSigStartValue" SG_ 179 WhlSpdFrntRiVld 0;
+BA_ "GenSigSendType" SG_ 179 WhlSpdReLe 0;
+BA_ "GenSigStartValue" SG_ 179 WhlSpdReLe 0;
+BA_ "GenSigSendType" SG_ 179 WhlSpdReLeVld 0;
+BA_ "GenSigStartValue" SG_ 179 WhlSpdReLeVld 0;
+BA_ "GenSigSendType" SG_ 179 WhlSpdReRi 0;
+BA_ "GenSigStartValue" SG_ 179 WhlSpdReRi 0;
+BA_ "GenSigSendType" SG_ 179 WhlSpdReRiVld 0;
+BA_ "GenSigStartValue" SG_ 179 WhlSpdReRiVld 0;
+BA_ "GenSigSendType" SG_ 179 WhlStsSigGrpChks 0;
+BA_ "GenSigStartValue" SG_ 179 WhlStsSigGrpChks 0;
+BA_ "GenSigSendType" SG_ 179 WhlStsSigGrpCntr 0;
+BA_ "GenSigStartValue" SG_ 179 WhlStsSigGrpCntr 0;
+BA_ "GenSigSendType" SG_ 239 XAccelStaFrmADD 0;
+BA_ "GenSigStartValue" SG_ 239 XAccelStaFrmADD 0;
+BA_ "GenSigSendType" SG_ 239 XAccelValFrmADD 0;
+BA_ "GenSigStartValue" SG_ 239 XAccelValFrmADD 0;
+BA_ "GenSigSendType" SG_ 239 XAngRateStaFrmADD 0;
+BA_ "GenSigStartValue" SG_ 239 XAngRateStaFrmADD 0;
+BA_ "GenSigSendType" SG_ 239 XAngRateValFrmADD 0;
+BA_ "GenSigStartValue" SG_ 239 XAngRateValFrmADD 0;
+BA_ "GenSigSendType" SG_ 239 YAccelStaFrmADD 0;
+BA_ "GenSigStartValue" SG_ 239 YAccelStaFrmADD 0;
+BA_ "GenSigSendType" SG_ 239 YAccelValFrmADD 0;
+BA_ "GenSigStartValue" SG_ 239 YAccelValFrmADD 0;
+BA_ "GenSigSendType" SG_ 239 YAngRateStaFrmADD 0;
+BA_ "GenSigStartValue" SG_ 239 YAngRateStaFrmADD 0;
+BA_ "GenSigSendType" SG_ 239 YAngRateValFrmADD 0;
+BA_ "GenSigStartValue" SG_ 239 YAngRateValFrmADD 0;
+BA_ "GenSigSendType" SG_ 239 ZAccelStaFrmADD 0;
+BA_ "GenSigStartValue" SG_ 239 ZAccelStaFrmADD 0;
+BA_ "GenSigSendType" SG_ 239 ZAccelValFrmADD 0;
+BA_ "GenSigStartValue" SG_ 239 ZAccelValFrmADD 0;
+BA_ "GenSigSendType" SG_ 239 ZAngRateStaFrmADD 0;
+BA_ "GenSigStartValue" SG_ 239 ZAngRateStaFrmADD 0;
+BA_ "GenSigSendType" SG_ 239 ZAngRateValFrmADD 0;
+BA_ "GenSigStartValue" SG_ 239 ZAngRateValFrmADD 0;
+
+VAL_ 341 HPPAVPRecoverIndCtrl 0 "No_Request" 1 "Request";
+VAL_ 341 HPPAVPSteerWhlCtrlReqSts 0 "NoRequest" 1 "Ready" 2 "active" 3 "Failure";
+VAL_ 341 ParkAPBReqMainFrmADD 0 "no_request" 1 "Request_Release" 2 "Request_Closed";
+VAL_ 341 ParkEPSLateralCtrlTypeFrmADD 0 "Inhibited" 1 "APA_RPA" 2 "HPP_AVP";
+VAL_ 341 ParkRecoverIndCtrlFrmADD 0 "No_Request" 1 "Request" 2 "Reserved" 3 "Reserved";
+VAL_ 341 ParkSteerWhlCtrlReqStsFrmADD 0 "NoRequest" 1 "Ready" 2 "active" 3 "Failure";
+VAL_ 341 PASBrkFcnModMainFrmADD 0 "None" 1 "APA" 2 "RPA" 3 "HPP" 4 "AVP" 5 "DynamicAVP";
+VAL_ 341 PASEmgyBrkReqMainFrmADD 0 "No_request" 1 "Request";
+VAL_ 341 PASReqAccCtrlEnaMainFrmADD 0 "Disable" 1 "Enable";
+VAL_ 341 PASReqBrkPrfeMainFrmADD 0 "No_request" 1 "Request";
+VAL_ 341 PASReqDclUtiStslMainFrmADD 0 "No_request" 1 "Request";
+VAL_ 341 PASReqDrvOffMainFrmADD 0 "No_request" 1 "Request";
+VAL_ 341 PASShdModReqMainFrmADD 0 "No_Request" 1 "Soft_Off" 2 "Fast_Off" 3 "Immediate_Off";
+VAL_ 493 DrvAirSuspReqFrmADD 0 "no_request" 1 "request";
+VAL_ 493 ParkAirSuspReqFrmADD 0 "No_Request" 1 "Request_Forbid" 2 "Request_LiftToNL" 3 "Request_LiftToHL";
+VAL_ 661 ADSRCTBBrkReqFrmADD 0 "no_request" 1 "request";
+VAL_ 661 BmpTrk1ConfFrmADD 127 "invalid";
+VAL_ 177 ADSABALvlFrmADD 0 "NoRequest" 1 "level_1" 2 "level_2" 3 "level_3";
+VAL_ 177 ADSABAReqFrmADD 0 "no_demand" 1 "demand";
+VAL_ 177 ADSABPReqFrmADD 0 "no_demand" 1 "demand";
+VAL_ 177 ADSAEBReqFrmADD 0 "No_demand" 1 "AEB" 2 "EBA" 3 "PMAEB";
+VAL_ 177 ADSAWBAESLvlFrmADD 0 "NoRequest" 1 "level_1" 2 "level_2" 3 "level_3" 4 "level_4";
+VAL_ 177 ADSAWBAESReqFrmADD 0 "no_demand" 1 "AWB_demand" 2 "AES_demand";
+VAL_ 177 ADSMAIAccrPerReqVldFrmADD 0 "invalid" 1 "valid";
+VAL_ 177 ADSMAIReqFrmADD 0 "no_request" 1 "request";
+VAL_ 177 ADSMAIReqVldFrmADD 0 "invalid" 1 "valid";
+VAL_ 177 ADSVibActvFrmADD 0 "inactive" 1 "active";
+VAL_ 177 DrvAxTarEnaMainFrmADD 0 "NoRequest" 1 "Request";
+VAL_ 177 DrvBrakePreferredMainFrmADD 0 "False" 1 "True";
+VAL_ 177 DrvCtrlAvailabilityMainFrmADD 0 "NotAvailable" 1 "Available";
+VAL_ 177 DrvDriveAwayReqMainFrmADD 0 "NoRequest" 1 "DriveOffrequest";
+VAL_ 177 DrvPinStrAglReqStsFrmADD 0 "NoRequest" 1 "Ready" 2 "Active" 3 "Failure";
+VAL_ 177 DrvPrecsReqFrmADD 127 "invalid";
+VAL_ 177 DrvReqModeMainFrmADD 0 "ADC_None" 1 "ADC_L12" 2 "ADC_L3";
+VAL_ 177 DrvReqTypeMainFrmADD 0 "ADC_Comfort" 1 "ADC_Emergency";
+VAL_ 177 DrvSecureReqMainFrmADD 0 "NoRequest" 1 "Request";
+VAL_ 177 DrvShutdownModeMainFrmADD 0 "ADC_SoftOff" 1 "ADC_FastOff" 2 "ADC_ImmediateOff";
+VAL_ 177 DrvUseUpperComfBandMainFrmADD 0 "False" 1 "True";
+VAL_ 177 DrvVehStopReqMainFrmADD 0 "NoRequest" 1 "standstillrequest";
+VAL_ 239 XAccelStaFrmADD 0 "available" 1 "abnormal" 2 "outrange" 3 "CRC_check_failed";
+VAL_ 239 XAngRateStaFrmADD 0 "available" 1 "abnormal" 2 "outrange" 3 "CRC_check_failed";
+VAL_ 239 YAccelStaFrmADD 0 "available" 1 "abnormal" 2 "outrange" 3 "CRC_check_failed";
+VAL_ 239 YAngRateStaFrmADD 0 "available" 1 "abnormal" 2 "outrange" 3 "CRC_check_failed";
+VAL_ 239 ZAccelStaFrmADD 0 "available" 1 "abnormal" 2 "outrange" 3 "CRC_check_failed";
+VAL_ 239 ZAngRateStaFrmADD 0 "available" 1 "abnormal" 2 "outrange" 3 "CRC_check_failed";
+VAL_ 1329 ADDChassisCanfdActiveWakeup 0 "passive_wakeup" 1 "active_Wakeup";
+VAL_ 1329 ADDChassisCanfdRepeatMsgReq 0 "Repeat_Message_State_not_requested" 1 "Repeat_Message_State_requested";
+VAL_ 1329 ADDChassisCanfdRepeatMsgSt 0 "Not_in_Repeat_Message_State" 1 "In_Repeat_Message_State";
+VAL_ 1325 ADDChassisCanfdActiveWakeup1 0 "passive_wakeup" 1 "active_Wakeup";
+VAL_ 1325 ADDChassisCanfdRepeatMsgReq1 0 "Repeat_Message_State_not_requested" 1 "Repeat_Message_State_requested";
+VAL_ 1325 ADDChassisCanfdRepeatMsgSt1 0 "Not_in_Repeat_Message_State" 1 "In_Repeat_Message_State";
+VAL_ 336 ABAActv 0 "NotActive" 1 "Active";
+VAL_ 336 ABAAvl 0 "NotAvailable" 1 "Available";
+VAL_ 336 APBAplAvlBCP 0 "Available" 1 "NotAvailable_fault" 2 "NotAvailable_SpeedLimit";
+VAL_ 336 APBRelAvlBCP 0 "Available" 1 "NotAvailable_fault" 2 "NotAvailable_withoutpedal" 3 "NotAvailable_withcharging";
+VAL_ 336 APBStsBkp 0 "Released" 1 "Applied" 2 "Releasing" 3 "Applying" 4 "Undefined";
+VAL_ 336 BCPBrkLiIllmnReq 0 "NoRequest" 1 "Request";
+VAL_ 336 BCPBrkSysWarnText 0 "NoWarning" 1 "the_brake_system_fault" 2 "Please_check_because_the_brake_system_leakage" 3 "Overheat_of_brake_system" 4 "reserved" 5 "reserved" 6 "reserved" 7 "reserved";
+VAL_ 336 BCPMstCylPVld 0 "NotInitialized" 1 "Normal" 2 "Faulty";
+VAL_ 336 BCPSimulatorPVld 0 "NotInitialized" 1 "Normal" 2 "Faulty";
+VAL_ 336 BCPSysSts 0 "Off" 1 "DegradedPedalFeeling" 2 "On";
+VAL_ 336 BrkFldWarn 0 "NoWarning" 1 "Warning";
+VAL_ 336 BrkFldWarnVld 0 "Invalid" 1 "Valid";
+VAL_ 336 BrkPedlAppld 0 "NotApplied" 1 "Applied";
+VAL_ 336 BrkPedlAppldVld 0 "BrkPedlAppld_NotInitialized" 1 "BrkPedlAppld_Normal" 2 "BrkPedlAppld_Faulty";
+VAL_ 336 BrkPedlPerctVld 0 "Invalid" 1 "Valid";
+VAL_ 336 HBAActv 0 "NotActive" 1 "Active";
+VAL_ 336 HBAAvl 0 "NotAvailable" 1 "Available";
+VAL_ 336 HBBActv 0 "NotActive" 1 "Active";
+VAL_ 336 InpRodStkVld 0 "Invalid" 1 "Valid";
+VAL_ 337 ABPActv 0 "NotActive" 1 "Active";
+VAL_ 337 ABPAvl 0 "NotAvailable" 1 "Available";
+VAL_ 337 ABSActv 0 "NotActive" 1 "Active";
+VAL_ 337 ABSErrDetd 0 "Error" 1 "NoError";
+VAL_ 337 AEBActv 0 "NotActive" 1 "Active";
+VAL_ 337 AEBAvl 0 "NotAvailable" 1 "Available";
+VAL_ 337 APBAplAvlBCS 0 "Available" 1 "NotAvailable_fault" 2 "NotAvailable_SpeedLimit";
+VAL_ 337 APBErrDetd 0 "NotInit" 1 "Normal" 2 "Faulty";
+VAL_ 337 APBRelAvlBCS 0 "Available" 1 "NotAvailable_fault" 2 "NotAvailable_withoutpedal" 3 "NotAvailable_withcharging";
+VAL_ 337 APBSts 0 "Released" 1 "Applied" 2 "Releasing" 3 "Applying" 4 "Undefined";
+VAL_ 337 APBTxtDip 0 "default" 1 "Slope_out_of_specified_limit" 2 "Left_Parking_brake_fail" 3 "Right_Parking_brake_fail" 4 "Hot_parking_brake_system" 5 "Use_APB_Button_to_releaseandappl" 6 "Parking_brake_cannot_hold_vehicle" 7 "Parking_brake_roller_bench_test_mode" 8 "Left_parking_brake_released" 9 "Left_parking_brake_Applied" 10 "reserved" 11 "reserved" 12 "reserved" 13 "reserved";
+VAL_ 337 AVHAvl 0 "NotAvailable" 1 "Available";
+VAL_ 337 AVHSts 0 "Off" 1 "Standby" 2 "Active";
+VAL_ 337 AWBActv 0 "NotActive" 1 "Active";
+VAL_ 337 AWBAvl 0 "NotAvailable" 1 "Available";
+VAL_ 337 BCSBrkSysWarnText 0 "NoWarning" 1 "the_brake_system_fault" 2 "Please_check_because_the_brake_system_leakage" 3 "Overheat_of_brake_system" 4 "reserved" 5 "reserved" 6 "reserved" 7 "reserved";
+VAL_ 337 BrkLiIllmnReq 0 "NoRequest" 1 "Request";
+VAL_ 337 BrkSysWarnLamp 0 "NoRequest" 1 "YellowLampt" 2 "RedLamp";
+VAL_ 337 CDPActv 0 "NotActive" 1 "Active";
+VAL_ 337 CDPAvl 0 "NotAvailable" 1 "Available";
+VAL_ 337 CSTSts 0 "Off" 1 "Standby" 2 "Active" 3 "Failure";
+VAL_ 337 DSTActv 0 "NotActive" 1 "Active";
+VAL_ 337 EBAActv 0 "NotActive" 1 "Active";
+VAL_ 337 EBDActv 0 "NotActive" 1 "Active";
+VAL_ 337 EBDErrDetd 0 "Error" 1 "NoError";
+VAL_ 337 EmgyBrkLiReq 0 "NoRequest" 1 "Request";
+VAL_ 337 ESCErrDetd 0 "Error" 1 "NoError";
+VAL_ 337 ESCIntvLamp 0 "NotActive" 1 "Active";
+VAL_ 337 ESCPataLamp 0 "NoRequest" 1 "Level1Request" 2 "Level2Request";
+VAL_ 337 ESCSwitchAvl 0 "Available" 1 "Disabled_EscError" 2 "Disabled_EscActvMode" 3 "Disabled_TestDrvMode" 4 "Disabled_ADASMode";
+VAL_ 337 HBBSts 0 "HBBNormalMode" 1 "HBBFailedBoost" 2 "HBBFailedBoostBackup" 3 "HBBDisabled";
+VAL_ 337 HBCActv 0 "NotActive" 1 "Active";
+VAL_ 337 HDCAvl 0 "NotAvailable" 1 "Available";
+VAL_ 337 HDCCtrlSts 0 "Off" 1 "Standby" 2 "Active" 3 "Reserved";
+VAL_ 337 HHCActv 0 "NotActive" 1 "Active";
+VAL_ 337 HHCAvl 0 "NotAvailable" 1 "Available";
+VAL_ 337 HRBActv 0 "NotActive" 1 "Active";
+VAL_ 337 HRBAvl 0 "NotAvailable" 1 "Available";
+VAL_ 337 HydBrkFExist 0 "NotExist" 1 "Exist";
+VAL_ 337 MstCylPVld 0 "Invalid" 1 "Valid";
+VAL_ 337 SCMActv 0 "NotActive" 1 "Active";
+VAL_ 337 SCMAvl 0 "NotAvailable" 1 "Available";
+VAL_ 337 TCSActv 0 "NotActive" 1 "Active";
+VAL_ 337 VDCActv 0 "NotActive" 1 "Active";
+VAL_ 337 VehStandStillIndcr 0 "NotStandstill" 1 "Standstill";
+VAL_ 337 VehStandStillIndcrVld 0 "Invalid" 1 "Valid";
+VAL_ 338 APAActrAvl 0 "NotAvailable" 1 "Available";
+VAL_ 338 APCActvVehHld 0 "False" 1 "True";
+VAL_ 338 APCDrvrBrkOvrdFlg 0 "False" 1 "True";
+VAL_ 338 APCFailrSts 0 "NoError" 1 "APC1_APA_DriverNotPresent" 2 "APC24_RPAAVP_TooHighSlope" 3 "TooHighSpeed" 4 "UnexpectEPBApply" 5 "VehicleBlock" 6 "APC24_RPAAVP_TriggerWithoutSecure" 7 "Error" 8 "Reserved";
+VAL_ 338 APCSts 0 "Standby" 1 "Active_APA" 2 "Active_RPA" 3 "Active_AVP" 4 "Active_DynamicAVP";
+VAL_ 338 BCSLgtCtrlPtTarTqEna 0 "False" 1 "True";
+VAL_ 338 CstRgnBlendSts 0 "Off" 1 "DTC_Fault" 2 "LFC_Fault" 3 "Normal";
+VAL_ 338 DrgTqCtrlActvFA 0 "NotActive" 1 "Active";
+VAL_ 338 DrgTqCtrlActvRA 0 "NotActive" 1 "Active";
+VAL_ 338 PtTqRednActvFA 0 "NotActive" 1 "Active";
+VAL_ 338 PtTqRednActvRA 0 "NotActive" 1 "Active";
+VAL_ 338 RPAAVPActrAvl 0 "Not_Available" 1 "Available" 2 "Test_Pending";
+VAL_ 338 TarRecuTqReqSts 0 "NotIntialized" 1 "Normal" 2 "Faulty";
+VAL_ 179 BCSActrActvForADC 0 "ADC_Normal" 1 "ADC_Active_L12" 2 "ADC_Active_L123";
+VAL_ 179 BCSActrAvlStsForADC 0 "ADC_NotAvailable_L123" 1 "ADC_NotAvailableBySituation_L123" 2 "ADC_AvailableL12_NotAvailableL3" 3 "ADC_AvailableL12_NotAvailableBySituationL3" 4 "ADC_AvailableWithFault_L3" 5 "ADC_AvailableWithSituationIssue_L3" 6 "ADC_Available_L123";
+VAL_ 179 BCSActrAvlStsForADCL3 0 "ADC_NotAvailable_L3" 1 "ADC_NotAvailableBySituation_L3" 2 "ADC_AvailableWithFault_L3" 3 "ADC_AvailableWithSituationIssue_L3" 4 "ADC_Available_L3_No_failure";
+VAL_ 179 BCSActrRampOffStsForADC 0 "ADC_Normal" 1 "ADC_SuspendByOtherBrake" 2 "ADC_SuspendByDriverPropulsion" 3 "ADC_RampOffByDriverBrake";
+VAL_ 179 BCSActrVldForADC 0 "Invalid" 1 "Valid";
+VAL_ 179 VehSpdVld 0 "Invalid" 1 "Valid";
+VAL_ 179 WhlDirFrntLe 0 "Undefined" 1 "Standstill" 2 "Forward" 3 "Backward";
+VAL_ 179 WhlDirFrntLeVld 0 "Invalid" 1 "Valid";
+VAL_ 179 WhlDirFrntRi 0 "Undefined" 1 "Standstill" 2 "Forward" 3 "Backward";
+VAL_ 179 WhlDirFrntRiVld 0 "Invalid" 1 "Valid";
+VAL_ 179 WhlDirReLe 0 "Undefined" 1 "Standstill" 2 "Forward" 3 "Backward";
+VAL_ 179 WhlDirReLeVld 0 "Invalid" 1 "Valid";
+VAL_ 179 WhlDirReRi 0 "Undefined" 1 "Standstill" 2 "Forward" 3 "Backward";
+VAL_ 179 WhlDirReRiVld 0 "Invalid" 1 "Valid";
+VAL_ 179 WhlSpdEdgeFrntLeVld 0 "Invalid" 1 "Valid";
+VAL_ 179 WhlSpdEdgeFrntRiVld 0 "Invalid" 1 "Valid";
+VAL_ 179 WhlSpdEdgeReLeVld 0 "Invalid" 1 "Valid";
+VAL_ 179 WhlSpdEdgeReRiVld 0 "Invalid" 1 "Valid";
+VAL_ 179 WhlSpdFrntLeVld 0 "Invalid" 1 "Valid";
+VAL_ 179 WhlSpdFrntRiVld 0 "Invalid" 1 "Valid";
+VAL_ 179 WhlSpdReLeVld 0 "Invalid" 1 "Valid";
+VAL_ 179 WhlSpdReRiVld 0 "Invalid" 1 "Valid";
+VAL_ 353 DSTReqCtrlSts 0 "Normal" 1 "Ready" 2 "Active" 3 "ReversibleError" 4 "InreversibleError" 5 "Reserved" 6 "Reserved" 7 "Reserved";
+VAL_ 353 FailrSts 0 "SteerNormal" 1 "SteerAssitTempRed" 2 "SteerAssitServReq" 3 "SteerAssitErrStopVehicle" 4 "Notused" 5 "Notused" 6 "Notused" 7 "Notused";
+VAL_ 353 HODSts 0 "NoInfo" 1 "NotHandsOnOrHandsOff" 2 "HandsOff" 3 "HandsOn";
+VAL_ 353 HODVld 0 "Valid" 1 "Invalid";
+VAL_ 353 PASReqFbSts 0 "Initial" 1 "Ready" 2 "Open" 3 "Active" 4 "Fault" 5 "Notused" 6 "Notused" 7 "Notused";
+VAL_ 353 PASReqFltSts 0 "Normal" 1 "VehicleSpeedOutOfRange" 2 "SteeringWheelTorqueOutOfRange" 3 "AngleRequestOutOfRange" 4 "DeltaAngleRequestOutOfEange" 5 "PASLowPriority" 6 "ImproperHandshaking" 7 "HandshakeTimeout" 8 "EPSInternalFault";
+VAL_ 668 AVPHPPCtrlAvlSts 0 "Normal" 1 "Degraded" 2 "LossOfRedundancy" 3 "Reserved";
+VAL_ 668 AVPHPPCtrSts 0 "Prim" 1 "Sec";
+VAL_ 668 AVPHPPReqFbSts 0 "Initial" 1 "Ready" 2 "Active" 3 "Fault" 4 "Notused" 5 "Notused" 6 "Notused" 7 "Notused";
+VAL_ 668 AVPHPPReqFltSts 0 "Normal" 1 "VehicleSpeedOutOfRange" 2 "SteeringWheelTorqueOutOfRange" 3 "ImproperHandshaking" 4 "HandshakeTimeout" 5 "EPSInternalFault" 6 "Reserved" 7 "Reserved" 8 "Reserved" 9 "Reserved" 10 "Reserved" 11 "Reserved" 12 "Reserved" 13 "Reserved" 14 "Reserved" 15 "Reserved";
+VAL_ 992 CcwEOTDet 0 "Not_Learned" 1 "Learned";
+VAL_ 992 CwEOTDet 0 "Not_Learned" 1 "Learned";
+VAL_ 181 PinionSteerAglSpdVld 0 "Valid" 1 "Invalid";
+VAL_ 181 PinionSteerAglSpdVldV2C 0 "Valid" 1 "Invalid";
+VAL_ 181 PinionSteerAglVld 0 "Valid" 1 "Invalid";
+VAL_ 181 PinionSteerAglVldV2C 0 "Valid" 1 "Invalid";
+VAL_ 181 SteerWhlTqVld 0 "Valid" 1 "Invalid";
+VAL_ 226 ADASReqFbStsADD 0 "Initial" 1 "Ready" 2 "Open" 3 "Active" 4 "Fault" 5 "Notused" 6 "Notused" 7 "Notused";
+VAL_ 226 ADASReqFltStsADD 0 "Normal" 1 "ADAS_Control_not_available" 2 "EPS_RevError" 3 "EPS_IrrevError" 4 "Caused_by_ADAS_failure" 5 "Reserved" 6 "Reserved" 7 "Reserved";
+VAL_ 226 DrvrSteerActvADD 0 "Notactive" 1 "Active";
+VAL_ 226 SteerWhlVibStsADD 0 "NotActive" 1 "Active";
+VAL_ 601 ARSPosnSts 0 "Unknown" 1 "P0" 2 "P1" 3 "P2" 4 "P3" 5 "OpenHardStop" 6 "CloseHardStop" 7 "LessPo" 8 "MoreP3" 9 "OtherPosn" 10 "BtwP0P1" 11 "BtwP1P2" 12 "BtwP2P3";
+VAL_ 1312 VCCDChassisCanfdActiveWakeup 0 "passive_wakeup" 1 "active_Wakeup";
+VAL_ 1312 VCCDChassisCanfdRepeatMsgReq 0 "not_requested" 1 "requested";
+VAL_ 1312 VCCDChassisCanfdRepeatMsgSt 0 "Not_in_Repeat_Message_State" 1 "In_Repeat_Message_State";
+SIG_GROUP_ 226 AdasReqCtrlADDSigGrp 1 : AdasReqCtrlADDSigGrpChks AdasReqCtrlADDSigGrpCntr ADASReqFbStsADD ADASReqFltStsADD ADASReqOvlySteerWhlTqADD ADASReqOvlyTqADD DrvrSteerActvADD SteerWhlVibStsADD;
+SIG_GROUP_ 179 AdcFcnSigGrp 1 : AdcFcnSigGrpChks AdcFcnSigGrpCntr BCSActrActvForADC BCSActrAvlStsForADC BCSActrAvlStsForADCL3 BCSActrRampOffStsForADC BCSActrVldForADC;
+SIG_GROUP_ 239 ADDIMUSigGrp 1 : ADDIMUSigGrpChks ADDIMUSigGrpCntr XAccelStaFrmADD XAccelValFrmADD XAngRateStaFrmADD XAngRateValFrmADD YAccelStaFrmADD YAccelValFrmADD YAngRateStaFrmADD YAngRateValFrmADD ZAccelStaFrmADD ZAccelValFrmADD ZAngRateStaFrmADD ZAngRateValFrmADD;
+SIG_GROUP_ 661 ADSRCTBBrkSigGrp 1 : ADSRCTBBrkReqFrmADD ADSRCTBBrkSigGrpChks ADSRCTBBrkSigGrpCntr ADSRCTBTarDecelFrmADD;
+SIG_GROUP_ 338 ApcFcnSigGrp 1 : APAActrAvl APCActvVehHld APCDrvrBrkOvrdFlg APCFailrSts ApcFcnSigGrpChks ApcFcnSigGrpCntr APCSts RPAAVPActrAvl;
+SIG_GROUP_ 336 BcpSysStsSigGrp 1 : APBAplAvlBCP APBRelAvlBCP BCPBrkLiIllmnReq BCPBrkSysWarnText BCPMstCylP BCPMstCylPVld BCPSimulatorP BCPSimulatorPVld BCPSysSts BcpSysStsSigGrpChks BcpSysStsSigGrpCntr BrkFldWarn BrkFldWarnVld BrkPedlAppld BrkPedlAppldVld BrkPedlPerct BrkPedlPerctVld InpRodStk InpRodStkVld;
+SIG_GROUP_ 337 BcsBasicFcnSigGrp 1 : APBAplAvlBCS APBErrDetd APBRelAvlBCS APBSts AVHAvl AVHSts BcsBasicFcnSigGrpChks BcsBasicFcnSigGrpCntr CDPActv CDPAvl DrvOffTqThd DSTActv DSTSteerTqReq HHCActv HHCAvl SCMActv SCMAvl;
+SIG_GROUP_ 337 BcsExtdFcnSigGrp 1 : ABPActv ABPAvl AEBActv AEBAvl AWBActv AWBAvl BcsExtdFcnSigGrpChks BcsExtdFcnSigGrpCntr EBAActv;
+SIG_GROUP_ 337 BcsSysCtrSigGrp 1 : ABSActv ABSErrDetd APBTxtDip BCSBrkSysWarnText BcsSysCtrSigGrpChks BcsSysCtrSigGrpCntr BrkLiIllmnReq BrkSysWarnLamp CSTSts EBDActv EBDErrDetd EmgyBrkLiReq ESCErrDetd ESCIntvLamp ESCPataLamp ESCSwitchAvl EstimdSumOfVehHydBrkEachWhl HBBSts HBCActv HDCAvl HDCCtrlSts HRBActv HRBAvl HydBrkFExist MstCylPCmp MstCylPVld TCSActv VDCActv VehStandStillIndcr VehStandStillIndcrVld;
+SIG_GROUP_ 338 BcsTqCtrlSigGrp 1 : BCSLgtCtrlPtTarTq BCSLgtCtrlPtTarTqEna BcsTqCtrlSigGrpChks BcsTqCtrlSigGrpCntr BiasMaxFrntAxle BiasMaxReAxle CstRgnBlendSts CstRgnBlendTqReqFA CstRgnBlendTqReqRA DrgTqCtrlActvFA DrgTqCtrlActvRA PtTqRednActvFA PtTqRednActvRA TarRdcdPtTqFA TarRdcdPtTqRA TarRecuTqReq TarRecuTqReqSts;
+SIG_GROUP_ 336 BrkAssSigGrp 1 : ABAActv ABAAvl APBStsBkp BrkAssSigGrpChks BrkAssSigGrpCntr HBAActv HBAAvl;
+SIG_GROUP_ 177 DrvFcn2FrmADDSigGrp 1 : DrvAxTarEnaMainFrmADD DrvAxTarLowerComfBandMainFrmADD DrvAxTarReqMainFrmADD DrvAxTarUpperComfBandMainFrmADD DrvBrakePreferredMainFrmADD DrvCtrlAvailabilityMainFrmADD DrvdAxTarLowerLimitMainFrmADD DrvdAxTarUpperLimitMainFrmADD DrvDriveAwayReqMainFrmADD DrvFcn2FrmADDSigGrpChks DrvFcn2FrmADDSigGrpCntr DrvReqModeMainFrmADD DrvReqTypeMainFrmADD DrvSecureReqMainFrmADD DrvShutdownModeMainFrmADD DrvUseUpperComfBandMainFrmADD DrvVehStopReqMainFrmADD;
+SIG_GROUP_ 177 DrvFcn3FrmADDSigGrp 1 : ADSABALvlFrmADD ADSABAReqFrmADD ADSABPReqFrmADD ADSAEBReqFrmADD ADSAEBTarDecelFrmADD ADSAWBAESLvlFrmADD ADSAWBAESReqFrmADD DrvFcn3FrmADDSigGrpChks DrvFcn3FrmADDSigGrpCntr;
+SIG_GROUP_ 177 DrvFcn4FrmADDSigGrp 1 : ADSMAIAccrPerReqFrmADD ADSMAIAccrPerReqVldFrmADD ADSMAIReqFrmADD ADSMAIReqVldFrmADD DrvFcn4FrmADDSigGrpChks DrvFcn4FrmADDSigGrpCntr;
+SIG_GROUP_ 177 DrvSteerWhlReqFrmADDSigGrp 1 : ADSVibActvFrmADD DrvPinStrAglReqStsFrmADD DrvPinStrAglReqValFrmADD DrvPrecsReqFrmADD DrvSteerWhlReqFrmADDSigGrpChks DrvSteerWhlReqFrmADDSigGrpCntr DrvSteerWhlTqLimFrmADD;
+SIG_GROUP_ 668 EPSAVPHPPCtrlStsSigGrp 1 : AVPHPPCtrlAvlSts AVPHPPCtrSts AVPHPPReqFbSts AVPHPPReqFltSts EPSAVPHPPCtrlStsSigGrpChks EPSAVPHPPCtrlStsSigGrpCntr;
+SIG_GROUP_ 353 FailrStsSigGrp 1 : FailrSts FailrStsSigGrpChks FailrStsSigGrpCntr;
+SIG_GROUP_ 341 HPPAVPSteerReqSigGrp 1 : HPPAVPRecoverIndCtrl HPPAVPSteerReqSigGrpChks HPPAVPSteerReqSigGrpCntr HPPAVPSteerWhlAglReqVal HPPAVPSteerWhlCtrlReqSts;
+SIG_GROUP_ 493 ParkCtrlAirSuspSigGrp 1 : ParkAirSuspReqFrmADD ParkCtrlAirSuspSigGrpChks ParkCtrlAirSuspSigGrpCntr;
+SIG_GROUP_ 341 ParkSteerWhlAngReqSigGrp 1 : ParkEPSLateralCtrlTypeFrmADD ParkRecoverIndCtrlFrmADD ParkSteerWhlAglReqValFrmADD ParkSteerWhlAngReqSigGrpChks ParkSteerWhlAngReqSigGrpCntr ParkSteerWhlCtrlReqStsFrmADD;
+SIG_GROUP_ 341 PASBrkFrmADDSigGrp 1 : ParkAPBReqMainFrmADD PASBrkFcnModMainFrmADD PASBrkFrmADDSigGrpChks PASBrkFrmADDSigGrpCntr PASEmgyBrkReqMainFrmADD PASLoLimForAccrCmftMainFrmADD PASMaxAllwdJerkOfAccrMainFrmADD PASMinAllwdJerkOfAccrMainFrmADD PASRemaDstMainFrmADD PASReqAccCtrlEnaMainFrmADD PASReqBrkPrfeMainFrmADD PASReqDclUtiStslMainFrmADD PASReqDrvOffMainFrmADD PASShdModReqMainFrmADD PASUpprLimForAccrCmftMainFrmADD PASVlcTarAccFromPASMainFrmADD;
+SIG_GROUP_ 353 PasReqSigGrp 1 : PASReqFbSts PASReqFltSts PasReqSigGrpChks PasReqSigGrpCntr;
+SIG_GROUP_ 181 PinionSteerSigGrp 1 : PinionAglSpdV2C PinionSteerAgl PinionSteerAglSpd PinionSteerAglSpdVld PinionSteerAglSpdVldV2C PinionSteerAglV2C PinionSteerAglVld PinionSteerAglVldV2C PinionSteerSigGrpChks PinionSteerSigGrpCntr SteerWhlTq SteerWhlTqVld;
+SIG_GROUP_ 179 WhlStsSigGrp 1 : VehSpd VehSpdVld WhlDirFrntLe WhlDirFrntLeVld WhlDirFrntRi WhlDirFrntRiVld WhlDirReLe WhlDirReLeVld WhlDirReRi WhlDirReRiVld WhlDstTiStampFrntLe WhlDstTiStampFrntRi WhlDstTiStampReLe WhlDstTiStampReRi WhlSpdEdgeFrntLe WhlSpdEdgeFrntLeVld WhlSpdEdgeFrntRi WhlSpdEdgeFrntRiVld WhlSpdEdgeReLe WhlSpdEdgeReLeVld WhlSpdEdgeReRi WhlSpdEdgeReRiVld WhlSpdFrntLe WhlSpdFrntLeVld WhlSpdFrntRi WhlSpdFrntRiVld WhlSpdReLe WhlSpdReLeVld WhlSpdReRi WhlSpdReRiVld WhlStsSigGrpChks WhlStsSigGrpCntr;
+
+

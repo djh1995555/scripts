@@ -1,0 +1,124 @@
+target_panel: {
+  State: {
+    # controller state
+    "mc_apa_status": "control_debug:mc_apa_state",
+    "segment_stage": "control_debug:segment_stage",
+
+    "is_creep": "control_debug:is_creep",
+
+    # slipping state
+    "is_sliping": "control_debug:is_sliping",
+    "is_crossing_over": "control_debug:is_crossing_over",
+
+    "is_large_torque_for_stopping": "control_debug:meet_crossing_condition",
+    "too_large_torque_": "control_debug:goal_complete_flag",
+    
+  },
+  # StuckCounter: {
+  #   "stuck_counter": "control_debug:delay_acc_count",
+  # },  
+  StopDistance: {
+    # "stop_distance_req": "control_cmd:stop_distance_req",
+    "end_y_error": "control_debug:end_y_error",
+    "brake_distance_est": "control_debug:stereo_slot_increase_torque_position",
+  }, 
+  Speed: {
+    # "chassis_speed": "chassis:vehicle_speed",
+    "vehicle_speed": "control_debug:vehiclestate_linear_velocity",
+    # "estimated_speed": "control_debug:speed_estimated",
+    # "speed_error": "control_debug:speed_error",
+    "planned_speed": "control_debug:planned_speed",
+  },
+  Torque: {
+    "target_torque_vcu": "control_cmd:target_torque_vcu",
+    "target_torque_bcs": "control_cmd:target_torque_bcs",
+    "target_torque": "control_debug:target_torque",
+  },
+  Acc: {
+    "target_acc_mpss": "control_cmd:target_acc_mpss",
+  },
+  pitch: {
+    # "vehicle_pitch": "dr:pitch",
+    "vehicle_pitch": "control_debug:vehicle_pitch",
+  },
+  Gear: {
+    "gear_position": "chassis:gear_position",
+    "target_gear": "control_cmd:target_gear",
+  }, 
+  Jerk: {
+    "jerk_deceleration_stop_origin_": "control_debug:previous_target_acc_mpss",
+    "jerk_deceleration_stop_": "control_debug:max_speed_mps_req",
+  },
+  Brake: {
+    "master_pressure": "chassis:master_pressure",
+  },
+  TorqueGradient: {
+    "target_gradient_vcu": "control_debug:target_gradient_vcu",
+    "target_gradient_bcs": "control_debug:target_gradient_bcs",
+  },
+  # Gear: {
+  #   "gear_position": "chassis:gear_position",
+  #   "target_gear": "control_cmd:target_gear",
+  # }, 
+  TailDistance: {
+    "distance_to_entrance_line": "control_debug:front_heading_error",
+    # "rear_exit_slope_position_": "control_debug:stereo_slot_brake_position",
+    "front_enter_slope_position_": "control_debug:front_wheel_enter_slope_position",
+    "front_exit_slope_position_": "control_debug:front_wheel_exit_slope_position",
+    "rear_enter_slope_position_": "control_debug:enter_slope_position",
+    "rear_exit_slope_position_": "control_debug:exit_slope_position",
+  },
+  Collision: {
+    "collision_type": "hmi_report:collision_type_int",
+    "preview_environment_status": "control_debug:previous_ref_heading_acceleration",
+    "current_environment_status": "control_debug:previous_lateral_error_acceleration",
+  }, 
+  # Energy: {
+  #   "rear_wheel_climbing_drive_energy_": "control_debug:vehicle_jerk",
+  #   "resistance_energy_": "control_debug:previous_target_acc_mpss",
+  # },
+  ramp_slope: {
+    "slope_degree_used": "control_debug:stereo_slot_slope_degree",
+    "slope_degree_": "control_debug:slope_degree",
+    # "stop_distance": "control_debug:target_steer_deg",
+    # "stop_distance1": "control_debug:previous_target_steer_deg",
+  },
+  APAState: {
+    "apa_state": "control_debug:mc_apa_state",
+  },
+  LatCmd: {
+    "feedward_kappa": "control_debug:feedward_kappa",
+    "preview_kappa": "control_debug:preview_kappa",
+    "origin_control_kappa": "control_debug:origin_control_kappa",
+    "reference_kappa": "control_debug:reference_kappa",
+  },
+  Lat: {
+    "stanley_lateral_contribution": "control_debug:stanley_lateral_contribution",
+  },
+  Heading: {
+    "stanley_yaw_contribution": "control_debug:stanley_yaw_contribution",    
+    "reference_heading_rad": "control_debug:reference_heading_rad",
+    "preview_reference_heading_rad": "control_debug:preview_reference_heading_rad",
+    "vehicle_state_heading": "control_debug:vehiclestate_heading",
+    # "dr_heading": "dr:heading",
+  },
+  Heading_Error: {
+
+    "preview_yaw_error": "control_debug:lookahead_station_low_speed",
+    "rear_heading_error_used": "control_debug:heading_error_feedback",
+    "rear_heading_error_measured": "control_debug:rear_heading_error",
+    "end_heading_error": "control_debug:end_heading_error",
+  },
+  Lat_Error: {
+    "rear_x_error": "control_debug:lateral_error",
+    "end_x_error": "control_debug:end_x_error",
+  },
+  Steer: {
+    "preview_steer": "control_debug:preview_kappa_c",
+    "origin_control_steer": "control_debug:origin_control_steer_deg",
+    "reference_steer": "control_debug:reference_kappa_c",
+    "steer_wheel_angle": "chassis:steer_wheel_angle",
+    "steer_wheel_angle_deg_bkp": "chassis:steer_wheel_angle_deg_bkp",
+    "target_steer_deg": "control_cmd:target_steer_deg",
+  },
+}
