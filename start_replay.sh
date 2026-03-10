@@ -18,7 +18,7 @@ target_project=/home/mi/tmp_repo_mipilot_mbf_2576_AUg0Us
 # target_project=/home/mi/tmp_repo_mipilot_mbf_debug_v2_1143677_zs6ZzV
 target_project=/home/mi/tmp_repo_mipilot_mbf_debug_v2_1144787_DEF3D3
 # target_project=/home/mi/tmp_repo_mipilot_mbf_debug_v2_1151460_7VMJmr
-# target_project=/home/mi/tmp_repo_mipilot_mbf_debug_v2_1155858_u2fSyN
+target_project=/home/mi/ws/tmp_repo_mipilot_mbf_debug_v2_1164145_nj0r1N
 mode=$1
 
 RunReplay(){

@@ -10,7 +10,6 @@ target_panel: {
     "working_status": "parking_controller_to_state_machine:controller_working_status",
     "mc_apa_status": "control_debug:mc_apa_state",
     "segment_stage": "control_debug:segment_stage",
-    "is_new_version": "control_debug:dec_acc_count",
     "original_segment_stage": "control_debug:delay_acc_count",
     "segment_finished": "control_debug:segment_finished",
 
@@ -74,6 +73,20 @@ target_panel: {
     
     "planning_success_status": "apa_planner_status:apa_trajectory_planning_success_status",
   },
+  Gear: {
+    "gear_position": "chassis:gear_position",
+    "target_gear": "control_cmd:target_gear",
+    "parking_req_driver_target_gear": "apa_statemachine:parking_req_driver_target_gear",
+  }, 
+  Speed: {
+    # "chassis_speed": "chassis:vehicle_speed",
+    "vehicle_speed": "control_debug:vehiclestate_linear_velocity",
+    # "estimated_speed": "control_debug:speed_estimated",
+    # "speed_error": "control_debug:speed_error",
+    "planned_speed": "control_debug:planned_speed",
+    "rear_wheel_start_climbing_v_": "control_debug:stereo_slot_slope_degree",
+    "rear_wheel_finish_climbing_v_": "control_debug:slope_degree",
+  },
   # StuckCounter: {
   #   "stuck_counter": "control_debug:delay_acc_count",
   # },  
@@ -85,15 +98,6 @@ target_panel: {
     "stop_distance_req": "control_debug:stereo_slot_stop_distance",
     "brake_distance_est": "control_debug:stereo_slot_increase_torque_position",
   }, 
-  Speed: {
-    # "chassis_speed": "chassis:vehicle_speed",
-    "vehicle_speed": "control_debug:vehiclestate_linear_velocity",
-    # "estimated_speed": "control_debug:speed_estimated",
-    # "speed_error": "control_debug:speed_error",
-    "planned_speed": "control_debug:planned_speed",
-    "rear_wheel_start_climbing_v_": "control_debug:stereo_slot_slope_degree",
-    "rear_wheel_finish_climbing_v_": "control_debug:slope_degree",
-  },
   Torque: {
     "target_torque_vcu": "control_cmd:target_torque_vcu",
     "target_torque_bcs": "control_cmd:target_torque_bcs",
@@ -132,10 +136,6 @@ target_panel: {
     # "vehicle_pitch": "dr:pitch",
     "vehicle_pitch": "control_debug:vehicle_pitch",
   },
-  Gear: {
-    "gear_position": "chassis:gear_position",
-    "target_gear": "control_cmd:target_gear",
-  }, 
   Jerk: {
     "jerk_deceleration_stop_origin_": "control_debug:previous_target_acc_mpss",
     "jerk_deceleration_stop_": "control_debug:max_speed_mps_req",

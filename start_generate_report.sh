@@ -27,7 +27,7 @@ function traverse_directory() {
         filename=$(basename $item)
         if [ -d "$item" ]; then
             traverse_directory "$item"
-        elif [[ "$filename" == *.record || "$filename" == full_record.* ]]; then
+        elif [[ "$filename" == *.record || "$filename" == full_record.* || "$filename" == *.mcap ]]; then
             result_dirs+=("$dir")
             has_record_file=true
             break
