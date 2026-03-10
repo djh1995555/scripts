@@ -48,11 +48,15 @@ class JiraDownloader(object):
 
     def sub_process(self, jira_id):
         print("Processing: ", jira_id)
-        save_jira_path = os.path.join(self.save_path, jira_id + ".record")
+        # 为每个 JIRA ID 创建同名文件夹
+        jira_folder = os.path.join(self.save_path, jira_id)
+        os.makedirs(jira_folder, exist_ok=True)
+
+        save_jira_path = os.path.join(jira_folder, jira_id + ".record")
         if os.path.exists(save_jira_path):
             print(f"File already exists: {save_jira_path}")
             return
-        save_jira_path = os.path.join(self.save_path, jira_id + ".mcap")
+        save_jira_path = os.path.join(jira_folder, jira_id + ".mcap")
         if os.path.exists(save_jira_path):
             print(f"File already exists: {save_jira_path}")
             return
@@ -74,7 +78,7 @@ class JiraDownloader(object):
             if event:
                 searcher = EventSearcher(str(event.event_id))
                 searcher.download_and_save(save_jira_path)
-                print(f"Successfully downloaded {jira_id} to {save_jira_path}")
+                print(f"Successfully downloaded {jira_id} to {jira_folder}")
             else:
                 print(f"No event found for {jira_id}")
         except Exception as e:
