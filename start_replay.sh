@@ -2,24 +2,12 @@
 pwd=$(pwd -P)
 lwd=$(dirname $pwd)
 time=$(date "+%Y%m%d%H%M%S")
-target_project=/home/mi/tmp_repo_mipilot_mbf_2229_Qfutp4
-target_project=/home/mi/tmp_repo_mipilot_mbf_debug_v2_1111203_fd25ea
-target_project=/home/mi/tmp_repo_mipilot_mbf_2319_KCozRH
-target_project=/home/mi/tmp_repo_mipilot_mbf_debug_v2_1111936_Vz2goO
-target_project=/home/mi/tmp_repo_mipilot_mbf_2229_zc9idT
-target_project=/home/mi/tmp_repo_mipilot_mbf_debug_v2_1119280_Ln5KhN
-target_project=/home/mi/tmp_repo_mipilot_mbf_2382_ArX1Ht
-target_project=/home/mi/tmp_repo_mipilot_mbf_debug_v2_1125272_IzUo7V
-target_project=/home/mi/tmp_repo_mipilot_mbf_debug_v2_1126770_wSRYMS
-target_project=/home/mi/tmp_repo_mipilot_mbf_debug_v2_1132212_ZyzVGO
-target_project=/home/mi/tmp_repo_mipilot_mbf_debug_v2_1136966_5uXCLX
-# target_project=/home/mi/refactor
-target_project=/home/mi/tmp_repo_mipilot_mbf_2576_AUg0Us
-# target_project=/home/mi/tmp_repo_mipilot_mbf_debug_v2_1143677_zs6ZzV
-target_project=/home/mi/tmp_repo_mipilot_mbf_debug_v2_1144787_DEF3D3
-# target_project=/home/mi/tmp_repo_mipilot_mbf_debug_v2_1151460_7VMJmr
-target_project=/home/mi/ws/tmp_repo_mipilot_mbf_debug_v2_1164145_nj0r1N
+
 mode=$1
+default_target_record_dir=$pwd/record/test_record/2024-05-09/2120
+target_record_dir=${2:-$default_target_record_dir}
+default_target_project=/home/mi/ws/tmp_repo_mipilot_mbf_2926_uO43jT
+target_project=${3:-$default_target_project}
 
 RunReplay(){
     target_record_dir=$1
@@ -45,8 +33,11 @@ RunReplay(){
         exit 1
     fi
     echo target_record:$target_record
+    echo target_record_dir:$target_record_dir
+    echo output_dir:$output_dir
+    echo target_project:$target_project
     ./mcap_parse.sh $target_record $pwd
-    cat passward.txt | sudo -S cp $pwd/system.json /dat/prod/device_hub/
+    sudo cp $pwd/system.json /dat/prod/device_hub/
 
     python ${pwd}/record_replayer/record_replayer.py \
         --target-record-dir $target_record_dir \
@@ -61,34 +52,9 @@ RunReplay(){
 }
     
 if [ ${mode} == 'replay_single' ];then
-    default_target_record_dir=$pwd/record/test_record/0418/0060/1659
-    # default_target_record_dir=$pwd/record/test_record/2024-04-28/MT091/14-25-17 #88
-    # default_target_record_dir=$pwd/record/test_record/2024-04-28/MT091/14-37-19 #42
-    default_target_record_dir=$pwd/record/test_record/2024-04-28/MT091/15-59-51 #50
-    # default_target_record_dir=$pwd/record/test_record/2024-04-28/MT091/16-26-10 #59
-    # default_target_record_dir=$pwd/record/test_record/2024-04-28/MT091/16-44-03 #53
-    # default_target_record_dir=$pwd/record/test_record/2024-04-28/MT091/16-49-24 #36,55
-    # default_target_record_dir=$pwd/record/test_record/2024-04-28/MT091/16-51-08 #40
-    # default_target_record_dir=$pwd/record/test_record/2024-04-28/MT091/16-52-53 #44
-    # default_target_record_dir=$pwd/record/test_record/2024-04-28/MT091/16-55-22 #56
-    # default_target_record_dir=$pwd/record/test_record/2024-04-28/MT091/16-59-51 #36
-    # default_target_record_dir=$pwd/record/test_record/2024-04-28/MT091/20-32-41 #38
-    # default_target_record_dir=$pwd/record/test_record/2024-04-28/MT091/20-34-39 #64
-    # default_target_record_dir=$pwd/record/test_record/2024-04-28/MT091/20-36-59 #63
+ 
 
-
-    # default_target_record_dir=$pwd/record/test_record/2024-04-18/MT091/10-32-59 # no
-    # default_target_record_dir=$pwd/record/test_record/2024-04-18/MT091/10-35-14 # yes
-    default_target_record_dir=$pwd/record/test_record/2024-04-18/MT091/10-48-56 # no
-    # default_target_record_dir=$pwd/record/test_record/2024-04-18/MT091/10-53-04 # yes
-    default_target_record_dir=$pwd/record/test_record/2024-04-18/MT091/10-55-15
-    default_target_record_dir=$pwd/record/test_record/2024-04-21/MT091/11-32-11
-    default_target_record_dir=$pwd/record/test_record/2024-05-09/2120
-    
-
-    target_record_dir=${2:-$default_target_record_dir}
-
-    start_time="120"
+    start_time="00"
 
     RunReplay $target_record_dir $start_time
 
