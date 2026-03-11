@@ -56,10 +56,6 @@ class JiraDownloader(object):
         if os.path.exists(save_jira_path):
             print(f"File already exists: {save_jira_path}")
             return
-        save_jira_path = os.path.join(jira_folder, jira_id + ".mcap")
-        if os.path.exists(save_jira_path):
-            print(f"File already exists: {save_jira_path}")
-            return
 
         try:
             req = QueryReq(jira_id=jira_id)
