@@ -3,8 +3,8 @@
 # =============================================================================
 # 脚本名称: run_repo_workflow.sh
 # 功能: 下载代码仓库、复制代码文件并执行构建
-# 使用方法: bash run_repo_workflow.sh <repo-name>
-# 示例: bash run_repo_workflow.sh manifest_mipilot_mbf_2926_revision_restore_script.txt
+# 使用方法: bash run_repo_workflow.sh <repo-name> <build>
+# 示例: bash run_repo_workflow.sh manifest_mipilot_mbf_2926_revision_restore_script.txt build
 # =============================================================================
 
 # 设置脚本运行目录为当前工作目录
@@ -67,24 +67,39 @@ check_existing_repo() {
 
 # 检查输入参数
 if [ $# -lt 1 ]; then
-    log "错误: 请提供repo名称作为参数"
-    log "使用方法: bash run_repo_workflow.sh <repo-name>"
-    log "示例: bash run_repo_workflow.sh manifest_mipilot_mbf_2926_revision_restore_script.txt"
+    log "错误: 请提供repo名称或manifest路径作为参数"
+    log "使用方法: bash run_repo_workflow.sh <repo-path> [build]"
+    log "示例: bash run_repo_workflow.sh /home/mi/debug/scripts/manifest_mipilot_mbf_2926_revision_restore_script.txt"
+    log "示例: bash run_repo_workflow.sh /home/mi/debug/scripts/manifest_mipilot_mbf_2926_revision_restore_script.txt build"
     exit 1
 fi
 
-# 获取输入的repo名称
-REPO_NAME="$1"
+# 是否需要编译（默认不需要）
+NEED_BUILD=false
+if [ "$2" = "build" ]; then
+    NEED_BUILD=true
+    log "将执行编译步骤"
+fi
+
+# 获取输入的参数（必须是完整路径）
+INPUT_PATH="$1"
+
+# 检查是否传入的是完整路径
+if [[ "$INPUT_PATH" != *"/"* ]]; then
+    log "错误: 请传入完整的文件路径，而不是文件名"
+    log "示例: bash run_repo_workflow.sh /home/mi/debug/scripts/manifest_mipilot_mbf_2926_revision_restore_script.txt"
+    exit 1
+fi
+
+REPO_NAME=$(basename "$INPUT_PATH")
+REPO_PATH="$INPUT_PATH"
 
 # 验证repo名称
 if ! validate_repo_name "$REPO_NAME"; then
     log "错误: 无效的repo名称 '${REPO_NAME}'"
-    log "提示: repo名称不能包含路径分隔符或特殊字符"
+    log "提示: repo名称不能包含特殊字符"
     exit 1
 fi
-
-# 设置repo路径
-REPO_PATH="${HOME}/Downloads/${REPO_NAME}"
 
 log "========================================"
 log "开始执行REPO_DOWNLOAD工作流"
@@ -104,7 +119,7 @@ if [ -n "$REPO_KEYWORD" ]; then
     if [ $? -eq 0 ]; then
         log "发现已存在的文件夹: ~/ws/${EXISTING_DIR}"
         log "该repo已经下载过，无需重复操作，退出脚本"
-        # exit 0
+        exit 0
     else
         log "未发现包含关键词 '${REPO_KEYWORD}' 的文件夹，继续执行..."
     fi
@@ -221,20 +236,75 @@ else
     fi
 fi
 
-# 步骤6: 切换到repo根目录
-log "步骤6: 切换到repo根目录..."
+# 步骤6: 运行replay_adaption_revert.sh
+log "步骤6: 运行replay_adaption_revert.sh..."
+
+if [ ! -f "${TARGET_PATH}/replay_adaption_revert.sh" ]; then
+    # 尝试从code目录复制
+    if [ -f "${SCRIPT_DIR}/code/replay_adaption_revert.sh" ]; then
+        log "从code目录复制replay_adaption_revert.sh..."
+        cp "${SCRIPT_DIR}/code/replay_adaption_revert.sh" "${TARGET_PATH}/"
+    else
+        log "错误: 找不到replay_adaption_revert.sh文件"
+        exit 1
+    fi
+fi
+
+cd "$TARGET_PATH"
+bash ./replay_adaption_revert.sh >> "$LOG_FILE" 2>&1
+REVERT_EXIT_CODE=$?
+if [ $REVERT_EXIT_CODE -ne 0 ]; then
+    log "警告: replay_adaption_revert.sh 执行失败或不完全成功，退出码: ${REVERT_EXIT_CODE}，继续执行..."
+fi
+log "replay_adaption_revert.sh 执行完成"
+
+# 步骤7: 运行replay_adaption_apply.sh
+log "步骤7: 运行replay_adaption_apply.sh..."
+
+if [ ! -f "${TARGET_PATH}/replay_adaption_apply.sh" ]; then
+    # 尝试从code目录复制
+    if [ -f "${SCRIPT_DIR}/code/replay_adaption_apply.sh" ]; then
+        log "从code目录复制replay_adaption_apply.sh..."
+        cp "${SCRIPT_DIR}/code/replay_adaption_apply.sh" "${TARGET_PATH}/"
+    else
+        log "错误: 找不到replay_adaption_apply.sh文件"
+        exit 1
+    fi
+fi
+
+bash ./replay_adaption_apply.sh >> "$LOG_FILE" 2>&1
+APPLY_EXIT_CODE=$?
+if [ $APPLY_EXIT_CODE -ne 0 ]; then
+    log "错误: replay_adaption_apply.sh 执行失败，退出码: ${APPLY_EXIT_CODE}"
+    exit 1
+fi
+log "replay_adaption_apply.sh 执行完成"
+
+# 如果不需要编译，执行到步骤7后直接退出
+if [ "$NEED_BUILD" = false ]; then
+    log "========================================"
+    log "Repo工作流执行完成（未编译）"
+    log "Repo名称: ${REPO_NAME}"
+    log "最终路径: ${TARGET_PATH}"
+    log "日志文件: ${LOG_FILE}"
+    log "========================================"
+    exit 0
+fi
+
+# 步骤8: 切换到repo根目录
+log "步骤8: 切换到repo根目录..."
 cd "$TARGET_PATH"
 CURRENT_DIR=$(pwd)
 log "当前工作目录: ${CURRENT_DIR}"
 
-# 步骤7: 执行build.sh构建
-log "步骤7: 执行build.sh构建..."
+# 步骤9: 执行build.sh构建
+log "步骤9: 执行build.sh构建..."
 
 if [ ! -f "./build.sh" ]; then
     log "警告: build.sh不存在，跳过此步骤"
 else
-    log "执行: ./build.sh //mipilot/launch/modules/parking/controller/..."
-    ./build.sh "//mipilot/launch/modules/parking/controller/..." >> "$LOG_FILE" 2>&1
+    log "执行: ./build.sh mipilot/modules/parking/controller/..."
+    ./build.sh "mipilot/modules/parking/controller/..." >> "$LOG_FILE" 2>&1
     BUILD_EXIT=$?
     if [ $BUILD_EXIT -ne 0 ]; then
         log "错误: build.sh执行失败，退出码: ${BUILD_EXIT}"
@@ -243,21 +313,21 @@ else
     log "build.sh执行完成"
 fi
 
-# 步骤8: 执行build_add3.sh构建
-log "步骤8: 执行build_add3.sh构建..."
+# # 步骤10: 执行build_add3.sh构建
+# log "步骤10: 执行build_add3.sh构建..."
 
-if [ ! -f "./build_add3.sh" ]; then
-    log "警告: build_add3.sh不存在，跳过此步骤"
-else
-    log "执行: ./build_add3.sh //mipilot/launch/modules/parking/controller/..."
-    ./build_add3.sh "//mipilot/launch/modules/parking/controller/..." >> "$LOG_FILE" 2>&1
-    BUILD_EXIT=$?
-    if [ $BUILD_EXIT -ne 0 ]; then
-        log "错误: build_add3.sh执行失败，退出码: ${BUILD_EXIT}"
-        exit 1
-    fi
-    log "build_add3.sh执行完成"
-fi
+# if [ ! -f "./build_add3.sh" ]; then
+#     log "警告: build_add3.sh不存在，跳过此步骤"
+# else
+#     log "执行: ./build_add3.sh //mipilot/launch/modules/parking/controller/..."
+#     ./build_add3.sh "//mipilot/launch/modules/parking/controller/..." >> "$LOG_FILE" 2>&1
+#     BUILD_EXIT=$?
+#     if [ $BUILD_EXIT -ne 0 ]; then
+#         log "错误: build_add3.sh执行失败，退出码: ${BUILD_EXIT}"
+#         exit 1
+#     fi
+#     log "build_add3.sh执行完成"
+# fi
 
 # 工作流完成汇总
 log "========================================"

@@ -6,7 +6,7 @@ time=$(date "+%Y%m%d%H%M%S")
 mode=$1
 default_target_record_dir=$pwd/record/test_record/2024-05-09/2120
 target_record_dir=${2:-$default_target_record_dir}
-default_target_project=/home/mi/ws/tmp_repo_mipilot_mbf_2926_uO43jT
+default_target_project=/home/mi/ws/tmp_repo_mipilot_mbf_debug_v2_1162553_GiPyGV
 target_project=${3:-$default_target_project}
 
 RunReplay(){
@@ -37,7 +37,8 @@ RunReplay(){
     echo output_dir:$output_dir
     echo target_project:$target_project
     ./mcap_parse.sh $target_record $pwd
-    sudo cp $pwd/system.json /dat/prod/device_hub/
+    echo "djh159djh" | sudo -S cp $pwd/system.json /dat/prod/device_hub/
+    # sudo -S cp $pwd/system.json /dat/prod/device_hub/
 
     python ${pwd}/record_replayer/record_replayer.py \
         --target-record-dir $target_record_dir \

@@ -3,7 +3,7 @@
 # =============================================================================
 # 脚本名称: run_jira_workflow.sh
 # 功能: 根据JIRA ID自动下载记录文件并生成报告
-# 使用方法: bash run_jira_workflow.sh <jira-ids>
+# 使用方法: bash run_jira_workflow.sh <jira-ids> <output_dir:default>
 # 示例: bash run_jira_workflow.sh ADM2-112827,ADM2-109165
 # =============================================================================
 
@@ -41,16 +41,21 @@ validate_jira_id() {
 # 检查输入参数
 if [ $# -lt 1 ]; then
     log "错误: 请提供JIRA IDs作为参数"
-    log "使用方法: bash run_jira_workflow.sh <jira-ids>"
+    log "使用方法: bash run_jira_workflow.sh <jira-ids> [output_dir]"
     log "示例: bash run_jira_workflow.sh ADM2-112827,ADM2-109165"
+    log "示例: bash run_jira_workflow.sh ADM2-112827 /custom/output/path"
     exit 1
 fi
 
 # 获取输入的JIRA IDs（逗号分隔）
 JIRA_IDS="$1"
 
-# 设置输出目录为当前目录下的 record/test_record/jira/demo
-OUTPUT_DIR="${SCRIPT_DIR}/record/test_record/jira"
+# 设置输出目录（支持自定义，默认为 ${SCRIPT_DIR}/record/test_record/jira）
+if [ -n "$2" ]; then
+    OUTPUT_DIR="$2"
+else
+    OUTPUT_DIR="${SCRIPT_DIR}/record/test_record/jira"
+fi
 
 log "========================================"
 log "开始执行JIRA_DOWNLOAD工作流"

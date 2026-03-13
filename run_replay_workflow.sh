@@ -1,18 +1,18 @@
 #!/bin/bash
 
 # =============================================================================
-# 脚本名称: run_workflow3.sh
-# 功能: 自动化执行完整的JIRA记录下载、代码仓库下载、编译和回灌测试流程
-# 使用方法: bash run_workflow3.sh <jira-ids> <repo-name>
-# 示例: bash run_workflow3.sh ADM2-112827 manifest_mipilot_mbf_2926_revision_restore_script.txt
+# 脚本名称: run_replay_workflow.sh
+# 功能: 自动执行JIRA回放工作流
+# 使用方法: bash run_replay_workflow.sh <jira-id> [jira-record_output_dir] [repo-output-dir]
+# 示例1: bash run_replay_workflow.sh ADM2-112827
+# 示例1: bash run_replay_workflow.sh ADM2-112827 /path/to/record /path/to/ws
 # =============================================================================
 
 # 设置脚本运行目录为当前工作目录
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-cd "$SCRIPT_DIR"
+SCRIPT_ROOT="$(pwd)"
 
-# 创建日志文件路径（使用时间戳命名）
-TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+# 创建日志文件路径
 LOG_FILE="${SCRIPT_DIR}/workflow_replay.log"
 
 # 删除旧的日志文件
@@ -23,470 +23,256 @@ log() {
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE"
 }
 
-# =============================================================================
-# 安全验证函数
-# =============================================================================
-
-# 验证JIRA ID格式函数 - 防止路径遍历攻击
+# 验证JIRA ID格式
 validate_jira_id() {
     local jira_id="$1"
-    # JIRA ID格式: 项目前缀(大写字母+数字) + 连字符 + 数字
-    # 例如: ADM2-112827, PROJ-12345, TEST-1
     if [[ ! "$jira_id" =~ ^[A-Z0-9]+-[0-9]+$ ]]; then
         return 1
     fi
-    # 检查是否包含路径分隔符或危险字符
     if [[ "$jira_id" == *"/"* ]] || [[ "$jira_id" == *".."* ]] || [[ "$jira_id" == *"\\"* ]]; then
         return 1
     fi
     return 0
 }
 
-# 验证repo名称函数 - 防止路径遍历攻击
-validate_repo_name() {
-    local repo_name="$1"
-    # 检查是否包含路径分隔符或危险字符
-    if [[ "$repo_name" == *"/"* ]] || [[ "$repo_name" == *".."* ]] || [[ "$repo_name" == *"\\"* ]]; then
-        return 1
-    fi
-    # 检查文件名是否合法（只允许字母、数字、下划线、点和连字符）
-    if [[ ! "$repo_name" =~ ^[a-zA-Z0-9._-]+$ ]]; then
-        return 1
-    fi
-    return 0
-}
-
-# 从repo名称中提取核心关键词
-# 例如: manifest_mipilot_mbf_2926_revision_restore_script.txt -> mipilot_mbf_2926
-extract_repo_keyword() {
-    local repo_name="$1"
-    # 提取manifest_和_revision之间的内容
-    local keyword=$(echo "$repo_name" | sed -n 's/manifest_\(.*\)_revision.*/\1/p')
-    echo "$keyword"
-}
-
-# 检查~/ws目录下是否存在包含指定关键词的文件夹
-check_existing_repo() {
-    local keyword="$1"
-    local ws_dir="${HOME}/ws"
-
-    # 如果~/ws目录不存在，直接返回未找到
-    if [ ! -d "$ws_dir" ]; then
-        return 1
-    fi
-
-    # 查找包含关键词的文件夹
-    local found_dir=$(find "$ws_dir" -maxdepth 1 -type d -name "*${keyword}*" 2>/dev/null | head -n 1)
-
-    if [ -n "$found_dir" ]; then
-        echo "$found_dir"
-        return 0
-    fi
-    return 1
-}
-
-# =============================================================================
-# 清理函数 - 脚本退出时停止roudi
-# =============================================================================
-ROUDI_PID=""
-
-cleanup() {
-    log "========================================"
-    log "执行清理操作..."
-    if [ -n "$ROUDI_PID" ]; then
-        log "停止roudi进程 (PID: $ROUDI_PID)..."
-        kill "$ROUDI_PID" 2>/dev/null || true
-        # 等待进程结束
-        wait "$ROUDI_PID" 2>/dev/null || true
-        log "roudi进程已停止"
-    fi
-    log "清理完成"
-    log "========================================"
-}
-
-# 注册清理函数到脚本退出信号
-trap cleanup EXIT INT TERM
-
-# =============================================================================
-# 主流程
-# =============================================================================
-
 # 检查输入参数
-if [ $# -lt 2 ]; then
-    log "错误: 参数不足"
-    log "使用方法: bash run_workflow3.sh <jira-ids> <repo-name>"
-    log "示例: bash run_workflow3.sh ADM2-112827 manifest_mipilot_mbf_2926_revision_restore_script.txt"
+if [ $# -lt 1 ]; then
+    log "错误: 请提供JIRA ID作为参数"
+    log "使用方法: bash run_replay_workflow.sh <jira-id> [jira-record_output_dir] [repo-output-dir]"
+    log "示例: bash run_replay_workflow.sh ADM2-112827"
+    log "示例: bash run_replay_workflow.sh ADM2-112827 /path/to/record /path/to/ws"
     exit 1
 fi
 
 # 获取输入参数
-JIRA_IDS="$1"
-REPO_NAME="$2"
+JIRA_ID="$1"
 
 # 验证JIRA ID格式
-if ! validate_jira_id "$JIRA_IDS"; then
-    log "错误: 无效的JIRA ID格式 '${JIRA_IDS}'"
+if ! validate_jira_id "$JIRA_ID"; then
+    log "错误: 无效的JIRA ID格式 '${JIRA_ID}'"
     log "提示: JIRA ID应该是 'PROJECT-12345' 格式"
     exit 1
 fi
 
-# 验证repo名称
-if ! validate_repo_name "$REPO_NAME"; then
-    log "错误: 无效的repo名称 '${REPO_NAME}'"
-    log "提示: repo名称不能包含路径分隔符或特殊字符"
-    exit 1
+# 设置jira-record_output_dir（默认为 ${pwd}/record/test_record/jira）
+if [ -n "$2" ]; then
+    JIRA_RECORD_OUTPUT_DIR="$2"
+else
+    JIRA_RECORD_OUTPUT_DIR="${SCRIPT_ROOT}/record/test_record/jira"
+fi
+
+# 设置repo输出目录（默认为 ${HOME}/ws）
+if [ -n "$3" ]; then
+    REPO_OUTPUT_DIR="$3"
+else
+    REPO_OUTPUT_DIR="${HOME}/ws"
 fi
 
 log "========================================"
 log "开始执行REPLAY工作流"
-log "JIRA IDs: ${JIRA_IDS}"
-log "Repo名称: ${REPO_NAME}"
+log "JIRA ID: ${JIRA_ID}"
+log "JIRA Record输出目录: ${JIRA_RECORD_OUTPUT_DIR}"
+log "Repo输出目录: ${REPO_OUTPUT_DIR}"
 log "日志文件: ${LOG_FILE}"
 log "========================================"
 
-# 步骤1: 运行run_jira_workflow.sh
-log ""
-log "步骤1: 运行run_jira_workflow.sh下载JIRA记录..."
+# 步骤1: 下载jira-record
+log "步骤1: 开始下载jira-record..."
+log "执行: bash ${SCRIPT_DIR}/run_jira_workflow.sh ${JIRA_ID} ${JIRA_RECORD_OUTPUT_DIR}"
+bash "${SCRIPT_DIR}/run_jira_workflow.sh" "$JIRA_ID" "$JIRA_RECORD_OUTPUT_DIR" >> "$LOG_FILE" 2>&1
+if [ $? -ne 0 ]; then
+    log "错误: 下载jira-record失败，请查看日志文件了解详情"
+    exit 1
+fi
+log "jira-record下载完成"
 
-if [ ! -f "${SCRIPT_DIR}/run_jira_workflow.sh" ]; then
-    log "错误: 找不到 run_jira_workflow.sh 文件"
+# 步骤2: 获取JIRA版本信息
+log "步骤2: 获取JIRA版本信息..."
+log "执行: claude --dangerously-skip-permissions \"/mi-get-jira-manifest ${JIRA_ID}\""
+claude --dangerously-skip-permissions "/mi-get-jira-manifest ${JIRA_ID}" >> "$LOG_FILE" 2>&1
+if [ $? -ne 0 ]; then
+    log "错误: 获取JIRA版本信息失败，请查看日志文件了解详情"
+    exit 1
+fi
+log "JIRA版本信息获取完成"
+
+# 步骤3: 读取manifest_name.txt
+log "步骤3: 读取manifest_name.txt..."
+MANIFEST_NAME_FILE="${SCRIPT_DIR}/manifest_name.txt"
+if [ ! -f "$MANIFEST_NAME_FILE" ]; then
+    log "错误: 找不到manifest_name.txt文件"
+    exit 1
+fi
+MANIFEST_NAME=$(cat "$MANIFEST_NAME_FILE")
+log "MANIFEST_NAME: ${MANIFEST_NAME}"
+
+# 步骤4: 下载manifest.txt
+log "步骤4: 下载manifest.txt..."
+log "执行: claude --dangerously-skip-permissions \"/mi-manifest-download ${MANIFEST_NAME}, saved in ${SCRIPT_DIR}\""
+claude --dangerously-skip-permissions "/mi-manifest-download ${MANIFEST_NAME}, saved in ${SCRIPT_DIR}" >> "$LOG_FILE" 2>&1
+if [ $? -ne 0 ]; then
+    log "错误: 下载manifest.txt失败，请查看日志文件了解详情"
+    exit 1
+fi
+log "manifest.txt下载命令已执行"
+
+# 步骤5: 等待manifest下载完成（循环60s，每10s检查一次）
+log "步骤5: 等待manifest下载完成..."
+WAIT_COUNT=0
+MAX_WAIT=6  # 60s / 10s = 6次
+
+while [ $WAIT_COUNT -lt $MAX_WAIT ]; do
+    # 查找以manifest开头，revision_restore_script.txt结尾的文件
+    MANIFEST_FILE=$(ls "${SCRIPT_DIR}"/manifest*revision_restore_script.txt 2>/dev/null | head -n 1)
+
+    if [ -n "$MANIFEST_FILE" ] && [ -f "$MANIFEST_FILE" ]; then
+        log "manifest下载成功: ${MANIFEST_FILE}"
+        break
+    fi
+
+    WAIT_COUNT=$((WAIT_COUNT + 1))
+    if [ $WAIT_COUNT -lt $MAX_WAIT ]; then
+        log "等待中... ($WAIT_COUNT/$MAX_WAIT)"
+        sleep 10
+    fi
+done
+
+if [ $WAIT_COUNT -ge $MAX_WAIT ]; then
+    log "错误: 等待manifest下载超时（60秒）"
     exit 1
 fi
 
-bash "${SCRIPT_DIR}/run_jira_workflow.sh" "$JIRA_IDS" >> "$LOG_FILE" 2>&1
-JIRA_EXIT_CODE=$?
-if [ $JIRA_EXIT_CODE -ne 0 ]; then
-    log "错误: run_jira_workflow.sh 执行失败，退出码: ${JIRA_EXIT_CODE}"
+# 验证manifest文件存在
+if [ ! -f "$MANIFEST_FILE" ]; then
+    log "错误: manifest文件不存在: ${MANIFEST_FILE}"
     exit 1
 fi
-log "run_jira_workflow.sh 执行完成"
+# MANIFEST_FILE=/home/mi/debug/scripts/manifest_mipilot_mbf_debug_v2_1162553_revision_restore_script.txt
+log "MANIFEST_FILE: ${MANIFEST_FILE}"
 
-# 步骤2: 检查~/ws目录下是否已存在符合条件的文件夹
-log ""
-log "步骤2: 检查~/ws目录下是否已存在符合条件的文件夹..."
+# 步骤6: 下载repo并编译
+log "步骤6: 下载repo并编译..."
+log "执行: bash ${SCRIPT_DIR}/run_repo_workflow.sh ${MANIFEST_FILE} build"
+bash "${SCRIPT_DIR}/run_repo_workflow.sh" "$MANIFEST_FILE" "build" >> "$LOG_FILE" 2>&1
+if [ $? -ne 0 ]; then
+    log "错误: 下载repo并编译失败，请查看日志文件了解详情"
+    exit 1
+fi
+log "repo下载并编译完成"
 
-REPO_KEYWORD=$(extract_repo_keyword "$REPO_NAME")
-REPO_DIR=""
-SKIP_DOWNLOAD=false
+# 从日志中提取repo路径
+# 方式1: 从"最终路径: xxx"提取
+REPO_DIR=$(grep -oP "最终路径: \K.*" "$LOG_FILE" | tail -n 1)
 
-if [ -n "$REPO_KEYWORD" ]; then
-    log "提取的关键词: ${REPO_KEYWORD}"
-
-    EXISTING_DIR=$(check_existing_repo "$REPO_KEYWORD")
-    if [ $? -eq 0 ]; then
-        log "发现已存在的文件夹: ${EXISTING_DIR}"
-        log "跳过步骤3的repo下载"
-        REPO_DIR="$EXISTING_DIR"
-        SKIP_DOWNLOAD=true
-    else
-        log "未发现包含关键词 '${REPO_KEYWORD}' 的文件夹，将继续执行repo下载"
-    fi
-else
-    log "无法从repo名称提取关键词，将继续执行repo下载"
+# 方式2: 从"发现已存在的文件夹: ~/ws/xxx"提取
+if [ -z "$REPO_DIR" ]; then
+    REPO_DIR=$(grep "发现已存在的文件夹:" "$LOG_FILE" | sed 's/.*: //' | xargs)
 fi
 
-# 步骤3: 运行run_repo_workflow.sh（如果需要）
-if [ "$SKIP_DOWNLOAD" = false ]; then
-    log ""
-    log "步骤3: 运行run_repo_workflow.sh下载代码仓库..."
-
-    if [ ! -f "${SCRIPT_DIR}/run_repo_workflow.sh" ]; then
-        log "错误: 找不到 run_repo_workflow.sh 文件"
-        exit 1
-    fi
-
-    bash "${SCRIPT_DIR}/run_repo_workflow.sh" "$REPO_NAME" >> "$LOG_FILE" 2>&1
-    REPO_EXIT_CODE=$?
-    if [ $REPO_EXIT_CODE -ne 0 ]; then
-        log "错误: run_repo_workflow.sh 执行失败，退出码: ${REPO_EXIT_CODE}"
-        exit 1
-    fi
-
-    # 从日志中提取repo路径
-    log "从日志中提取repo路径..."
-    # run_repo_workflow.sh 的日志写入自己的 workflow_repo.log
-    REPO_LOG_FILE="${SCRIPT_DIR}/workflow_repo.log"
-    REPO_DIR=$(grep "最终路径:" "$REPO_LOG_FILE" | tail -n 1 | sed 's/.*最终路径: //')
-    if [ -z "$REPO_DIR" ]; then
-        log "错误: 无法从日志中提取repo路径"
-        exit 1
-    fi
-    log "提取的repo路径: ${REPO_DIR}"
-else
-    log "步骤3: 跳过repo下载（已存在符合条件的文件夹）"
+# 方式3: 从"Repo已成功移动到: xxx"提取
+if [ -z "$REPO_DIR" ]; then
+    REPO_DIR=$(grep "Repo已成功移动到:" "$LOG_FILE" | sed 's/.*Repo已成功移动到: //')
 fi
 
-# 验证repo目录是否存在
+# 展开 ~ 为实际家目录路径
+REPO_DIR="${REPO_DIR/#\~/$HOME}"
+
 if [ ! -d "$REPO_DIR" ]; then
-    log "错误: repo目录不存在: ${REPO_DIR}"
+    log "错误: 找不到repo目录: ${REPO_DIR}"
     exit 1
 fi
+log "REPO_DIR: ${REPO_DIR}"
 
-# 步骤4: 切换到repo目录
-log ""
-log "步骤4: 切换到repo目录: ${REPO_DIR}"
+# 步骤7: bazel build iceoryx
+log "步骤7: 执行bazel build..."
 cd "$REPO_DIR"
-CD_EXIT_CODE=$?
-if [ $CD_EXIT_CODE -ne 0 ]; then
-    log "错误: 无法切换到repo目录，退出码: ${CD_EXIT_CODE}"
-    exit 1
-fi
-log "当前工作目录: $(pwd)"
-
-# 步骤5: 运行replay_adaption_revert.sh
-log ""
-log "步骤5: 运行replay_adaption_revert.sh..."
-
-if [ ! -f "./replay_adaption_revert.sh" ]; then
-    # 尝试从code目录复制
-    if [ -f "${SCRIPT_DIR}/code/replay_adaption_revert.sh" ]; then
-        log "从code目录复制replay_adaption_revert.sh..."
-        cp "${SCRIPT_DIR}/code/replay_adaption_revert.sh" ./
-    else
-        log "错误: 找不到replay_adaption_revert.sh文件"
-        exit 1
-    fi
-fi
-
-bash ./replay_adaption_revert.sh >> "$LOG_FILE" 2>&1
-REVERT_EXIT_CODE=$?
-if [ $REVERT_EXIT_CODE -ne 0 ]; then
-    log "警告: replay_adaption_revert.sh 执行失败或不完全成功，退出码: ${REVERT_EXIT_CODE}，继续执行..."
-fi
-log "replay_adaption_revert.sh 执行完成"
-
-# 步骤6: 运行replay_adaption_apply.sh
-log ""
-log "步骤6: 运行replay_adaption_apply.sh..."
-
-if [ ! -f "./replay_adaption_apply.sh" ]; then
-    # 尝试从code目录复制
-    if [ -f "${SCRIPT_DIR}/code/replay_adaption_apply.sh" ]; then
-        log "从code目录复制replay_adaption_apply.sh..."
-        cp "${SCRIPT_DIR}/code/replay_adaption_apply.sh" ./
-    else
-        log "错误: 找不到replay_adaption_apply.sh文件"
-        exit 1
-    fi
-fi
-
-bash ./replay_adaption_apply.sh >> "$LOG_FILE" 2>&1
-APPLY_EXIT_CODE=$?
-if [ $APPLY_EXIT_CODE -ne 0 ]; then
-    log "错误: replay_adaption_apply.sh 执行失败，退出码: ${APPLY_EXIT_CODE}"
-    exit 1
-fi
-log "replay_adaption_apply.sh 执行完成"
-
-# 步骤7: 执行build.sh编译
-log ""
-log "步骤7: 执行build.sh编译..."
-
-if [ ! -f "./build.sh" ]; then
-    log "错误: 找不到build.sh文件"
-    exit 1
-fi
-
-# 执行构建并捕获退出码
-bash ./build.sh "mipilot/modules/parking/controller/..." >> "$LOG_FILE" 2>&1
-BUILD_EXIT_CODE=$?
-if [ $BUILD_EXIT_CODE -ne 0 ]; then
-    log "错误: build.sh 执行失败，退出码: ${BUILD_EXIT_CODE}"
-    exit 1
-fi
-log "build.sh 执行完成"
-
-sleep 10
-
-# 步骤8: 编译iceoryx roudi
-log ""
-log "步骤8: 编译iceoryx roudi..."
-
+log "执行: bazel build --config gcc-x86_64 @iceoryx//iceoryx_posh:iox-roudi"
 bazel build --config gcc-x86_64 @iceoryx//iceoryx_posh:iox-roudi >> "$LOG_FILE" 2>&1
-BAZEL_EXIT_CODE=$?
-if [ $BAZEL_EXIT_CODE -ne 0 ]; then
-    log "错误: bazel build roudi 执行失败，退出码: ${BAZEL_EXIT_CODE}"
+if [ $? -ne 0 ]; then
+    log "错误: bazel build失败，请查看日志文件了解详情"
     exit 1
 fi
-log "bazel build roudi 执行完成"
+log "bazel build完成"
 
-# 步骤9: 启动roudi进程
-log ""
-log "步骤9: 启动roudi进程..."
-
-ROUDI_PATH="./bazel-bin/external/iceoryx/iceoryx_posh/iox-roudi"
-if [ ! -f "$ROUDI_PATH" ]; then
-    log "错误: 找不到roudi可执行文件: ${ROUDI_PATH}"
-    exit 1
+# 步骤8: 启动roudi
+log "步骤8: 启动roudi..."
+# 先检查是否有旧的roudi进程在运行
+if pgrep -f "iox-roudi" > /dev/null; then
+    log "警告: 旧的roudi进程正在运行，先杀掉"
+    pkill -f "iox-roudi"
+    sleep 2
 fi
 
-# 在后台启动roudi
-$ROUDI_PATH -m on -d ./ &
+log "执行: bazel-bin/external/iceoryx/iceoryx_posh/iox-roudi -m on -d ./"
+nohup bazel-bin/external/iceoryx/iceoryx_posh/iox-roudi -m on -d ./ >> "$LOG_FILE" 2>&1 &
 ROUDI_PID=$!
-log "roudi进程已启动，PID: ${ROUDI_PID}"
+log "roudi已启动，PID: ${ROUDI_PID}"
 
 # 等待roudi启动
-log "等待roudi启动..."
-sleep 3
+sleep 5
 
-# 检查roudi是否仍在运行
-if ! kill -0 "$ROUDI_PID" 2>/dev/null; then
-    log "错误: roudi进程启动失败或已退出"
+# 检查roudi是否成功启动
+if ! ps -p $ROUDI_PID > /dev/null 2>&1; then
+    log "错误: roudi启动失败"
     exit 1
 fi
-log "roudi进程运行正常"
+log "roudi启动成功"
 
-# 步骤10: 在新终端中执行start_replay.sh
-log ""
-log "步骤10: 在新终端中执行start_replay.sh进行回灌..."
-
-# 定义JIRA记录目录（run_jira_workflow.sh下载的记录位置）
-JIRA_RECORD_DIR="${SCRIPT_DIR}/record/test_record/jira/${JIRA_IDS}"
-
-# 检查JIRA记录目录是否存在
-if [ ! -d "$JIRA_RECORD_DIR" ]; then
-    log "警告: JIRA记录目录不存在: ${JIRA_RECORD_DIR}"
-    log "尝试查找其他可能的记录目录..."
-
-    # 尝试查找最近创建的记录目录
-    JIRA_BASE_DIR="${SCRIPT_DIR}/record/test_record/jira"
-    if [ -d "$JIRA_BASE_DIR" ]; then
-        JIRA_RECORD_DIR=$(find "$JIRA_BASE_DIR" -type d -name "${JIRA_IDS}" 2>/dev/null | head -1)
-    fi
-
-    if [ -z "$JIRA_RECORD_DIR" ] || [ ! -d "$JIRA_RECORD_DIR" ]; then
-        log "错误: 找不到JIRA记录目录"
-        exit 1
-    fi
-fi
-
-log "JIRA记录目录: ${JIRA_RECORD_DIR}"
-
-# 定义回灌输出目录
-REPLAY_OUTPUT_DIR="${SCRIPT_DIR}/record/replay_record"
-
-# 确保输出目录存在
-mkdir -p "$REPLAY_OUTPUT_DIR"
-
-# 检查start_replay.sh是否存在
-if [ ! -f "${SCRIPT_DIR}/start_replay.sh" ]; then
-    log "错误: 找不到start_replay.sh文件"
+# 步骤9: 执行replay
+log "步骤9: 执行回放..."
+cd "$SCRIPT_DIR"
+# 组成jira-dir路径
+JIRA_DIR="${JIRA_RECORD_OUTPUT_DIR}/${JIRA_ID}"
+if [ ! -d "$JIRA_DIR" ]; then
+    log "错误: 找不到jira目录: ${JIRA_DIR}"
+    kill $ROUDI_PID 2>/dev/null
     exit 1
 fi
+log "JIRA_DIR: ${JIRA_DIR}"
+log "REPO_DIR: ${REPO_DIR}"
 
-# 在新终端中执行start_replay.sh
-# 使用 gnome-terminal 或 xterm
-log "尝试在新终端中启动start_replay.sh..."
-
-# 检查是否有图形显示环境
-if [ -z "$DISPLAY" ] && [ -z "$WAYLAND_DISPLAY" ]; then
-    log "提示: 未检测到图形显示环境(DISPLAY/WAYLAND_DISPLAY未设置)"
-    log "将在后台执行start_replay.sh，而非新终端..."
-    USE_GUI_TERMINAL=false
-else
-    USE_GUI_TERMINAL=true
+# 直接在当前终端执行replay
+log "执行: bash ${SCRIPT_DIR}/start_replay.sh replay_single ${JIRA_DIR} ${REPO_DIR}"
+bash "${SCRIPT_DIR}/start_replay.sh" "replay_single" "$JIRA_DIR" "$REPO_DIR" >> "$LOG_FILE" 2>&1
+if [ $? -ne 0 ]; then
+    log "错误: replay执行失败，请查看日志文件了解详情"
+    kill $ROUDI_PID 2>/dev/null
+    exit 1
 fi
+log "replay执行完成"
 
-# 根据环境选择执行方式
-if [ "$USE_GUI_TERMINAL" = true ]; then
-    # 检查可用的终端模拟器
-    if command -v gnome-terminal &> /dev/null; then
-        # 使用 --wait 选项让 gnome-terminal 等待命令执行完毕后再关闭
-        gnome-terminal -- bash -c "cd '${SCRIPT_DIR}' && echo '工作目录: '\$(pwd) && bash start_replay.sh replay_single '${JIRA_RECORD_DIR}' '${REPO_DIR}'; echo '回灌完成，终端将自动关闭'" &
-        log "已使用gnome-terminal启动新终端"
-    elif command -v xterm &> /dev/null; then
-        xterm -e "cd '${SCRIPT_DIR}' && echo '工作目录: '\$(pwd) && bash start_replay.sh replay_single '${JIRA_RECORD_DIR}' '${REPO_DIR}'; echo '回灌完成，终端将自动关闭'" &
-        log "已使用xterm启动新终端"
-    elif command -v konsole &> /dev/null; then
-        konsole --workdir "${SCRIPT_DIR}" -e bash -c "echo '工作目录: '\$(pwd) && bash start_replay.sh replay_single '${JIRA_RECORD_DIR}' '${REPO_DIR}'; echo '回灌完成，终端将自动关闭'" &
-        log "已使用konsole启动新终端"
-    else
-        log "警告: 未找到可用的终端模拟器(gnome-terminal/xterm/konsole)"
-        USE_GUI_TERMINAL=false
+# 步骤10: 清理
+log "步骤10: 清理临时文件..."
+
+# 关闭roudi进程
+if ps -p $ROUDI_PID > /dev/null 2>&1; then
+    log "关闭roudi进程..."
+    kill $ROUDI_PID 2>/dev/null
+    sleep 2
+    # 如果进程仍然存在，强制杀掉
+    if ps -p $ROUDI_PID > /dev/null 2>&1; then
+        kill -9 $ROUDI_PID 2>/dev/null
     fi
 fi
 
-# 如果无法使用GUI终端，则在后台执行
-if [ "$USE_GUI_TERMINAL" = false ]; then
-    log "在当前终端后台执行start_replay.sh..."
-    cd "$SCRIPT_DIR"
-    bash start_replay.sh replay_single "$JIRA_RECORD_DIR" "${REPO_DIR}" > "$LOG_FILE" 2>&1 &
-    REPLAY_PID=$!
-    log "已在后台启动start_replay.sh，PID: ${REPLAY_PID}"
+删除manifest_name.txt和manifest.txt
+if [ -f "$MANIFEST_NAME_FILE" ]; then
+    rm -f "$MANIFEST_NAME_FILE"
+    log "已删除: ${MANIFEST_NAME_FILE}"
 fi
 
-log ""
+if [ -f "$MANIFEST_FILE" ]; then
+    rm -f "$MANIFEST_FILE"
+    log "已删除: ${MANIFEST_FILE}"
+fi
+
+# 工作流完成汇总
 log "========================================"
-log "工作流3执行完成"
-log "JIRA IDs: ${JIRA_IDS}"
-log "Repo名称: ${REPO_NAME}"
+log "REPLAY工作流执行完成"
+log "JIRA ID: ${JIRA_ID}"
 log "Repo目录: ${REPO_DIR}"
-log "JIRA记录目录: ${JIRA_RECORD_DIR}"
+log "Replay记录目录: ${REPLAY_RECORD_DIR}"
 log "日志文件: ${LOG_FILE}"
 log "========================================"
-log ""
-log "注意: roudi进程仍在后台运行 (PID: ${ROUDI_PID})"
-if [ "$USE_GUI_TERMINAL" = true ]; then
-    log "start_replay.sh已在新终端中启动，使用replay_single模式"
-else
-    log "start_replay.sh已在当前终端后台启动，PID: ${REPLAY_PID}，使用replay_single模式"
-fi
-log ""
 
-# 步骤11: 等待并验证结果
-log "步骤11: 等待回灌完成并验证结果..."
-log "等待60秒让回灌生成文件..."
-sleep 60
-
-log ""
-log "========================================"
-log "验证结果"
-log "========================================"
-
-# 查找record/replay_record目录下的新文件夹
-NEWEST_DIR=$(find "$REPLAY_OUTPUT_DIR" -type d -printf '%T@ %p\n' 2>/dev/null | sort -n | tail -1 | cut -d' ' -f2-)
-
-if [ -n "$NEWEST_DIR" ]; then
-    log "发现最新的目录: ${NEWEST_DIR}"
-
-    # 递归查找.html文件
-    HTML_FILES=$(find "$NEWEST_DIR" -name "*.html" -type f 2>/dev/null)
-
-    if [ -n "$HTML_FILES" ]; then
-        log "✅ 验证通过: 发现HTML文件:"
-        echo "$HTML_FILES" | while read -r html_file; do
-            log "  - ${html_file}"
-        done
-        log "========================================"
-        log "测试通过！工作流3执行成功！"
-        log "========================================"
-        exit 0
-    else
-        log "⚠️  警告: 未发现HTML文件，回灌可能尚未完成"
-        log "请稍后手动检查目录: ${REPLAY_OUTPUT_DIR}"
-        log ""
-        log "等待额外60秒再次检查..."
-        sleep 60
-
-        # 再次检查
-        HTML_FILES=$(find "$NEWEST_DIR" -name "*.html" -type f 2>/dev/null)
-        if [ -n "$HTML_FILES" ]; then
-            log "✅ 验证通过: 发现HTML文件:"
-            echo "$HTML_FILES" | while read -r html_file; do
-                log "  - ${html_file}"
-            done
-            log "========================================"
-            log "测试通过！工作流3执行成功！"
-            log "========================================"
-            exit 0
-        else
-            log "❌ 验证失败: 仍未发现HTML文件"
-            log "请手动检查目录: ${REPLAY_OUTPUT_DIR}"
-            exit 1
-        fi
-    fi
-else
-    log "❌ 验证失败: 未发现新创建的目录"
-    log "请手动检查目录: ${REPLAY_OUTPUT_DIR}"
-    exit 1
-fi
+exit 0

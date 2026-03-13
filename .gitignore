@@ -6,3 +6,5 @@ record_downloader/utils/jira_scanner/global_config.py
 stereo_test_analysis/original_data_by_slot
 stereo_test_analysis/original_data_by_slot_grouped
 .vscode
+.playwright-mcp/
+*.log
