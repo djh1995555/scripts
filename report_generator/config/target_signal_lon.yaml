@@ -1,0 +1,232 @@
+target_panel:
+  # 状态机 & 功能模式
+  # json中看actuator_acceleration_interface和actuator_torque_interface判断纵向接口
+  # json中看actuator_steering_angle_interface，actuator_front_wheel_steer_angle_interface，actuator_steering_torque_interface和actuator_steering_curvature_interface判断横向接口
+  State:
+    "ctrl_function_mode": "ctrl_function_mode" # MANUAL，ACC，ECO_ASSIST，CP，UNP，L3_FADEIN，MNP，PNP，LPNP，LPNP_MAPPING
+    "controller_status": "controller_status" # ControllerStatus::{CTRL_STATUS_IDLE, CTRL_STATUS_START, CTRL_STATUS_CRUISE, CTRL_STATUS_STOP}
+    "lon_fsm_state": "lon_fsm_state" # LonFsmState::{IDLE, START, CRUISE, STOP,STILL}
+    "car_model_type": car_model_type 
+    "brake_override_flag": "brake_override_flag"
+    "throttle_override_flag": "throttle_override_flag"
+    "lon_enable": "lon_enable"
+    "lat_enable": "lat_enable"
+    "lon_replan": "lon_replan"
+    "lat_replan": "lat_replan"
+    "adas_activated": "ldp_activated"
+    "inverse_flag": "inverse_flag" # 倒车标志位
+    "reverse_flag": "reverse_flag" # 倒车标志位
+    "lateral_dob_update_flag": "lateral_dob_update_flag"  # 是否在用lateral_disturbance_observer_补偿
+    "slowdown_flag": "slowdown_flag"  # 弯道减速激活标志。当前轮转角需求对应的"弯道限速"vel_mid低于当前车速 vel 时，置 1，表示车辆因转向角受限需要减速
+    "decel_intent": "decel_intent"
+    "plan_stop_flag": "plan_stop_flag"  # 规划要求停车标志
+    "plan_stop_intent": "plan_stop_intent"
+    "plan_start_intent": "plan_start_intent"
+    "is_any_wheel_speed_zero": "is_any_wheel_speed_zero"  # 是否有车轮车速为零
+    "osqp_solver_flag": "osqp_solver_flag"  # osqp求解器求解状态，MPC_SOLVE_SUCCESS，MPC_ERROR_LARGE，MPC_SOLVE_FAIL，MPC_FAULT_SIZE
+    "is_use_wheel_vel": is_use_wheel_vel
+    
+  BehaviorAndActions:
+    "intersection_direction": "intersection_direction"
+    "distance_to_stop_line": "distance_to_stop_line"
+    "enter_intersection_flag": "enter_intersection_flag"
+    "lane_change_direction": "lane_change_direction"
+    "lane_change_status": "lane_change_status"
+    "is_in_uturn": "is_in_uturn"
+    "is_enable_active_rear_steering": "is_enable_active_rear_steering"
+    "mrm_controller_lat_only": "mrm_controller_lat_only"
+    "mrm_controller_lon_only": "mrm_controller_lon_only"
+    "idle_driving_activated": "idle_driving_activated"
+    "enable_inplace_steering": "enable_inplace_steering"
+    "stabilize_steering_reason": "stabilize_steering_reason"
+    "is_uturn_out": "is_uturn_out"
+    "lat_situation": lat_situation # 左右转，左右变道，直行
+    "unp_scenario": unp_scenario
+
+  Velocity:
+    "vel_des": "vel_des" # 期望速度
+    "vel_ego_kf_output": "vel_ego_kf_output" # lon_vel_kalman_filter_输出速度
+    # "1e6_times_vel_ego_kf_variance": "1e6_times_vel_ego_kf_variance"
+    "ego_speed_est": "ego_speed_est" # ego_speed_est_输出速度
+    "vel_ref": "vel_ref" # 规划输出的速度参考值
+    "vel_bx": "vel_bx" # 实际纵向速度
+    "vel_by": "vel_by" # 实际侧向速度
+    "vel_ego": "vel_ego" # 反馈的实际车速
+    "vel_ego_real": "vel_ego_real" # 反馈的实际车速
+    "koopman_vel_u": "koopman_vel_u" # koopman输入，纵向速度（A[0,1] 调度）
+    "koopman_pred_velv": "koopman_pred_velv_seq"
+
+
+  WheelSpeed:
+    "front_left": "front_left" # 左前轮车速
+    "front_right": "front_right" # 右前轮车速
+    "rear_left": "rear_left" # 左后轮车速
+    "rear_right": "rear_right" # 右后轮车速
+    "wheel_speed_est": wheel_speed_est # wheel_speed_ekf_输出
+    "vel_wheel": "vel_wheel" # 轮速
+
+  # 纵向加速度
+  Acceleration:
+    # 最终根据加速度正负输出control_command.throttle_command.throttle_command_data.throttle_command和control_command.brake_command.brake_command_data.brake_command
+    "filtered_cur_accel_cmd": "filtered_cur_accel_cmd" # 最终输出acc cmd（加速度接口下），后续根据正负分成throttle和brake
+    "ori_cur_accel_cmd": "ori_cur_accel_cmd"
+    "last_accel_cmd": "last_accel_cmd" # 同filtered_cur_accel_cmd
+    "final_acc_cmd": "final_acc_cmd" # 同 actuator_acc
+    "actuator_acc": "actuator_acc" # optimized_actuator_.acceleration，理论上就是ori_cur_accel_cmd
+
+    "final_accelaration": "final_accelaration" # control_module.h -> control_interface最后输出的accelaration
+    "accelaration": "accelaration" # control_output输出的accelaration
+    "stop_acc_slope_filtered": "stop_acc_init_state" # 被斜坡限幅的停车减速度
+    "acc_des": "acc_des" # 期望加速度，同acc_ref
+    "plan_stop_acc": "plan_stop_acc" # 规划要求停车时的减速度
+    
+    "acc_ref": "acc_ref" # 规划输出的加速度参考值
+    "ocp_a_ref_vec": ocp_a_ref_vec # lon ocp input：加速度参考值序列
+
+    "acc_ego_kf_output": "acc_ego_kf_output" # lon_vel_kalman_filter_输出加速度
+    # "1e6_times_acc_ego_kf_variance": "1e6_times_acc_ego_kf_variance"
+
+    "raw_equivalent_acc": "raw_equivalent_acc" # 当前扭矩等效加速度
+    "equivalent_acc_l": "equivalent_acc_l"  # 扭矩等效加速度，融合acc_ego_estimated
+    "equivalent_acc_c": "equivalent_acc_c" # 扭矩等效加速度，融合acc_wheel_estimated
+
+    "acc_ego_estimated": "acc_ego_estimated" # 车速微分得到加速度
+    # "lon_acc_kf_nis_l": "lon_acc_kf_nis_l" # KF残差
+
+    "acc_wheel_estimated": "acc_wheel_estimated" # 轮速微分得到加速度
+    # "lon_acc_kf_nis_c": "lon_acc_kf_nis_c" # KF残差
+
+    "acc_ego_origin": "acc_ego_origin" # 原始加速度
+    "acc_ego_filtered": "acc_ego_filtered" #原始速度滤波
+
+    "acc_wheel_origin": "acc_wheel_origin" # 原始轮速
+    "acc_wheel_filtered": "acc_wheel_filtered" #原始轮速滤波
+    
+    "acc_ego": "acc_ego"
+    "acc_ego_real": "acc_ego_real"
+    "acc_wheel": "acc_wheel"
+    "acc_wheel_real": "acc_wheel_real"
+    "acc_measure_vel": "acc_measure_vel" # 速度微分得到的加速度
+    "acc_wheel_filt": acc_wheel_filt # 轮速滤波得到的加速度
+    "acc_lat_egopose": acc_lat_egopose # 实车侧向加速度
+    # 最终输出brake_command: control_command.brake_command.brake_command_data.brake_command
+    "brake_command": "BrakeCommand::brake_command"
+    "actuator_brake": "brake" #optimized_actuator_.brake
+    "brake_after_bebug": "brake_after_debug" # 理论上等于actuator_brake
+    "brake_before_debug": "brake_before_debug"
+    "brake_torque_to_acc_factor_debug": "brake_torque_to_acc_factor_debug"
+    "T_brake_req_raw": "T_brake_req_raw" # 电液分配之前的brake
+    "brake_output": "brake_output" # 底盘反馈brake
+    "brake_hydraulic_output": "brake_hydraulic_output" # 底盘反馈液压等效制动力，ARIYA车型有
+    "brake_regen_torque": "brake_regen_torque" # 底盘反馈制动回收扭矩
+    "brake_cmd_chassis": "brake_cmd_chassis" # 底盘接收到的brake指令
+    "raw_slope_acc": raw_slope_acc
+    "slope_acc": slope_acc  # 坡道加速度，负表示车头向上
+    "slope_acc1": "vel_dob_prior_dist" # 坡道加速度，负表示车头向上
+    "slope_acc_ema_l": "slope_acc_ema_l"
+    "slope_acc_ema_c": "slope_acc_ema_c"
+    "slope_acc_kf_c": "slope_acc_kf_c"
+    "slope_acc_kf_l": "slope_acc_kf_l"
+    "slope_acc_origin": "slope_acc_origin"
+    "slope_acc_kf_nis": "slope_acc_kf_nis"
+    "wheel_angle_comp": "wheel_angle_comp" # 前轮转角最终补偿，现在只用于debug
+    "lat_err_PI_comp": "lat_err_PI_comp" # 前轮转角-横向误差PI补偿，现在只用于debug
+    "lat_err_controller_KI_term": "lat_err_controller_KI_term" # 前轮转角-横向误差PI补偿-KI项，现在只用于debug
+    "steering_angle_bias": "steering_angle_bias" # 最终采用的前轮零偏，来源有下面三个
+    "steering_angle_bias_deg": "steering_angle_bias_deg" # 最终采用的前轮零偏，单位：度。来源有下面三个
+    "steering_angle_bias_estimate_by_rls": "steering_angle_bias_estimate_by_rls"
+    "steering_angle_bias_estimate_by_kf": "steering_angle_bias_estimate_by_kf"
+    "steering_angle_bias_estimate_by_luenberger": "steering_angle_bias_estimate_by_luenberger"
+    
+    "wheel_angle_offset_kf_output": "wheel_angle_offset_kf_output" # update_yawrate_kalman_filter_输出 前轮零偏，同steering_angle_bias_estimate_by_kf
+    "wheel_angle_offset_kf_filtered": "wheel_angle_offset_kf_filtered"
+    # "1e6_times_wheel_angle_offset_kf_variance": "1e6_times_wheel_angle_offset_kf_variance"
+
+  Jerk:
+    "jerk_ego": "jerk_ego"
+    "jerk_est_ego": "jerk_est_ego" # 估计加速度微分
+    "jerk_eq_ego": "jerk_eq_ego"  # 原始加速度微分
+
+  SlopeAcc:
+    "raw_slope_acc": raw_slope_acc
+    "slope_acc": slope_acc  # 坡道加速度，负表示车头向上
+    "slope_acc1": "vel_dob_prior_dist" # 坡道加速度，负表示车头向上
+    "slope_acc_ema_l": "slope_acc_ema_l"
+    "slope_acc_ema_c": "slope_acc_ema_c"
+    "slope_acc_kf_c": "slope_acc_kf_c"
+    "slope_acc_kf_l": "slope_acc_kf_l"
+    "slope_acc_origin": "slope_acc_origin"
+    "slope_acc_kf_nis": "slope_acc_kf_nis"
+
+  Torque:
+    "current_torque": "current_torque" # 当前实际扭矩
+    "aatp_act_axl_trq_auth": "aatp_act_axl_trq_auth" # 电机输出扭矩
+    "faxis_act_torque": "faxis_act_torque" # 前轴输出扭矩
+    "raxis_act_torque": "raxis_act_torque" # 后轴输出扭矩
+    "vcu_max_pos_torque": "vcu_max_pos_torque" # VCU可用最大正扭矩
+
+  Throttle:
+    # 最终输出throttle_command: control_command.throttle_command.throttle_command_data.throttle_command
+    "actuator_throttle": "throttle" # optimized_actuator_.throttle
+    "throttle_output": "throttle_output" # 底盘反馈throttle
+    "throttle_cmd_chassis": "throttle_cmd_chassis" # 底盘接收到的throttle指令
+  
+  Brake:
+    # 最终输出brake_command: control_command.brake_command.brake_command_data.brake_command
+    "brake_command": "BrakeCommand::brake_command"
+    "actuator_brake": "brake" #optimized_actuator_.brake
+    "brake_after_bebug": "brake_after_debug" # 理论上等于actuator_brake
+    "brake_before_debug": "brake_before_debug"
+    "brake_torque_to_acc_factor_debug": "brake_torque_to_acc_factor_debug"
+    "T_brake_req_raw": "T_brake_req_raw" # 电液分配之前的brake
+    "brake_output": "brake_output" # 底盘反馈brake
+    "brake_hydraulic_output": "brake_hydraulic_output" # 底盘反馈液压等效制动力，ARIYA车型有
+    "brake_regen_torque": "brake_regen_torque" # 底盘反馈制动回收扭矩
+    "brake_cmd_chassis": "brake_cmd_chassis" # 底盘接收到的brake指令
+  
+  Brake2:
+    "whl_brk_pres_lf": "whl_brk_pres_lf" # 左前轮制动压力
+    "whl_brk_pres_rf": "whl_brk_pres_rf" # 右前轮制动压力
+    "whl_brk_pres_lr": "whl _brk_pres_lr" # 左后轮制动压力
+    "whl_brk_pres_rr": "whl_brk_pres_rr" # 右后轮制动压力
+    "master_pressure_delivery": "master_pressure_delivery" # 主缸压力
+
+  PosErr:
+    "pos_err": "pos_ctrl_raw_error" # 位置控制器原始误差
+    "ocp_s_ref_vec": ocp_s_ref_vec # lon ocp input：位置参考值序列
+
+  VelocityErr:
+    "speed_tracking_error": "speed_tracking_error" # 速度跟踪误差
+    "vel_ref_vec_mpc": "vel_ref_vec_mpc" # mpc_input：速度参考值序列
+    "ocp_v_ref_vec": "ocp_v_ref_vec" # lon ocp input：速度参考值序列
+
+  YawRate:
+    "yawrate": "yawrate" # 反馈的实际横摆角速度（车体坐标系）
+    "ang_vel_iz": "ang_vel_iz" # 反馈的实际横摆角速度（全局坐标系）
+    "lat_dob_yaw_hat": "lat_dob_yaw_hat" # lateral_disturbance_observer_输出横摆角速度估计值
+    "yawrate_kf_output": "yawrate_kf_output" # update_yawrate_kalman_filter_输出横摆角速度估计值
+    "yaw_rate_model": "yaw_rate_model" # lat_rls估计出的yawrate
+    # "1e6_times_yawrate_kf_variance": "1e6_times_yawrate_kf_variance"
+    "measured_yawrate": "measured_yawrate" # 量测横摆角速度
+    "dyawrate_vec_mpc": "dyawrate_vec_mpc"
+    "koopman_pred_dyawrate": "koopman_pred_dyawrate_seq" 
+
+  Curvature:
+    "ref_curv_mean": "ref_curv_mean" # 曲率接口下control_output输出的曲率指令
+    "curv_vec_mpc": "curv_vec_mpc" # mpc_output：曲率输出值序列
+    "curv_ref_mpc_vec": "curv_ref_mpc_vec" # mpc_input：曲率参考值序列
+    "ref_curvature": "ref_curvature" # 参考曲率
+    "curv_ref_plan": "curv_ref_plan" # 规划输出的曲率参考值
+    "curv_ref_plan_pred": "curv_ref_plan_pred" # 规划输出的曲率参考值预测序列
+    "plan_curv_ref_mean": "plan_curv_ref_mean" # 规划输出的曲率参考值平均值
+    "mpc_curv_ref_mean": "mpc_curv_ref_mean" # mpc曲率参考值平均值
+    "curvature": "curvature" # 反馈的实际曲率
+    
+  Duration:
+    "print_json_time": "print_json_time"
+    "ctrl_loop_time": "ctrl_loop_time"
+    "ctrl_interface_time": "ctrl_interface_time"
+    "mpc_run_time_sec_": "mpc_run_time_sec_"
+
+
+
