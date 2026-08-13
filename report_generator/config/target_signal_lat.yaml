@@ -43,16 +43,20 @@ target_panel:
     "lat_situation": lat_situation # 左右转，左右变道，直行
     "unp_scenario": unp_scenario
 
-  Koopman:
-    "koopman_gain": "koopman_gain" # ONNX 标量增益（B[i>=5]*=gain）
-    "koopman_Z0_norm": "koopman_Z0_norm" # Koopman 坐标范数
-    "koopman_Z0_x0_err": "koopman_Z0_x0_err" # Z0[:5]-x0 一致性误差（应≈0）
-    "koopman_A01": "koopman_A01" # A[0,1] 时变项
-    "koopman_B_phys_norm": "koopman_B_phys_norm" # B 物理5通道范数（不缩放）
-    "koopman_B_lift_norm": "koopman_B_lift_norm" # B 提升36通道范数（受gain缩放）
-    "koopman_control_v": "koopman_control_v" # MPC 首步增量（归一化）
-    "koopman_step_mpc_ms": "koopman_step_mpc_ms" # 单次推理耗时
-  
+
+  LatErr:
+    "lat_err": "lat_err" # 横向控制器误差
+    "dy_ref_vec_mpc": "dy_ref_vec_mpc" # mpc_input：横向误差参考值序列
+    "dy_vec_mpc": "dy_vec_mpc" # mpc_output：横向误差输出值序列
+    "mpc_init_dy": "mpc_init_dy" # mpc_input：mpc初始横向误差
+    # "koopman_pred_dy": "koopman_pred_dy_seq" 
+    "kp_y_1_error": "koopman_acc_y_1step_error"
+    "kp_y_5_error": "koopman_acc_y_5step_error"
+    "kp_y_10_error": "koopman_acc_y_10step_error"
+    "kp_y_1_rmse": "koopman_acc_y_1step_rmse"
+    "kp_y_5_rmse": "koopman_acc_y_5step_rmse"
+    "kp_y_10_rmse": "koopman_acc_y_10step_rmse"
+
   cost:
     "cost_q0": "cost_q0" # 横向位置cost
     "cost_q1": "cost_q1" # 航向cost
@@ -69,6 +73,23 @@ target_panel:
     "cost_delta_terminal_bound": "cost_delta_terminal_bound"
     "cost_omega_terminal_bound": "cost_omega_terminal_bound"
 
+  YawRate:
+    "yawrate": "yawrate" # 反馈的实际横摆角速度（车体坐标系）
+    "ang_vel_iz": "ang_vel_iz" # 反馈的实际横摆角速度（全局坐标系）
+    "lat_dob_yaw_hat": "lat_dob_yaw_hat" # lateral_disturbance_observer_输出横摆角速度估计值
+    "yawrate_kf_output": "yawrate_kf_output" # update_yawrate_kalman_filter_输出横摆角速度估计值
+    "yaw_rate_model": "yaw_rate_model" # lat_rls估计出的yawrate
+    # "1e6_times_yawrate_kf_variance": "1e6_times_yawrate_kf_variance"
+    "measured_yawrate": "measured_yawrate" # 量测横摆角速度
+    "dyawrate_vec_mpc": "dyawrate_vec_mpc"
+    # "koopman_pred_dyawrate": "koopman_pred_dyawrate_seq" 
+    "kp_r_1_error": "koopman_acc_r_1step_error"
+    "kp_r_5_error": "koopman_acc_r_5step_error"
+    "kp_r_10_error": "koopman_acc_r_10step_error"
+    "kp_r_1_rmse": "koopman_acc_r_1step_rmse"
+    "kp_r_5_rmse": "koopman_acc_r_5step_rmse"
+    "kp_r_10_rmse": "koopman_acc_r_10step_rmse"
+
   Velocity:
     "vel_des": "vel_des" # 期望速度
     "vel_ego_kf_output": "vel_ego_kf_output" # lon_vel_kalman_filter_输出速度
@@ -80,32 +101,43 @@ target_panel:
     "vel_ego": "vel_ego" # 反馈的实际车速
     "vel_ego_real": "vel_ego_real" # 反馈的实际车速
     "koopman_vel_u": "koopman_vel_u" # koopman输入，纵向速度（A[0,1] 调度）
-    "koopman_pred_velv": "koopman_pred_velv_seq"
-
-  YawRate:
-    "yawrate": "yawrate" # 反馈的实际横摆角速度（车体坐标系）
-    "ang_vel_iz": "ang_vel_iz" # 反馈的实际横摆角速度（全局坐标系）
-    "lat_dob_yaw_hat": "lat_dob_yaw_hat" # lateral_disturbance_observer_输出横摆角速度估计值
-    "yawrate_kf_output": "yawrate_kf_output" # update_yawrate_kalman_filter_输出横摆角速度估计值
-    "yaw_rate_model": "yaw_rate_model" # lat_rls估计出的yawrate
-    # "1e6_times_yawrate_kf_variance": "1e6_times_yawrate_kf_variance"
-    "measured_yawrate": "measured_yawrate" # 量测横摆角速度
-    "dyawrate_vec_mpc": "dyawrate_vec_mpc"
-    "koopman_pred_dyawrate": "koopman_pred_dyawrate_seq" 
+    # "koopman_pred_velv": "koopman_pred_velv_seq"
+    "kp_vy_1_error": "koopman_acc_vy_1step_error"
+    "kp_vy_5_error": "koopman_acc_vy_5step_error"
+    "kp_vy_10_error": "koopman_acc_vy_10step_error"
+    "kp_vy_1_rmse": "koopman_acc_vy_1step_rmse"
+    "kp_vy_5_rmse": "koopman_acc_vy_5step_rmse"
+    "kp_vy_10_rmse": "koopman_acc_vy_10step_rmse"
 
   HeadingErr:
     "phi_err": "phi_err" # 航向角误差
     "dphi_ref_vec_mpc": "dphi_ref_vec_mpc" # mpc_input：航向角误差参考值序列
     "dphi_vec_mpc": "dphi_vec_mpc" # mpc_output：航向角误差输出值序列
     "mpc_init_dphi": "mpc_init_dphi" # mpc_input：mpc初始航向角误差
-    "koopman_pred_dphi": "koopman_pred_dphi_seq" 
+    # "koopman_pred_dphi": "koopman_pred_dphi_seq" 
+    "kp_phi_1_error": "koopman_acc_phi_1step_error"
+    "kp_phi_5_error": "koopman_acc_phi_5step_error"
+    "kp_phi_10_error": "koopman_acc_phi_10step_error"
+    "kp_phi_1_rmse": "koopman_acc_phi_1step_rmse"
+    "kp_phi_5_rmse": "koopman_acc_phi_5step_rmse"
+    "kp_phi_10_rmse": "koopman_acc_phi_10step_rmse"
 
-  LatErr:
-    "lat_err": "lat_err" # 横向控制器误差
-    "dy_ref_vec_mpc": "dy_ref_vec_mpc" # mpc_input：横向误差参考值序列
-    "dy_vec_mpc": "dy_vec_mpc" # mpc_output：横向误差输出值序列
-    "mpc_init_dy": "mpc_init_dy" # mpc_input：mpc初始横向误差
-    "koopman_pred_dy": "koopman_pred_dy_seq" 
+  Koopman:
+    "koopman_gain": "koopman_gain" # ONNX 标量增益（B[i>=5]*=gain）
+    "koopman_Z0_norm": "koopman_Z0_norm" # Koopman 坐标范数
+    "koopman_Z0_x0_err": "koopman_Z0_x0_err" # Z0[:5]-x0 一致性误差（应≈0）
+    "koopman_A01": "koopman_A01" # A[0,1] 时变项
+    "koopman_B_phys_norm": "koopman_B_phys_norm" # B 物理5通道范数（不缩放）
+    "koopman_B_lift_norm": "koopman_B_lift_norm" # B 提升36通道范数（受gain缩放）
+    "koopman_control_v": "koopman_control_v" # MPC 首步增量（归一化）
+    "koopman_step_mpc_ms": "koopman_step_mpc_ms" # 单次推理耗时
+    "kp_1_bad_ratio": "koopman_acc_1step_bad_ratio"
+    "kp_5_bad_ratio": "koopman_acc_5step_bad_ratio"
+    "kp_10_bad_ratio": "koopman_acc_10step_bad_ratio"
+    "kp_1_samples": "koopman_acc_1step_samples"
+    "kp_5_samples": "koopman_acc_5step_samples"
+    "kp_10_samples": "koopman_acc_10step_samples"
+    "kp_health_level": "koopman_acc_health_level"
 
   WheelAngle:
     "wheel_angle_cmd": "wheel_angle_cmd" # 前轮转角接口下control_output输出的转角指令
