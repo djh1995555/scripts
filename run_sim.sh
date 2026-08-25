@@ -7,17 +7,18 @@ set -euo pipefail
 usage() {
     cat <<EOF
 Usage:
-  单次: $0 <bag路径> <method> <car_name>
-  批量: $0 --batch <list_file> <method> <car_name>
+  单次: $0 --container <container_name> <bag路径> <method> <car_name>
+  批量: $0 --container <container_name> --batch <list_file> <method> <car_name>
 
+  container_name: 已启动的 FPP Docker 容器名（必填）
   bag路径   : bag 文件所在目录（相对脚本目录或绝对路径）
   list_file : 每行一个 bag 目录（相对脚本目录或绝对路径），# 开头注释 / 空行跳过
   method    : close-loop 或 open-loop
   car_name  : 车辆名称（如 PL567 / LC6-EC65130）
 
 Example:
-  $0 bags/横向失控1 close-loop PL567
-  $0 --batch replay_list.txt close-loop LC6-EC65130
+  $0 --container <container_name> bags/横向失控1 close-loop PL567
+  $0 --container <container_name> --batch replay_list.txt close-loop LC6-EC65130
 EOF
     exit 1
 }
@@ -27,6 +28,14 @@ CAR_NAME=""
 BATCH_MODE=0
 LIST_FILE=""
 BAG_PATH=""
+CONTAINER_NAME=""
+
+if [[ "${1:-}" != "--container" || -z "${2:-}" ]]; then
+    echo "Error: 必须使用 --container 指定一个已启动的容器名。" >&2
+    usage
+fi
+CONTAINER_NAME="$2"
+shift 2
 
 if [[ "${1:-}" == "--batch" ]]; then
     [[ $# -ne 4 ]] && usage
@@ -49,8 +58,7 @@ fi
 
 # ── 路径计算 ────────────────────────────────────────────────────────
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-# 从 SCRIPT_DIR 向上找含 ./sim 的 mf_system 根，兼容 debug/ 在 mf_system 子树任意位置
-# （既可从大盘 /mnt/data/ws_djh/mf_system/debug 运行，也可从仓库内 driving_control/debug 运行）
+# 从 SCRIPT_DIR 向上找含 ./sim 的 mf_system 根。
 MF_SYSTEM_DIR="$SCRIPT_DIR"
 while [[ "$MF_SYSTEM_DIR" != "/" && ! -x "$MF_SYSTEM_DIR/sim" ]]; do
     MF_SYSTEM_DIR="$(dirname "$MF_SYSTEM_DIR")"
@@ -62,14 +70,12 @@ fi
 SIM_RESULT_DIR="$SCRIPT_DIR/sim_result"
 TIMESTAMP="$(date +%Y%m%d_%H%M%S)"
 
-CONTAINER_NAME="fpp-container-mnt-data-ws_djh-mf_system"
-
 # 透传到容器的环境变量（ENV_OPTS 在 build_once / run_sim_only 的 docker exec 上注入）
 # USE_LOWMU=1：启用 koopman 低附着力(low-mu)模型通道；宿主 export USE_LOWMU=<值> 可覆盖
-USE_LOWMU="${USE_LOWMU:-1}"
+USE_LOWMU="${USE_LOWMU:-0}"
 # LOWMU_MODEL：低附模型变体名（默认 a2_d158）；宿主 export LOWMU_MODEL=<值> 可覆盖
 LOWMU_MODEL="${LOWMU_MODEL:-a2_d158}"
-ENV_OPTS="-e USE_LOWMU=$USE_LOWMU -e LOWMU_MODEL=$LOWMU_MODEL"
+ENV_OPTS=(-e "USE_LOWMU=$USE_LOWMU" -e "LOWMU_MODEL=$LOWMU_MODEL")
 
 abs_bag_path() {
     local p="$1"
@@ -88,26 +94,38 @@ trim() {
 
 ensure_container() {
     if ! docker inspect "$CONTAINER_NAME" &>/dev/null; then
-        echo "[prep] 容器不存在，自动创建（带 GPU）..."
-        ( cd "$MF_SYSTEM_DIR" && ./sim fpp container start -g )
-        echo "[prep] 容器已就绪"
+        echo "Error: 容器不存在: $CONTAINER_NAME" >&2
+        exit 1
     fi
-    # libcuda 补齐（driving_control 依赖 libcuda.so.1，容器缺则 segfault）
+    if [[ "$(docker inspect -f '{{.State.Running}}' "$CONTAINER_NAME")" != "true" ]]; then
+        echo "Error: 容器未运行: $CONTAINER_NAME" >&2
+        exit 1
+    fi
+    if ! docker exec "$CONTAINER_NAME" test -x /opt/mf_system/sim; then
+        echo "Error: 容器未挂载可用的 mf_system 到 /opt/mf_system: $CONTAINER_NAME" >&2
+        exit 1
+    fi
+
+    # CUDA 是可选能力。无 GPU/无 CUDA 环境允许继续以 CPU 模式运行。
     if ! docker exec "$CONTAINER_NAME" bash -c 'ldconfig -p 2>/dev/null | grep -q "libcuda.so.1"' 2>/dev/null; then
-        _HOST_LIBCUDA="$(ldconfig -p 2>/dev/null | grep -o '/[^ ]*libcuda\.so\.[0-9.]*$' | head -1)"
+        _HOST_LIBCUDA="$(ldconfig -p 2>/dev/null | grep -o '/[^ ]*libcuda\.so\.[0-9.]*$' | head -1 || true)"
         if [[ -n "$_HOST_LIBCUDA" ]]; then
             _DEST_DIR="$(docker exec "$CONTAINER_NAME" bash -c 'dirname "$(ldconfig -p 2>/dev/null | grep -o "/[^ ]*libc\.so\.6$" | head -1)"' 2>/dev/null)"
             [[ -z "$_DEST_DIR" ]] && _DEST_DIR="/usr/lib/x86_64-linux-gnu"
             echo "[prep] 容器缺 libcuda.so.1，从宿主机 $_HOST_LIBCUDA 补齐到 $_DEST_DIR/"
             docker cp "$_HOST_LIBCUDA" "$CONTAINER_NAME:$_DEST_DIR/$(basename "$_HOST_LIBCUDA")" 2>/dev/null || true
             docker exec "$CONTAINER_NAME" bash -c "ldconfig" 2>/dev/null || true
+        else
+            echo "[prep] 未检测到宿主机 CUDA；以无 GPU/无 CUDA 模式运行。"
         fi
+    else
+        echo "[prep] 容器检测到 libcuda.so.1；启用 CUDA 环境。"
     fi
 }
 
 build_once() {
     echo "[build] 在 docker 中编译 control,driving_control ..."
-    docker exec -i $ENV_OPTS "$CONTAINER_NAME" bash -c \
+    docker exec -i "${ENV_OPTS[@]}" "$CONTAINER_NAME" bash -c \
         "export MFS_ROOT=/opt/mf_system PROJ_NAME=Devcar BENV_ID=devcar_with_cuda11.4 MFS_SYSTEM_CFG_YAML=config/Devcar/system.yaml && cd /opt/mf_system&& ./sim fpp build -i control,driving_control"
 }
 
@@ -123,12 +141,18 @@ run_sim_only() {
     echo "[bag] 结果目录 : $result_dir"
     echo "--------------------------------------------------"
 
-    # 宿主机 /mnt/data/ws_djh/mf_system -> 容器内 /opt/mf_system
-    local container_bag_path="${bag_path/\/mnt\/data\/ws_djh\/mf_system//opt/mf_system}"
+    # 将当前工作区中的 bag 路径转换为容器挂载路径。
+    # 不依赖特定宿主机目录，以支持不同 /mnt/data 工作区。
+    local container_bag_path
+    if [[ "$bag_path" == "$MF_SYSTEM_DIR" || "$bag_path" == "$MF_SYSTEM_DIR/"* ]]; then
+        container_bag_path="/opt/mf_system${bag_path#"$MF_SYSTEM_DIR"}"
+    else
+        container_bag_path="$bag_path"
+    fi
     local sim_output_tmp="$result_dir/.sim_output.tmp"
 
     echo "[sim] 执行仿真..."
-    docker exec -i $ENV_OPTS "$CONTAINER_NAME" bash -c \
+    docker exec -i "${ENV_OPTS[@]}" "$CONTAINER_NAME" bash -c \
         "export MFS_ROOT=/opt/mf_system PROJ_NAME=Devcar BENV_ID=devcar_with_cuda11.4 MFS_SYSTEM_CFG_YAML=config/Devcar/system.yaml && cd /opt/mf_system&& ./sim fpp play -b $container_bag_path --product unp --modules-in-loop controller --$method --which-car $car_name" \
         2>&1 | tee "$sim_output_tmp" || true
 
@@ -185,6 +209,7 @@ echo "=== 仿真配置 ==="
 echo "  模式      : $([[ $BATCH_MODE -eq 1 ]] && echo "batch" || echo "单次")"
 echo "  method    : $METHOD"
 echo "  car_name  : $CAR_NAME"
+echo "  container : $CONTAINER_NAME"
 echo "  USE_LOWMU  : $USE_LOWMU"
 echo "  LOWMU_MODEL: $LOWMU_MODEL"
 echo "  mf_system : $MF_SYSTEM_DIR"
