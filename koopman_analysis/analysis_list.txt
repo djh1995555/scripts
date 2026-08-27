@@ -1,0 +1,5 @@
+# Koopman 三方数据分析 · 数据包列表
+# 每行一个条目: 场景目录 / 父目录 / bag 文件路径; # 开头为注释
+# 用法: python3 koopman_health_report.py --list analysis_list.txt
+bags/score/score_1
+bags/score/score_2
