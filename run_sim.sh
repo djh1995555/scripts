@@ -71,11 +71,11 @@ SIM_RESULT_DIR="$SCRIPT_DIR/sim_result"
 TIMESTAMP="$(date +%Y%m%d_%H%M%S)"
 
 # 透传到容器的环境变量（ENV_OPTS 在 build_once / run_sim_only 的 docker exec 上注入）
-# USE_LOWMU=1：启用 koopman 低附着力(low-mu)模型通道；宿主 export USE_LOWMU=<值> 可覆盖
-USE_LOWMU="${USE_LOWMU:-0}"
+# LOWMU_V2=1：启用 koopman 低附着力(low-mu)模型通道；宿主 export LOWMU_V2=<值> 可覆盖
+LOWMU_V2="${LOWMU_V2:-0}"
 # LOWMU_MODEL：低附模型变体名（默认 a2_d158）；宿主 export LOWMU_MODEL=<值> 可覆盖
 LOWMU_MODEL="${LOWMU_MODEL:-a2_d158}"
-ENV_OPTS=(-e "USE_LOWMU=$USE_LOWMU" -e "LOWMU_MODEL=$LOWMU_MODEL")
+ENV_OPTS=(-e "LOWMU_V2=$LOWMU_V2" -e "LOWMU_MODEL=$LOWMU_MODEL")
 
 abs_bag_path() {
     local p="$1"
@@ -106,17 +106,25 @@ ensure_container() {
         exit 1
     fi
 
-    # CUDA 是可选能力。无 GPU/无 CUDA 环境允许继续以 CPU 模式运行。
-    if ! docker exec "$CONTAINER_NAME" bash -c 'ldconfig -p 2>/dev/null | grep -q "libcuda.so.1"' 2>/dev/null; then
-        _HOST_LIBCUDA="$(ldconfig -p 2>/dev/null | grep -o '/[^ ]*libcuda\.so\.[0-9.]*$' | head -1 || true)"
-        if [[ -n "$_HOST_LIBCUDA" ]]; then
+    # driving_control 的 CUDA 构建会在 dlopen 时解析 libcuda.so.1。仅检查
+    # ldconfig 缓存并不可靠：缓存中可能残留路径，但对应的软链实际不存在。
+    if ! docker exec "$CONTAINER_NAME" bash -c 'test -e /lib/x86_64-linux-gnu/libcuda.so.1 || test -e /usr/lib/x86_64-linux-gnu/libcuda.so.1'; then
+        _HOST_LIBCUDA="$(ldconfig -p 2>/dev/null | awk '/libcuda\.so\.1 / {print $NF; exit}')"
+        _HOST_LIBCUDA="$(readlink -f "$_HOST_LIBCUDA" 2>/dev/null || true)"
+        if [[ -f "$_HOST_LIBCUDA" ]]; then
             _DEST_DIR="$(docker exec "$CONTAINER_NAME" bash -c 'dirname "$(ldconfig -p 2>/dev/null | grep -o "/[^ ]*libc\.so\.6$" | head -1)"' 2>/dev/null)"
             [[ -z "$_DEST_DIR" ]] && _DEST_DIR="/usr/lib/x86_64-linux-gnu"
             echo "[prep] 容器缺 libcuda.so.1，从宿主机 $_HOST_LIBCUDA 补齐到 $_DEST_DIR/"
-            docker cp "$_HOST_LIBCUDA" "$CONTAINER_NAME:$_DEST_DIR/$(basename "$_HOST_LIBCUDA")" 2>/dev/null || true
-            docker exec "$CONTAINER_NAME" bash -c "ldconfig" 2>/dev/null || true
+            docker exec "$CONTAINER_NAME" mkdir -p "$_DEST_DIR"
+            docker cp "$_HOST_LIBCUDA" "$CONTAINER_NAME:$_DEST_DIR/libcuda.so.1"
+            docker exec "$CONTAINER_NAME" ldconfig
+            if ! docker exec "$CONTAINER_NAME" test -e "$_DEST_DIR/libcuda.so.1"; then
+                echo "Error: 容器内 libcuda.so.1 补齐失败。" >&2
+                exit 1
+            fi
         else
-            echo "[prep] 未检测到宿主机 CUDA；以无 GPU/无 CUDA 模式运行。"
+            echo "Error: 宿主机未检测到可用的 libcuda.so.1，当前 CUDA 构建无法加载 driving_control。" >&2
+            exit 1
         fi
     else
         echo "[prep] 容器检测到 libcuda.so.1；启用 CUDA 环境。"
@@ -210,7 +218,7 @@ echo "  模式      : $([[ $BATCH_MODE -eq 1 ]] && echo "batch" || echo "单次"
 echo "  method    : $METHOD"
 echo "  car_name  : $CAR_NAME"
 echo "  container : $CONTAINER_NAME"
-echo "  USE_LOWMU  : $USE_LOWMU"
+echo "  LOWMU_V2  : $LOWMU_V2"
 echo "  LOWMU_MODEL: $LOWMU_MODEL"
 echo "  mf_system : $MF_SYSTEM_DIR"
 echo "  结果根    : $SIM_RESULT_DIR"
