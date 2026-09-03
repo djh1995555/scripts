@@ -64,83 +64,84 @@ target_panel:
     "rear_right": "rear_right" # 右后轮车速
     "wheel_speed_est": wheel_speed_est # wheel_speed_ekf_输出
     "vel_wheel": "vel_wheel" # 轮速
-
+# /mff/vs/eb_control_command.frame_id.aeb_brake_level*10*(-1)
   # 纵向加速度
   Acceleration:
     # 最终根据加速度正负输出control_command.throttle_command.throttle_command_data.throttle_command和control_command.brake_command.brake_command_data.brake_command
-    "filtered_cur_accel_cmd": "filtered_cur_accel_cmd" # 最终输出acc cmd（加速度接口下），后续根据正负分成throttle和brake
-    "ori_cur_accel_cmd": "ori_cur_accel_cmd"
-    "last_accel_cmd": "last_accel_cmd" # 同filtered_cur_accel_cmd
-    "final_acc_cmd": "final_acc_cmd" # 同 actuator_acc
-    "actuator_acc": "actuator_acc" # optimized_actuator_.acceleration，理论上就是ori_cur_accel_cmd
+    # ============================================================
+    # 1. 规划与状态机参考：控制希望车辆做什么
+    # ============================================================
 
-    "final_accelaration": "final_accelaration" # control_module.h -> control_interface最后输出的accelaration
-    "accelaration": "accelaration" # control_output输出的accelaration
-    "stop_acc_slope_filtered": "stop_acc_init_state" # 被斜坡限幅的停车减速度
-    "acc_des": "acc_des" # 期望加速度，同acc_ref
-    "plan_stop_acc": "plan_stop_acc" # 规划要求停车时的减速度
-    
-    "acc_ref": "acc_ref" # 规划输出的加速度参考值
-    "ocp_a_ref_vec": ocp_a_ref_vec # lon ocp input：加速度参考值序列
+    "acc_ref": "acc_ref"                       # 规划轨迹当前点的加速度参考
+    "ocp_a_ref_vec": "ocp_a_ref_vec"           # 送入纵向 OCP 的整段加速度参考序列
+    "acc_des": "acc_des"                       # 纵向 FSM 的期望加速度；用于状态机决策，不一定等于 acc_ref
+    "plan_stop_acc": "plan_stop_acc"           # 规划停车场景下的目标减速度
 
-    "acc_ego_kf_output": "acc_ego_kf_output" # lon_vel_kalman_filter_输出加速度
-    # "1e6_times_acc_ego_kf_variance": "1e6_times_acc_ego_kf_variance"
 
-    "raw_equivalent_acc": "raw_equivalent_acc" # 当前扭矩等效加速度
-    "equivalent_acc_l": "equivalent_acc_l"  # 扭矩等效加速度，融合acc_ego_estimated
-    "equivalent_acc_c": "equivalent_acc_c" # 扭矩等效加速度，融合acc_wheel_estimated
+    # ============================================================
+    # 2. 原始测量与速度微分加速度：传感器/底盘输入
+    # ============================================================
 
-    "acc_ego_estimated": "acc_ego_estimated" # 车速微分得到加速度
-    # "lon_acc_kf_nis_l": "lon_acc_kf_nis_l" # KF残差
+    "acc_ego": "acc_ego"                       # 原始车身纵向加速度（IMU / ego pose）
+    "acc_wheel": "acc_wheel"                   # 原始轮速侧纵向加速度
+    "acc_ego_real": "acc_ego_real"             # 控制实际使用的车身纵向加速度；可能被估计值覆盖
+    "acc_wheel_real": "acc_wheel_real"         # 控制实际使用的轮速纵向加速度；可能被估计值覆盖
 
-    "acc_wheel_estimated": "acc_wheel_estimated" # 轮速微分得到加速度
-    # "lon_acc_kf_nis_c": "lon_acc_kf_nis_c" # KF残差
+    "acc_ego_origin": "acc_ego_origin"         # 覆盖前保存的原始 acc_ego_real
+    "acc_wheel_origin": "acc_wheel_origin"     # 覆盖前保存的原始 acc_wheel_real
+    "acc_ego_filtered": "acc_ego_filtered"     # ego 速度链路滤波后的加速度
+    "acc_wheel_filtered": "acc_wheel_filtered" # wheel 速度链路滤波后的加速度
+    "acc_measure_vel": "acc_measure_vel"       # 由车速微分计算的加速度
+    "acc_wheel_filt": "acc_wheel_filt"         # 轮速滤波得到的加速度
 
-    "acc_ego_origin": "acc_ego_origin" # 原始加速度
-    "acc_ego_filtered": "acc_ego_filtered" #原始速度滤波
+    "acc_lat_egopose": "acc_lat_egopose"       # ego pose 横向加速度；仅用于横纵耦合/数据质量排查
 
-    "acc_wheel_origin": "acc_wheel_origin" # 原始轮速
-    "acc_wheel_filtered": "acc_wheel_filtered" #原始轮速滤波
-    
-    "acc_ego": "acc_ego"
-    "acc_ego_real": "acc_ego_real"
-    "acc_wheel": "acc_wheel"
-    "acc_wheel_real": "acc_wheel_real"
-    "acc_measure_vel": "acc_measure_vel" # 速度微分得到的加速度
-    "acc_wheel_filt": acc_wheel_filt # 轮速滤波得到的加速度
-    "acc_lat_egopose": acc_lat_egopose # 实车侧向加速度
-    # 最终输出brake_command: control_command.brake_command.brake_command_data.brake_command
-    "brake_command": "BrakeCommand::brake_command"
-    "actuator_brake": "brake" #optimized_actuator_.brake
-    "brake_after_bebug": "brake_after_debug" # 理论上等于actuator_brake
-    "brake_before_debug": "brake_before_debug"
-    "brake_torque_to_acc_factor_debug": "brake_torque_to_acc_factor_debug"
-    "T_brake_req_raw": "T_brake_req_raw" # 电液分配之前的brake
-    "brake_output": "brake_output" # 底盘反馈brake
-    "brake_hydraulic_output": "brake_hydraulic_output" # 底盘反馈液压等效制动力，ARIYA车型有
-    "brake_regen_torque": "brake_regen_torque" # 底盘反馈制动回收扭矩
-    "brake_cmd_chassis": "brake_cmd_chassis" # 底盘接收到的brake指令
-    "raw_slope_acc": raw_slope_acc
-    "slope_acc": slope_acc  # 坡道加速度，负表示车头向上
-    "slope_acc1": "vel_dob_prior_dist" # 坡道加速度，负表示车头向上
-    "slope_acc_ema_l": "slope_acc_ema_l"
-    "slope_acc_ema_c": "slope_acc_ema_c"
-    "slope_acc_kf_c": "slope_acc_kf_c"
-    "slope_acc_kf_l": "slope_acc_kf_l"
-    "slope_acc_origin": "slope_acc_origin"
-    "slope_acc_kf_nis": "slope_acc_kf_nis"
-    "wheel_angle_comp": "wheel_angle_comp" # 前轮转角最终补偿，现在只用于debug
-    "lat_err_PI_comp": "lat_err_PI_comp" # 前轮转角-横向误差PI补偿，现在只用于debug
-    "lat_err_controller_KI_term": "lat_err_controller_KI_term" # 前轮转角-横向误差PI补偿-KI项，现在只用于debug
-    "steering_angle_bias": "steering_angle_bias" # 最终采用的前轮零偏，来源有下面三个
-    "steering_angle_bias_deg": "steering_angle_bias_deg" # 最终采用的前轮零偏，单位：度。来源有下面三个
-    "steering_angle_bias_estimate_by_rls": "steering_angle_bias_estimate_by_rls"
-    "steering_angle_bias_estimate_by_kf": "steering_angle_bias_estimate_by_kf"
-    "steering_angle_bias_estimate_by_luenberger": "steering_angle_bias_estimate_by_luenberger"
-    
-    "wheel_angle_offset_kf_output": "wheel_angle_offset_kf_output" # update_yawrate_kalman_filter_输出 前轮零偏，同steering_angle_bias_estimate_by_kf
-    "wheel_angle_offset_kf_filtered": "wheel_angle_offset_kf_filtered"
-    # "1e6_times_wheel_angle_offset_kf_variance": "1e6_times_wheel_angle_offset_kf_variance"
+
+    # ============================================================
+    # 3. 纵向状态估计与扭矩等效加速度：OCP 初值/模型反馈的重要输入
+    # ============================================================
+
+    "acc_ego_estimated": "acc_ego_estimated"   # 基于 ego 速度链路估计的加速度
+    "acc_wheel_estimated": "acc_wheel_estimated" # 基于轮速链路估计的加速度
+
+    "raw_equivalent_acc": "raw_equivalent_acc" # 当前实际扭矩按模型直接换算得到的等效加速度
+    "equivalent_acc_l": "equivalent_acc_l"     # 扭矩等效加速度与 ego 侧加速度融合后的结果
+    "equivalent_acc_c": "equivalent_acc_c"     # 扭矩等效加速度与 wheel 侧加速度融合后的结果
+
+    "acc_ego_kf_output": "acc_ego_kf_output"   # lon_vel_kalman_filter 输出的纵向加速度估计
+    # "1e6_times_acc_ego_kf_variance": "1e6_times_acc_ego_kf_variance" # KF 加速度方差，排查估计可信度时启用
+
+
+    # ============================================================
+    # 4. OCP 输出与 OCP 后处理：从求解控制量到等效加速度
+    # ============================================================
+
+    "lon_ocp_U_final": "lon_ocp_U_final"       # OCP 原始 U 控制序列；用于确认求解器输出
+    "lon_ocp_torque": "lon_ocp_torque"         # U 插值并经过刹停/抑制/限幅等后处理后的当前扭矩指令
+    "torque_required": "torque_required"       # dead-zone、怠速等处理并约束限幅后的扭矩请求
+
+    "torque_equivalent_acc": "torque_equivalent_acc" # torque_required 经 LonOcpTorqueToAcc 换算的等效加速度
+    "accelaration": "accelaration"             # ControlLoop 输出的纵向加速度；由 OCP 等效加速度写入
+    "final_accelaration": "final_accelaration" # ControlModule 刚从 ControlInterface 取得的 accelaration；通常与 accelaration 同帧一致
+
+    "stop_acc_slope_filtered": "stop_acc_init_state" # 停车减速度斜坡滤波器当前输出/状态
+    "ocp_soft_brake_cmd": "ocp_soft_brake_cmd" # OCP 减速侧软化后的制动加速度指令
+    "use_torque": "use_torque"                 # 当前是否走扭矩侧；加速度/减速度接口场景用于判断分流
+
+
+    # ============================================================
+    # 5. 执行器优化与最终加减速度命令：最接近总线输出
+    # ============================================================
+
+    "actuator_acc": "actuator_acc"             # optimized_actuator_.acceleration；执行器优化、策略处理后的加速度
+    "final_acc_cmd": "final_acc_cmd"           # 当前打印点与 actuator_acc 相同；发生在最终总线限幅之前
+
+    "ori_cur_accel_cmd": "ori_cur_accel_cmd"   # 进入 acc_cmd_limit_check 前的 optimized_actuator_.acceleration
+    "filtered_cur_accel_cmd": "filtered_cur_accel_cmd" # jerk 限制后的执行器加速度；随后按正负拆为 throttle/brake
+    "last_accel_cmd": "last_accel_cmd"         # 限制器使用的上一帧最终加速度指令；本帧结束后更新
+
+    "final_throttle_acc_cmd": "control_command.throttle_command" # 建议从最终 ControlCommand / topic 查看；仅保留正加速度 [0, max_acc]
+    "final_brake_dec_cmd": "control_command.brake_command"       # 建议从最终 ControlCommand / topic 查看；仅保留负减速度 [max_dec, 0]
 
   Jerk:
     "jerk_ego": "jerk_ego"
@@ -164,6 +165,9 @@ target_panel:
     "faxis_act_torque": "faxis_act_torque" # 前轴输出扭矩
     "raxis_act_torque": "raxis_act_torque" # 后轴输出扭矩
     "vcu_max_pos_torque": "vcu_max_pos_torque" # VCU可用最大正扭矩
+    "parking_vcu_max_neg_torque": "parking_vcu_max_neg_torque" # 停车时VCU可用最大负扭矩
+    "vcu_max_neg_torque": "vcu_max_neg_torque" # VCU可用最大负扭矩
+
 
   Throttle:
     # 最终输出throttle_command: control_command.throttle_command.throttle_command_data.throttle_command
@@ -183,6 +187,7 @@ target_panel:
     "brake_hydraulic_output": "brake_hydraulic_output" # 底盘反馈液压等效制动力，ARIYA车型有
     "brake_regen_torque": "brake_regen_torque" # 底盘反馈制动回收扭矩
     "brake_cmd_chassis": "brake_cmd_chassis" # 底盘接收到的brake指令
+    "torque_response": "torque_response" # 扭矩响应
   
   Brake2:
     "whl_brk_pres_lf": "whl_brk_pres_lf" # 左前轮制动压力
@@ -227,6 +232,5 @@ target_panel:
     "ctrl_loop_time": "ctrl_loop_time"
     "ctrl_interface_time": "ctrl_interface_time"
     "mpc_run_time_sec_": "mpc_run_time_sec_"
-
 
 
