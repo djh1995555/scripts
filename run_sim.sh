@@ -7,14 +7,15 @@ set -euo pipefail
 usage() {
     cat <<EOF
 Usage:
-  单次: $0 --container <container_name> <bag路径> <method> <car_name>
-  批量: $0 --container <container_name> --batch <list_file> <method> <car_name>
+  单次: $0 --container <container_name> [--skip-mviz-login] <bag路径> <method> <car_name>
+  批量: $0 --container <container_name> [--skip-mviz-login] --batch <list_file> <method> <car_name>
 
   container_name: 已启动的 FPP Docker 容器名（必填）
   bag路径   : bag 文件所在目录（相对脚本目录或绝对路径）
   list_file : 每行一个 bag 目录（相对脚本目录或绝对路径），# 开头注释 / 空行跳过
   method    : close-loop 或 open-loop
   car_name  : 车辆名称（如 PL567 / LC6-EC65130）
+  --skip-mviz-login: 不在开始时交互登录 Mviz（仅供已有认证态的自动化任务使用）
 
 Example:
   $0 --container <container_name> bags/横向失控1 close-loop PL567
@@ -29,6 +30,7 @@ BATCH_MODE=0
 LIST_FILE=""
 BAG_PATH=""
 CONTAINER_NAME=""
+SKIP_MVIZ_LOGIN=0
 
 if [[ "${1:-}" != "--container" || -z "${2:-}" ]]; then
     echo "Error: 必须使用 --container 指定一个已启动的容器名。" >&2
@@ -36,6 +38,11 @@ if [[ "${1:-}" != "--container" || -z "${2:-}" ]]; then
 fi
 CONTAINER_NAME="$2"
 shift 2
+
+if [[ "${1:-}" == "--skip-mviz-login" ]]; then
+    SKIP_MVIZ_LOGIN=1
+    shift
+fi
 
 if [[ "${1:-}" == "--batch" ]]; then
     [[ $# -ne 4 ]] && usage
@@ -71,11 +78,9 @@ SIM_RESULT_DIR="$SCRIPT_DIR/sim_result"
 TIMESTAMP="$(date +%Y%m%d_%H%M%S)"
 
 # 透传到容器的环境变量（ENV_OPTS 在 build_once / run_sim_only 的 docker exec 上注入）
-# LOWMU_V2=1：启用 koopman 低附着力(low-mu)模型通道；宿主 export LOWMU_V2=<值> 可覆盖
-LOWMU_V2="${LOWMU_V2:-0}"
-# LOWMU_MODEL：低附模型变体名（默认 a2_d158）；宿主 export LOWMU_MODEL=<值> 可覆盖
-LOWMU_MODEL="${LOWMU_MODEL:-a2_d158}"
-ENV_OPTS=(-e "LOWMU_V2=$LOWMU_V2" -e "LOWMU_MODEL=$LOWMU_MODEL")
+USE_LOWMU="${USE_LOWMU:-1}"
+LOWMU_MODEL="${LOWMU_MODEL:-a2_joint_soft_hardbudget_forcelag_e988_best}"
+ENV_OPTS=(-e "USE_LOWMU=$USE_LOWMU" -e "LOWMU_MODEL=$LOWMU_MODEL")
 
 abs_bag_path() {
     local p="$1"
@@ -131,10 +136,27 @@ ensure_container() {
     fi
 }
 
+# Mviz 云端上传依赖 sim 的交互认证。让 sim 直接占用终端读取凭据，
+# 避免用户名或密码进入 shell 变量、命令行、环境变量或日志。
+login_mviz() {
+    if [[ $SKIP_MVIZ_LOGIN -eq 1 ]]; then
+        echo "[mviz] 跳过交互登录（使用已有认证态）。"
+        return 0
+    fi
+    if [[ ! -t 0 || ! -t 1 ]]; then
+        echo "Error: Mviz 登录需要交互终端。请在终端运行，或仅在已有认证态时使用 --skip-mviz-login。" >&2
+        exit 1
+    fi
+    echo "[mviz] 请在下方输入 Mviz 用户名和密码；凭据不会写入脚本或日志。"
+    docker exec -it "$CONTAINER_NAME" bash -lc 'cd /opt/mf_system && ./sim login'
+    echo "[mviz] 交互登录完成。"
+}
+
 build_once() {
     echo "[build] 在 docker 中编译 control,driving_control ..."
     docker exec -i "${ENV_OPTS[@]}" "$CONTAINER_NAME" bash -c \
         "export MFS_ROOT=/opt/mf_system PROJ_NAME=Devcar BENV_ID=devcar_with_cuda11.4 MFS_SYSTEM_CFG_YAML=config/Devcar/system.yaml && cd /opt/mf_system&& ./sim fpp build -i control,driving_control"
+    echo "[build] ************************ 编译完成 ************************"
 }
 
 # run_sim_only <bag_path_abs> <method> <car_name> <result_dir>
@@ -161,7 +183,7 @@ run_sim_only() {
 
     echo "[sim] 执行仿真..."
     docker exec -i "${ENV_OPTS[@]}" "$CONTAINER_NAME" bash -c \
-        "export MFS_ROOT=/opt/mf_system PROJ_NAME=Devcar BENV_ID=devcar_with_cuda11.4 MFS_SYSTEM_CFG_YAML=config/Devcar/system.yaml && cd /opt/mf_system&& ./sim fpp play -b $container_bag_path --product unp --modules-in-loop controller --$method --which-car $car_name" \
+        "export MFS_ROOT=/opt/mf_system PROJ_NAME=Devcar BENV_ID=devcar_with_cuda11.4 MFS_SYSTEM_CFG_YAML=config/Devcar/system.yaml && cd /opt/mf_system&& ./sim fpp play -b $container_bag_path --product unp --modules-in-loop controller --$method --which-car $car_name -v" \
         2>&1 | tee "$sim_output_tmp" || true
 
     # 仿真是否成功以 .fpp.bag 是否生成为准
@@ -174,7 +196,19 @@ run_sim_only() {
     echo "[post] 仿真后处理..."
     # 立即提取 Mviz 链接（在 gen_report 之前保存）
     local mviz_txt="$result_dir/mviz_link.txt"
-    local mviz_link; mviz_link="$(grep -o 'https://mviz\.momenta\.works[^ ]*' "$sim_output_tmp" 2>/dev/null | tail -1 || true)"
+    local mviz_link; mviz_link="$(grep -oE 'https://mviz\.momenta\.works[^[:space:]]*|http://[^[:space:]]+/local\?cpp_server=[^[:space:]]*' "$sim_output_tmp" 2>/dev/null | tail -1 || true)"
+    if [[ -z "$mviz_link" ]]; then
+        mviz_link="$(docker exec "$CONTAINER_NAME" bash -lc 'curl -fsS http://127.0.0.1:8000/mviz/link 2>/dev/null' | sed -n 's/.*"link":"\([^"]*\)".*/\1/p')"
+    fi
+    # daemon 会在 Mviz 服务未启动时也返回本地 URL；确认前端可达后再保存，
+    # 避免输出一个打开后没有内容的假链接。
+    if [[ "$mviz_link" =~ ^http://.+/local\?cpp_server= ]]; then
+        local mviz_view_url="${mviz_link%%\?*}"
+        if ! curl -fsS --connect-timeout 3 "$mviz_view_url" >/dev/null 2>&1; then
+            echo "  Warning: Mviz 本地服务未启动，未保存不可用链接"
+            mviz_link=""
+        fi
+    fi
     rm -f "$sim_output_tmp"
     if [[ -n "$mviz_link" ]]; then
         echo "$mviz_link" > "$mviz_txt"
@@ -218,7 +252,8 @@ echo "  模式      : $([[ $BATCH_MODE -eq 1 ]] && echo "batch" || echo "单次"
 echo "  method    : $METHOD"
 echo "  car_name  : $CAR_NAME"
 echo "  container : $CONTAINER_NAME"
-echo "  LOWMU_V2  : $LOWMU_V2"
+echo "  Mviz 登录 : $([[ $SKIP_MVIZ_LOGIN -eq 1 ]] && echo "跳过" || echo "开始时交互登录")"
+echo "  USE_LOWMU : $USE_LOWMU"
 echo "  LOWMU_MODEL: $LOWMU_MODEL"
 echo "  mf_system : $MF_SYSTEM_DIR"
 echo "  结果根    : $SIM_RESULT_DIR"
@@ -226,6 +261,7 @@ echo "  时间戳    : $TIMESTAMP"
 echo ""
 
 ensure_container
+login_mviz
 build_once
 
 if [[ $BATCH_MODE -eq 1 ]]; then
