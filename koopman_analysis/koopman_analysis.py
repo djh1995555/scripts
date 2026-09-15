@@ -11,7 +11,8 @@ Z(工况) × M(模型评分) × C(控制误差) 的相关性与传导分析。
 analysis_list.txt 每行一个条目（# 注释；路径相对 list 所在目录及其上级自动解析）:
   场景目录 bags/score/score_1 / 父目录 bags/score / bag 文件 / @其他.txt
 
-报告使用 Plotly 单文件离线 HTML；所有图可悬停读数，G1c 三维图支持拖拽旋转。
+报告使用 Plotly 单文件离线 HTML；当前 debug 的 active/vel_ego/wheel_angle/error 会在脚本内映射、
+派生。缺失或样本不足的图卡不会生成；所有保留图可悬停读数，G1c 三维图支持拖拽旋转。
 """
 import argparse
 import glob
@@ -56,7 +57,8 @@ DEFAULT_CONF = {
     "topic": "/msd/endpoint/control_command",
     "gap_sec": 1.0,             # 时间断点切 segment 阈值
     "min_segment_sec": 2.0,
-    "active_field": "koopman_vel_u",   # 本帧 Koopman 在算的标志（停车段 health 冻结假值）
+    # 当前控制侧 debug 的运行时标志；历史 bag 缺失时才回退到旧字段/ood score。
+    "active_field": "is_koopman_lat_control_active",
     "c_window_sec": 0.5,
     "maneuver_window_sec": 1.0,
     "maneuver_r_bins": [0.02, 0.08],
@@ -68,6 +70,8 @@ DEFAULT_CONF = {
     "xcorr_max_lag_sec": 3.0,
     "n_boot": 200,
     "sample_plot": 2000,
+    # 当前 debug 仅输出逐帧 error 时，用与在线监控器相同的 20 样本窗口派生 RMSE。
+    "accuracy_rmse_window_samples": 20,
 }
 
 Z_FIELDS = {
@@ -77,6 +81,44 @@ Z_FIELDS = {
     "w_rl": "w_rl_mps_slip", "w_rr": "w_rr_mps_slip",
     "y0": "mpc_init_dy", "phi0": "mpc_init_dphi",
 }
+# 覆盖度与所有工况图均描述同一状态空间：车速 + 实际横向响应（r、vy）。
+# 不再使用转角作为分析维度，避免把输入—响应耦合误读为独立状态覆盖。
+COVERAGE_3D_AXES = ["koopman_vel_u", "mpc_init_dyawrate", "vel_by"]
+# 三维覆盖图使用固定的物理坐标域，而非分位 bin 序号；这样不同批次报告可直接比较。
+COVERAGE_3D_RANGES = {
+    "koopman_vel_u": (0.0, 40.0),
+    "mpc_init_dyawrate": (-0.7, 0.7),
+    "vel_by": (-0.3, 0.3),
+}
+COVERAGE_3D_TICKS = {
+    "koopman_vel_u": [0, 10, 20, 30, 40],
+    "mpc_init_dyawrate": [-0.7, -0.35, 0, 0.35, 0.7],
+    "vel_by": [-0.3, -0.15, 0, 0.15, 0.3],
+}
+# 所有使用这些信号的图均从这里取显示与分箱范围，不能让个别图按样本分位范围自行缩放。
+PHYSICAL_AXIS_RANGES = dict(COVERAGE_3D_RANGES)
+PHYSICAL_AXIS_TICKS = dict(COVERAGE_3D_TICKS)
+COVERAGE_2D_PAIRS = [
+    ("koopman_vel_u", "mpc_init_dyawrate"),
+    ("koopman_vel_u", "vel_by"),
+    ("mpc_init_dyawrate", "vel_by"),
+]
+# 除覆盖度页外的工况分层、基线和扩展诊断也统一使用同一组状态量；不再把
+# 控制输入 steer 与横摆角速度并列，以免把输入—响应耦合误读为独立状态覆盖。
+CONDITIONING_AXES = [
+    ("koopman_vel_u", "vx"),
+    ("mpc_init_dyawrate", "r"),
+    ("vel_by", "vy"),
+]
+# 传导关联热力图的纵轴使用 1 s 滑窗 |r| 强度。该图需要比
+# straight/gentle/sharp 三类更细的分层，同时保持跨报告可比较的固定物理边界。
+G3_MANEUVER_INTENSITY_EDGES = [0.0, 0.02, 0.04, 0.06, 0.08, 0.12, 0.18, 0.30, 0.70]
+G3_MANEUVER_INTENSITY_LABELS = [
+    "0–0.02", "0.02–0.04", "0.04–0.06", "0.06–0.08",
+    "0.08–0.12", "0.12–0.18", "0.18–0.30", "0.30–0.70",
+]
+COVERAGE_2D_BINS = 32
+COVERAGE_3D_BINS = COVERAGE_2D_BINS
 M_HEALTH = [
     "koopman_health_score_total", "koopman_health_score_valid",
     "koopman_health_plan_accuracy_score", "koopman_health_plan_stability_score",
@@ -86,12 +128,11 @@ M_HEALTH = [
     "koopman_health_plan_accuracy_vy_score", "koopman_health_plan_accuracy_r_score",
     "koopman_health_ood_level", "koopman_health_full_ood",
     "koopman_health_executed_error_p99_hit", "koopman_health_executed_jump_p99_hit",
-    "koopman_gain_raw", "koopman_gain_lp", "koopman_gain",
     "koopman_step_mpc_ms", "koopman_Z0_norm", "koopman_Z0_x0_err",
     # 该字段不是 health score，但必须读入：未填满 10 帧历史时的预测/评分不能参与统计。
     "koopman_history_warmup",
 ]
-M_GAIN = "koopman_gain_lp"
+M_HEALTH_TOTAL = "koopman_health_score_total"
 C_FIELDS = {"lat_err": "lat_err", "phi_err": "phi_err", "overshoot": "lat_overshoot"}
 
 SOURCES = ["plan", "executed"]
@@ -105,8 +146,12 @@ def acc_key(src, st, step, q):
 
 M_ACC = {(s, t, k, q): acc_key(s, t, k, q)
          for s in SOURCES for t in STATES for k in STEPS for q in ("error", "rmse")}
-ALL_FIELDS = (list(Z_FIELDS.values()) + M_HEALTH + list(C_FIELDS.values())
-              + list(M_ACC.values()))
+# 当前运行时 debug 与历史专用字段的兼容映射：
+# vel_ego / wheel_angle 是现有控制日志可直接提供的模型输入同源量，
+# is_koopman_lat_control_active 是唯一可靠的运行时路径筛选标志。
+CURRENT_DEBUG_FIELDS = ["is_koopman_lat_control_active", "vel_ego", "wheel_angle"]
+ALL_FIELDS = list(dict.fromkeys(list(Z_FIELDS.values()) + M_HEALTH + list(C_FIELDS.values())
+                                 + list(M_ACC.values()) + CURRENT_DEBUG_FIELDS))
 
 # 统一 accuracy 分析使用的冻结参考表（拷自 koopman_accuracy_monitor.cpp, kSteps 行序）
 REF_P95_ERR = np.array([
@@ -184,9 +229,32 @@ def load_bag(bag_path, conf, max_frames=None):
     return pd.DataFrame(rec), {"n_msg": n_msg, "n_fail": n_fail, "n_frame": len(rec["t"])}
 
 
+def _active_mask(df, conf=DEFAULT_CONF):
+    """返回实际走 Koopman 路径的帧；兼容缺少新标志的历史 bag。"""
+    active_field = conf["active_field"]
+    if active_field in df and df[active_field].notna().any():
+        return df[active_field].fillna(0.0) > 0.5
+    # 新 active 标志尚未落到历史 bag 时，accuracy 字段存在即表示该帧走了 Koopman
+    # 路径（控制侧仅在路径 active 时才输出这些字段）。不能用 error 数值判断，因为
+    # warmup 期间合法字段的默认值可能为 0。
+    error_fields = [acc_key(source, state, step, "error")
+                    for source in SOURCES for state in STATES for step in STEPS]
+    if all(field in df for field in error_fields):
+        by_accuracy = df[error_fields].notna().any(axis=1)
+        if by_accuracy.any():
+            return by_accuracy
+    # 更早的日志没有 accuracy 字段时，health 字段的出现也代表 Koopman 路径执行；
+    # -1 表示评分 warmup，不应误判为 inactive。
+    if "koopman_health_ood_score" in df and df["koopman_health_ood_score"].notna().any():
+        return df["koopman_health_ood_score"].notna()
+    if "koopman_vel_u" in df:
+        return df["koopman_vel_u"].notna() & np.isfinite(df["koopman_vel_u"])
+    return pd.Series(False, index=df.index)
+
+
 def preflight(df, meta, conf=DEFAULT_CONF):
     """字段覆盖率(有效帧内)。返回 cov 字典"""
-    active = df[conf["active_field"]].notna().values
+    active = _active_mask(df, conf).values
     n_active = int(active.sum())
     cov = {f: (df[f].notna().values & active).sum() / n_active if n_active else 0.0
            for f in ALL_FIELDS}
@@ -223,10 +291,21 @@ def _variable_window_rolling(df, col, windows, kind, min_fraction):
 
 
 def clean_and_segment(df, conf):
-    """有效帧筛选 + segment 切分 + 派生量"""
-    active = df[conf["active_field"]].notna() & np.isfinite(df[conf["active_field"]])
+    """按当前 debug 口径映射字段、筛选 active 帧、派生分析量。"""
+    df = df.copy()
+    # 当前日志未再专门输出这两个字段：vx 使用模型同源的 vel_ego 并复现 0.1 m/s 下限；
+    # wheel_angle 是实测前轮角。仅在专用字段缺失时才使用该兼容映射。
+    if ("koopman_vel_u" not in df or not df["koopman_vel_u"].notna().any()) and "vel_ego" in df:
+        df["koopman_vel_u"] = np.maximum(df["vel_ego"].to_numpy(float), 0.1)
+    if (("koopman_wheel_angle_meas" not in df or
+         not df["koopman_wheel_angle_meas"].notna().any()) and "wheel_angle" in df):
+        df["koopman_wheel_angle_meas"] = df["wheel_angle"]
+
+    active = _active_mask(df, conf)
+    # active 的短暂撤销不能被过滤后的时间轴拼接为同一个连续段。
+    df["_active_run"] = (active & ~active.shift(fill_value=False)).cumsum()
     df = df[active].copy()
-    if "koopman_history_warmup" in df:
+    if "koopman_history_warmup" in df and df["koopman_history_warmup"].notna().any():
         df = df[(df["koopman_history_warmup"].fillna(0) > 0) | df["koopman_history_warmup"].isna()]
     # 低速过滤: 只保留 v > 1.0 m/s 的帧
     df = df[df["koopman_vel_u"] > 1.0]
@@ -234,7 +313,9 @@ def clean_and_segment(df, conf):
     if df.empty:
         df["segment"] = []
         return df
-    df["segment"] = "S" + (df["t"].diff().fillna(np.inf) > conf["gap_sec"]).cumsum().astype(str)
+    segment_break = ((df["t"].diff().fillna(np.inf) > conf["gap_sec"]) |
+                     (df["_active_run"].diff().fillna(1) != 0))
+    df["segment"] = "S" + segment_break.cumsum().astype(str)
     seg_len = df.groupby("segment")["t"].agg(lambda s: s.iloc[-1] - s.iloc[0])
     df = df[df["segment"].isin(seg_len[seg_len >= conf["min_segment_sec"]].index)].reset_index(drop=True)
     if df.empty:
@@ -258,6 +339,32 @@ def clean_and_segment(df, conf):
         df[f"{cname}_p2p"] = _variable_window_rolling(df, cname, wc, "p2p", min_fraction=0.5)
         df[f"{cname}_hfe"] = _variable_window_rolling(
             df.assign(**{cname: df.groupby("segment")[cname].diff()}), cname, wc, "rms", min_fraction=0.5)
+    # 当前 debug 只输出逐帧预测 error。health_score_valid 变为 1 表示所有 horizon 的
+    # 评分窗口已就绪；此前 LastError 可能还是默认 0，保守起见不把它当作预测误差。
+    # 若未来控制侧以 JSON null 输出无效 error，pandas 会读为 NaN，下面的窗口也会保持缺失。
+    health_valid = pd.Series(True, index=df.index)
+    if ("koopman_health_score_valid" in df and
+            df["koopman_health_score_valid"].notna().any()):
+        health_valid = df["koopman_health_score_valid"].fillna(0.0) > 0.5
+        for source in SOURCES:
+            for state in STATES:
+                for step in STEPS:
+                    df.loc[~health_valid, acc_key(source, state, step, "error")] = np.nan
+    df["koopman_prediction_valid"] = health_valid
+
+    # RMSE 按连续 active 段计算 20 样本完整滑窗，切段或 warmup 都会重新积累。
+    rmse_window = pd.Series(conf["accuracy_rmse_window_samples"], index=df.index, dtype=int)
+    for source in SOURCES:
+        for state in STATES:
+            for step in STEPS:
+                err_col = acc_key(source, state, step, "error")
+                rmse_col = acc_key(source, state, step, "rmse")
+                if not df[rmse_col].notna().any() and df[err_col].notna().any():
+                    df[rmse_col] = _variable_window_rolling(
+                        df, err_col, rmse_window, "rms", min_fraction=1.0)
+    # -1 是 health monitor 的“未就绪”哨兵值，不应参与评分相关或风险分析。
+    for col in [field for field in M_HEALTH if "score" in field]:
+        df.loc[~health_valid | (df[col] < 0.0), col] = np.nan
     try:
         df["speed_bin"] = pd.qcut(df["koopman_vel_u"], conf["speed_bins"], duplicates="drop").astype(str)
     except Exception:
@@ -299,13 +406,48 @@ def boot_ci_spearman(x, y, n_boot=200):
     return (float(np.percentile(rs, 2.5)), float(np.percentile(rs, 97.5)))
 
 
+def _filter_physical_axis_domain(df, columns):
+    """仅保留给定列落在统一物理域内的样本。
+
+    图上的范围和进入分箱/统计的范围必须是一件事：例如 r 超出 ±0.7 或
+    vy 超出 ±0.3 的帧不能影响分位边界后又被显示范围裁掉。未声明物理范围的列
+    （如转角、误差）保持原样。
+    """
+    mask = pd.Series(True, index=df.index)
+    for col in columns:
+        if col in PHYSICAL_AXIS_RANGES:
+            low, high = PHYSICAL_AXIS_RANGES[col]
+            mask &= df[col].notna() & df[col].between(low, high)
+    return df.loc[mask].copy()
+
+
 def quantile_binned_stat(df, xcol, ycol, nbins):
-    """按 x 分位分箱, 返回 (bin_center, p50, p95, n)"""
+    """返回 x 分箱的 P50/P95/n。
+
+    对报告使用的 vx/r/vy 状态轴，必须与覆盖度使用同一固定物理域和同一 32 格
+    边界；只有非状态轴才保留历史的分位分箱行为。
+    """
     d = df[[xcol, ycol]].dropna()
-    if len(d) < nbins * 5:
+    d = _filter_physical_axis_domain(d, [xcol])
+    fixed_physical_bins = xcol in PHYSICAL_AXIS_RANGES
+    effective_bins = COVERAGE_2D_BINS if fixed_physical_bins else nbins
+    if len(d) < effective_bins * 5:
         return None
+    if fixed_physical_bins:
+        edges = np.linspace(*PHYSICAL_AXIS_RANGES[xcol], effective_bins + 1)
+        d["bin"] = pd.cut(d[xcol], edges, labels=False, include_lowest=True)
+        d = d.dropna(subset=["bin"])
+        if d.empty:
+            return None
+        d["bin"] = d["bin"].astype(int)
+        g = d.groupby("bin", observed=True)[ycol]
+        centers = (edges[:-1] + edges[1:]) / 2
+        return (centers,
+                g.median().reindex(range(effective_bins)).to_numpy(),
+                g.quantile(0.95).reindex(range(effective_bins)).to_numpy(),
+                g.size().reindex(range(effective_bins), fill_value=0).to_numpy())
     try:
-        d["bin"] = pd.qcut(d[xcol], nbins, duplicates="drop")
+        d["bin"] = pd.qcut(d[xcol], effective_bins, duplicates="drop")
     except Exception:
         return None
     g = d.groupby("bin")
@@ -316,6 +458,7 @@ def quantile_binned_stat(df, xcol, ycol, nbins):
 def heatmap_2d(df, xcol, ycol, zcol, nx=12, ny=12):
     """(x,y) 分位网格统计 z 中位数。返回 (x_center, y_center, grid_z, grid_n)"""
     d = df[[xcol, ycol, zcol]].dropna()
+    d = _filter_physical_axis_domain(d, [xcol, ycol])
     if len(d) < nx * ny:
         return None
     try:
@@ -341,6 +484,7 @@ def heatmap_2d(df, xcol, ycol, zcol, nx=12, ny=12):
 def heatmap_3d(df, xcol, ycol, zcol, nx=8, ny=8, nz=8):
     """(x,y,z) 三维分位网格统计。返回 (xc, yc, zc, grid3d, gcnt3d)"""
     d = df[[xcol, ycol, zcol]].dropna()
+    d = _filter_physical_axis_domain(d, [xcol, ycol, zcol])
     if len(d) < nx * ny * nz:
         return None
     try:
@@ -395,6 +539,7 @@ def frequency_heatmap_cmap():
 def paired_coverage_error_grid(df, xcol, ycol, errcol, nx=8, ny=8):
     """一次分箱同时生成频次与误差网格，确保左右图的坐标和无样本掩码严格一致。"""
     d = df[[xcol, ycol, errcol]].dropna().copy()
+    d = _filter_physical_axis_domain(d, [xcol, ycol])
     if len(d) < nx * ny:
         return None
     try:
@@ -415,9 +560,122 @@ def paired_coverage_error_grid(df, xcol, ycol, errcol, nx=8, ny=8):
     return xcenters, ycenters, count_grid, error_grid
 
 
+def fixed_coverage_error_grid(df, xcol, ycol, errcol, nx=8, ny=8):
+    """兼容旧调用：从统一覆盖预处理对象读取二维网格。"""
+    coverage = _prepare_coverage_data(df, errcol)
+    if coverage is None:
+        return None
+    pair = coverage["pairs"].get((xcol, ycol))
+    if pair is None:
+        return None
+    return pair["x"], pair["y"], pair["count"], pair["error"]
+
+
+def fixed_coverage_domain(df):
+    """覆盖度章节唯一的共同样本域：三个状态都在固定物理边界内。"""
+    return _filter_physical_axis_domain(df, COVERAGE_3D_AXES)
+
+
+def _prepare_coverage_data(df, errcol):
+    """覆盖度章节唯一的数据预处理入口。
+
+    先统一筛选共同有效帧，再一次性编码固定物理网格；三维单元和三个二维投影
+    全部从同一份编码后的表聚合，后续绘图函数不再重新筛选或分箱。
+    """
+    axes = COVERAGE_3D_AXES
+    required = axes + [errcol]
+    if not all(col in df for col in required):
+        return None
+    d = fixed_coverage_domain(df.dropna(subset=required))
+    if len(d) < 100:
+        return None
+    edges = {col: np.linspace(*COVERAGE_3D_RANGES[col], COVERAGE_3D_BINS + 1)
+             for col in axes}
+    bin_cols = []
+    for col in axes:
+        bcol = col + "_bin"
+        d[bcol] = pd.cut(d[col], edges[col], labels=False, include_lowest=True)
+        bin_cols.append(bcol)
+    d = d.dropna(subset=bin_cols).copy()
+    d[bin_cols] = d[bin_cols].astype(int)
+    if d.empty:
+        return None
+
+    def aggregate(group_cols):
+        grouped = d.groupby(group_cols, observed=True)[errcol]
+        stats = grouped.agg(n="size", rmse="median").reset_index()
+        return stats
+
+    cells3d = aggregate(bin_cols)
+    for col, bcol in zip(axes, bin_cols):
+        centers = (edges[col][:-1] + edges[col][1:]) / 2
+        cells3d[col] = centers[cells3d[bcol].to_numpy(int)]
+    if "lat_err_rms" in d:
+        control = d.groupby(bin_cols, observed=True)["lat_err_rms"].median().reset_index(name="control_rms")
+        cells3d = cells3d.merge(control, on=bin_cols, how="left")
+    else:
+        cells3d["control_rms"] = np.nan
+
+    pairs = {}
+    for xcol, ycol in COVERAGE_2D_PAIRS:
+        xb, yb = xcol + "_bin", ycol + "_bin"
+        stats = aggregate([yb, xb])
+        xcenters = (edges[xcol][:-1] + edges[xcol][1:]) / 2
+        ycenters = (edges[ycol][:-1] + edges[ycol][1:]) / 2
+        count_grid = np.full((COVERAGE_3D_BINS, COVERAGE_3D_BINS), np.nan)
+        error_grid = np.full_like(count_grid, np.nan)
+        for row in stats.itertuples(index=False):
+            ix, iy = int(getattr(row, xb)), int(getattr(row, yb))
+            count_grid[iy, ix] = row.n
+            error_grid[iy, ix] = row.rmse
+        pairs[(xcol, ycol)] = {"x": xcenters, "y": ycenters,
+                               "count": count_grid, "error": error_grid}
+    return {"df": d, "cells3d": cells3d, "pairs": pairs,
+            "shared_frames": len(d), "errcol": errcol}
+
+
+def _fixed_speed_heatmap_data(df, ycol, zcol, nbins=COVERAGE_2D_BINS):
+    """其他二维热力图的统一速度轴：vx 固定 [0,40]，横轴使用 32 个等宽格。"""
+    cols = ["koopman_vel_u", ycol, zcol]
+    if not all(col in df for col in cols):
+        return None
+    d = df[cols].dropna().copy()
+    d = _filter_physical_axis_domain(d, ["koopman_vel_u", ycol])
+    if len(d) < nbins:
+        return None
+    xedges = np.linspace(*PHYSICAL_AXIS_RANGES["koopman_vel_u"], nbins + 1)
+    d["xb"] = pd.cut(d["koopman_vel_u"], xedges, labels=False, include_lowest=True)
+    try:
+        if ycol in PHYSICAL_AXIS_RANGES:
+            yedges = np.linspace(*PHYSICAL_AXIS_RANGES[ycol], nbins + 1)
+            d["yb"] = pd.cut(d[ycol], yedges, labels=False, include_lowest=True)
+        else:
+            d["yb"], yedges = pd.qcut(d[ycol], nbins, labels=False, retbins=True, duplicates="drop")
+    except (ValueError, IndexError):
+        return None
+    d = d.dropna(subset=["xb", "yb"])
+    d[["xb", "yb"]] = d[["xb", "yb"]].astype(int)
+    nx, ny = len(xedges) - 1, len(yedges) - 1
+    grouped = d.groupby(["yb", "xb"], observed=True)[zcol]
+    grid = np.full((ny, nx), np.nan)
+    counts = np.zeros((ny, nx), dtype=int)
+    medians = grouped.median()
+    sizes = grouped.size()
+    for (iy, ix), value in medians.items():
+        grid[iy, ix] = value
+        counts[iy, ix] = sizes.loc[(iy, ix)]
+    xcenters = (xedges[:-1] + xedges[1:]) / 2
+    if ycol in PHYSICAL_AXIS_RANGES:
+        ycenters = (yedges[:-1] + yedges[1:]) / 2
+    else:
+        ycenters = d.groupby("yb")[ycol].median().reindex(range(ny)).to_numpy()
+    return xcenters, ycenters, grid, counts
+
+
 def _g1c_3d_panel(ax, df, mode, cmap, err_col=None):
     """3D 面板: mode='freq' 点大小=频次; mode='err' 点颜色=误差"""
-    res = heatmap_3d(df, "koopman_vel_u", "abs_r", "abs_steer", 8, 8, 8)
+    xcol, ycol, zcol = COVERAGE_3D_AXES
+    res = heatmap_3d(df, xcol, ycol, zcol, 8, 8, 8)
     if res is None:
         ax.text(0.1, 0.5, 0.5, "数据不足", transform=ax.transAxes)
         return
@@ -442,9 +700,9 @@ def _g1c_3d_panel(ax, df, mode, cmap, err_col=None):
     else:
         # 误差模式: 颜色=误差中位数(按 bin 查)
         d = df.copy()
-        d["xb"] = pd.qcut(d["koopman_vel_u"], 8, labels=False, duplicates="drop").values
-        d["yb"] = pd.qcut(d["abs_r"], 8, labels=False, duplicates="drop").values
-        d["zb"] = pd.qcut(d["abs_steer"], 8, labels=False, duplicates="drop").values
+        d["xb"] = pd.qcut(d[xcol], 8, labels=False, duplicates="drop").values
+        d["yb"] = pd.qcut(d[ycol], 8, labels=False, duplicates="drop").values
+        d["zb"] = pd.qcut(d[zcol], 8, labels=False, duplicates="drop").values
         med = d.groupby(["xb","yb","zb"])[err_col].median()
         col2 = []
         for i in range(grid.shape[0]):
@@ -455,7 +713,7 @@ def _g1c_3d_panel(ax, df, mode, cmap, err_col=None):
                         try: col2.append(med.loc[(i,j,k)])
                         except Exception: col2.append(np.nan)
         sc = ax.scatter(xs, ys, zs, s=sizes, c=col2, cmap="RdYlBu_r", alpha=0.7)
-    ax.set_xlabel("vx"); ax.set_ylabel("|r|"); ax.set_zlabel("|steer|")
+    ax.set_xlabel("vx"); ax.set_ylabel("r"); ax.set_zlabel("vy")
     return sc
 
 
@@ -465,7 +723,7 @@ def g1c_8panel(fig, bags_dfs):
     alldf = _alldf(bags_dfs)
     if alldf.empty:
         return
-    pairs = [("koopman_vel_u", "abs_r"), ("koopman_vel_u", "abs_steer"), ("abs_r", "abs_steer")]
+    pairs = COVERAGE_2D_PAIRS
     # 行1: 3D 频次 | 3D 误差
     ax31 = fig.add_subplot(4, 2, 1, projection="3d")
     sc = _g1c_3d_panel(ax31, alldf, "freq", "YlOrRd")
@@ -497,7 +755,7 @@ def g1c_8panel(fig, bags_dfs):
             axe.set_xlabel(_axlabel(xcol)); axe.set_ylabel(_axlabel(ycol))
             axe.set_title(f"误差 2D {_axlabel(xcol)}×{_axlabel(ycol)}")
             fig.colorbar(im, ax=axe, fraction=0.04)
-    fig.suptitle("G1c 覆盖度(频次) 与误差 对比：行1=3D, 行2-4=2D 投影", y=0.995, fontsize=13)
+    fig.suptitle("覆盖度（频次）与误差对比：行1=3D，行2–4=2D 投影", y=0.995, fontsize=13)
 
 
 def xcorr_lag_curve(df, mcol, ccol, max_lag_sec, n_points=61):
@@ -770,10 +1028,10 @@ def ov_table(fig, bags_dfs):
     rows = [{
         "all": "汇总",
         "frames": int(sum(c["_n_frame"] for _, _, c in bags_dfs)),
-        "valid": int(sum(c["_n_active"] for _, _, c in bags_dfs)),
+        "valid": int(len(alldf)),
         "health_p05": _q(valid_h, 0.05) if len(valid_h) else np.nan,
         "laterr_rms": float(np.sqrt((alldf["lat_err"] ** 2).mean())) if len(alldf) else np.nan,
-        "p99_overshoot_frames": int(alldf["koopman_health_executed_error_p99_hit"].sum()) if len(alldf) else 0,
+        "p99_overshoot_frames": _available_sum(alldf, "koopman_health_executed_error_p99_hit"),
         "health_invalid_pct": float((h < 0).mean()) if len(h) else np.nan,
     }]
     df_tbl = pd.DataFrame(rows)
@@ -781,12 +1039,41 @@ def ov_table(fig, bags_dfs):
 
 
 def _alldf(bags_dfs):
-    """合并所有 bag 数据为整体"""
-    return pd.concat([d for _, d, _ in bags_dfs if len(d)], ignore_index=True)
+    """报告唯一的共同样本域：合并后统一限制到 vx × r × vy 物理范围。
+
+    覆盖度、工况分层、相关性和扩展诊断全部从此入口取数据，避免某一页把
+    超出覆盖度状态域的帧纳入分箱，造成同一批数据在不同页面看起来不一致。
+    各指标自身的缺失值仍仅在计算该指标时按缺失规则剔除。
+    """
+    frames = [d for _, d, _ in bags_dfs if len(d)]
+    if not frames:
+        return pd.DataFrame()
+    df = pd.concat(frames, ignore_index=True)
+    if not all(col in df for col in COVERAGE_3D_AXES):
+        return pd.DataFrame()
+    return fixed_coverage_domain(df)
+
+
+def _available_sum(df, column):
+    """字段未输出时保留缺失态，不能把“未知”显示为 0。"""
+    if df.empty or column not in df:
+        return np.nan
+    values = df[column].dropna()
+    return int(values.sum()) if len(values) else np.nan
+
+
+def _has_samples(df, columns, min_samples=20, varying_columns=()):
+    """所需字段有效、样本量足够且指定坐标可分箱时才生成图卡。"""
+    if df.empty or not all(col in df for col in columns):
+        return False
+    valid = df[list(columns)].dropna()
+    return (len(valid) >= min_samples and
+            all(valid[col].nunique(dropna=True) >= 2 for col in varying_columns))
 def _axlabel(col):
     """工况列 -> 完整中文轴名"""
     return {"koopman_vel_u": "纵向速度 vx (m/s)",
-            "abs_r": "横摆角速度 |r| (rad/s)",
+            "mpc_init_dyawrate": "横摆角速度 r (rad/s)",
+            "vel_by": "侧向速度 vy (m/s)",
             "abs_steer": "前轮转角 |steer| (rad)"}.get(col, col)
 
 
@@ -797,7 +1084,7 @@ def _g1_step_page(step):
         alldf = _alldf(bags_dfs)
         if alldf.empty:
             return
-        zvars = [("koopman_vel_u", "vel_u"), ("abs_r", "|r|"), ("abs_steer", "|steer|")]
+        zvars = CONDITIONING_AXES
         axs = fig.subplots(4, 3)
         for i, state in enumerate(STATES):
             for j, (zcol, zlab) in enumerate(zvars):
@@ -809,24 +1096,25 @@ def _g1_step_page(step):
                 ax.set_title(f"{state} {step}step vs {zlab}")
                 ax.set_xlabel(zlab); ax.set_ylabel("rmse")
                 ax.legend(fontsize=6, loc="best")
-        fig.suptitle(f"G1 模型薄弱工况: {step}step · 蓝=plan 绿=executed (实线P50 虚线P95)",
+        fig.suptitle(f"模型薄弱工况：{step} step · 蓝=plan，绿=executed（实线 P50，虚线 P95）",
                      y=0.99, fontsize=13)
     return fn
 
 
 def g1c_error_3d(fig, bags_dfs):
-    """误差 3D 体素图: (vx,|r|,|steer|) 填色 = plan_r_10step rmse 中位数, 点大小=样本数"""
+    """误差 3D 体素图: (vx,r,vy) 填色 = plan_r_10step rmse 中位数, 点大小=样本数"""
     from mpl_toolkits.mplot3d import Axes3D
     alldf = _alldf(bags_dfs)
     if alldf.empty:
         return
     ax = fig.add_subplot(111, projection="3d")
     # 3D 分箱误差中位数
-    d = alldf[["koopman_vel_u","abs_r","abs_steer",acc_key("plan","r",10,"rmse")]].dropna()
+    xcol, ycol, zcol = COVERAGE_3D_AXES
+    d = alldf[[xcol, ycol, zcol, acc_key("plan","r",10,"rmse")]].dropna()
     try:
-        xq = pd.qcut(d["koopman_vel_u"], 8, labels=False, duplicates="drop")
-        yq = pd.qcut(d["abs_r"], 8, labels=False, duplicates="drop")
-        zq = pd.qcut(d["abs_steer"], 8, labels=False, duplicates="drop")
+        xq = pd.qcut(d[xcol], 8, labels=False, duplicates="drop")
+        yq = pd.qcut(d[ycol], 8, labels=False, duplicates="drop")
+        zq = pd.qcut(d[zcol], 8, labels=False, duplicates="drop")
     except Exception:
         ax.text(0.1, 0.5, 0.5, "数据不足", transform=ax.transAxes); return
     d = d.assign(xb=xq.values, yb=yq.values, zb=zq.values)
@@ -836,12 +1124,12 @@ def g1c_error_3d(fig, bags_dfs):
     for (ix,iy,iz), v in med.items():
         c = cnt.loc[(ix,iy,iz)]
         if c > 0:
-            xs.append(d.groupby("xb")["koopman_vel_u"].median().iloc[ix] if ix < d.groupby("xb")["koopman_vel_u"].median().size else np.nan)
-            ys.append(d.groupby("yb")["abs_r"].median().iloc[iy])
-            zs.append(d.groupby("zb")["abs_steer"].median().iloc[iz])
+            xs.append(d.groupby("xb")[xcol].median().iloc[ix] if ix < d.groupby("xb")[xcol].median().size else np.nan)
+            ys.append(d.groupby("yb")[ycol].median().iloc[iy])
+            zs.append(d.groupby("zb")[zcol].median().iloc[iz])
             sizes.append(min(200, 10+c*2)); colors.append(v)
     sc = ax.scatter(xs, ys, zs, s=sizes, c=colors, cmap="RdYlBu_r", alpha=0.7)
-    ax.set_xlabel("vx"); ax.set_ylabel("|r|"); ax.set_zlabel("|steer|")
+    ax.set_xlabel("vx"); ax.set_ylabel("r"); ax.set_zlabel("vy")
     ax.set_title("误差 3D: 填色=plan_r_10step rmse, 大小=样本数")
     fig.colorbar(sc, ax=ax, shrink=0.6)
 
@@ -852,12 +1140,12 @@ def g1c_heatmap(fig, bags_dfs):
 
 
 def _g1c_2d_common(fig, bags_dfs, zcol, cmap, title, show_cnt=False):
-    """G1c 三个 2D 投影: (vx,|r|),(vx,|steer|),(|r|,|steer|)，填色 = 样本数(频次) 或 zcol 值(误差)"""
+    """G1c 三个 2D 投影: (vx,r),(vx,vy),(r,vy)，填色 = 样本数或误差。"""
     alldf = _alldf(bags_dfs)
     if alldf.empty:
         return
     axs = fig.subplots(1, 3)
-    pairs = [("koopman_vel_u", "abs_r"), ("koopman_vel_u", "abs_steer"), ("abs_r", "abs_steer")]
+    pairs = COVERAGE_2D_PAIRS
     for ax, (xcol, ycol) in zip(axs, pairs):
         if show_cnt:
             # 频次: 独立分箱计数, 不依赖 zcol
@@ -898,43 +1186,43 @@ def _g1c_2d_common(fig, bags_dfs, zcol, cmap, title, show_cnt=False):
 def g1c_heatmap_2d_proj(fig, bags_dfs):
     """覆盖度 3 个 2D 投影（与 3D 同语义: 样本数填充）"""
     _g1c_2d_common(fig, bags_dfs, "koopman_vel_u", "YlOrRd",
-                   "G1c 覆盖度 2D 投影: 填色=样本数 (与 3D 同语义)", show_cnt=True)
+                   "覆盖度 2D 投影：填色=样本数（与 3D 同语义）", show_cnt=True)
 
 
 def g1c_error_2d(fig, bags_dfs):
-    """误差 3 个 2D 投影: (vx,|r|),(vx,|steer|),(|r|,|steer|) 填色=plan_r_10step rmse 中位数"""
+    """误差 3 个 2D 投影: (vx,r),(vx,vy),(r,vy) 填色=plan_r_10step rmse 中位数。"""
     _g1c_2d_common(fig, bags_dfs, acc_key("plan", "r", 10, "rmse"), "RdYlBu_r",
-                   "G1c 误差 2D 投影: plan_r_10step rmse 中位数")
+                   "误差 2D 投影：plan_r_10step RMSE 中位数")
 
 
 def _g2_metric_page(cname):
-    """G2: laterr/phi_err 的 rms/p2p/hfe × 3 工况(vel_u,|r|,steer) 分箱。每页 1 指标 × 3 工况"""
+    """G2: laterr/phi_err 的 rms/p2p/hfe × 3 工况(vx,r,vy) 分箱。"""
     def fn(fig, bags_dfs):
         alldf = _alldf(bags_dfs)
         if alldf.empty:
             return
-        zvars = [("koopman_vel_u", "vel_u"), ("abs_r", "|r|"), ("abs_steer", "|steer|")]
+        zvars = CONDITIONING_AXES
         axs = fig.subplots(1, 3)
         for ax, (zcol, zlab) in zip(axs, zvars):
             _binned_curve(ax, alldf, zcol, cname, COLORS[0], "P50")
             ax.set_title(f"{cname} vs {zlab}")
             ax.set_xlabel(zlab); ax.set_ylabel(cname); _legend_out(ax)
-        fig.suptitle(f"G2 场景难度基线: {cname} · 实线 P50 / 虚线 P95", y=0.97, fontsize=13)
+        fig.suptitle(f"场景难度基线：{cname} · 实线 P50，虚线 P95", y=0.97, fontsize=13)
     return fn
 
 
 def _g1c_3d_scatter(ax, alldf, zcol, cmap, title, use_cnt=False):
     """3D 联合分位网格：坐标为 bin 索引，刻度显式展示物理边界区间。"""
     from mpl_toolkits.mplot3d import Axes3D
-    axes = ["koopman_vel_u", "abs_r", "abs_steer"]
+    axes = COVERAGE_3D_AXES
     # 覆盖度不能因误差字段缺失而丢帧；误差图才需要 zcol 有效。
     d = alldf[axes + ([] if use_cnt else [zcol])].dropna().copy()
     if len(d) < 100:
         ax.text(0.1, 0.5, 0.5, "数据不足", transform=ax.transAxes); return
     try:
-        xq, xedges = quantile_codes_and_edges(d["koopman_vel_u"], 8)
-        yq, yedges = quantile_codes_and_edges(d["abs_r"], 8)
-        zq, zedges = quantile_codes_and_edges(d["abs_steer"], 8)
+        xq, xedges = quantile_codes_and_edges(d[axes[0]], 8)
+        yq, yedges = quantile_codes_and_edges(d[axes[1]], 8)
+        zq, zedges = quantile_codes_and_edges(d[axes[2]], 8)
     except Exception:
         ax.text(0.1, 0.5, 0.5, "数据不足", transform=ax.transAxes); return
     d = d.assign(xb=xq.values, yb=yq.values, zb=zq.values)
@@ -948,13 +1236,13 @@ def _g1c_3d_scatter(ax, alldf, zcol, cmap, title, use_cnt=False):
         sizes.append(min(200, 10+c*2))
         colors.append(c if use_cnt else med.get((ix,iy,iz), np.nan))
     ax.scatter(xs, ys, zs, s=sizes, c=colors, cmap=cmap, alpha=0.7)
-    xc = d.groupby("xb")["koopman_vel_u"].median().reindex(range(len(xedges) - 1)).values
-    yc = d.groupby("yb")["abs_r"].median().reindex(range(len(yedges) - 1)).values
-    zc = d.groupby("zb")["abs_steer"].median().reindex(range(len(zedges) - 1)).values
+    xc = d.groupby("xb")[axes[0]].median().reindex(range(len(xedges) - 1)).values
+    yc = d.groupby("yb")[axes[1]].median().reindex(range(len(yedges) - 1)).values
+    zc = d.groupby("zb")[axes[2]].median().reindex(range(len(zedges) - 1)).values
     ax.set_xticks(range(len(xc))); ax.set_xticklabels([f"{v:.1f}" for v in xc], fontsize=5)
     ax.set_yticks(range(len(yc))); ax.set_yticklabels([f"{v:.3f}" for v in yc], fontsize=5)
     ax.set_zticks(range(len(zc))); ax.set_zticklabels([f"{v:.3f}" for v in zc], fontsize=5)
-    ax.set_xlabel("vx 分位中心 (m/s)"); ax.set_ylabel("|r| 分位中心 (rad/s)"); ax.set_zlabel("|steer| 分位中心 (rad)")
+    ax.set_xlabel("vx 分位中心 (m/s)"); ax.set_ylabel("r 分位中心 (rad/s)"); ax.set_zlabel("vy 分位中心 (m/s)")
     ax.set_title(title, fontsize=10)
 
 
@@ -964,8 +1252,8 @@ def g1c_all(fig, bags_dfs):
     if alldf.empty:
         return
     errcol = acc_key("plan", "r", 10, "rmse")
-    grid_cols = ["koopman_vel_u", "abs_r", "abs_steer"]
-    coverage_df = alldf.dropna(subset=grid_cols)
+    grid_cols = COVERAGE_3D_AXES
+    coverage_df = alldf.dropna(subset=list(dict.fromkeys(grid_cols + COVERAGE_3D_AXES)))
     error_df = coverage_df.dropna(subset=[errcol])
     # 成对比较时，频次与误差必须来自同一批可评分帧。
     comparison_df = error_df
@@ -978,7 +1266,7 @@ def g1c_all(fig, bags_dfs):
     _g1c_3d_scatter(ax1, comparison_df, errcol, frequency_heatmap_cmap(), "3D 可评分频次（分位网格）", use_cnt=True)
     _g1c_3d_scatter(ax2, comparison_df, errcol, error_heatmap_cmap(), "3D 误差（分位网格）")
     # 行2-4: 三对2D
-    pairs = [("koopman_vel_u", "abs_r"), ("koopman_vel_u", "abs_steer"), ("abs_r", "abs_steer")]
+    pairs = COVERAGE_2D_PAIRS
     for r, (xcol, ycol) in enumerate(pairs, start=2):
         axl = fig.add_subplot(4, 2, (r-1)*2+1)
         axr = fig.add_subplot(4, 2, (r-1)*2+2)
@@ -1005,7 +1293,7 @@ def g1c_all(fig, bags_dfs):
             fig.colorbar(im, ax=axr, fraction=0.05)
         else:
             axr.text(0.5, 0.5, "数据不足", ha="center", transform=axr.transAxes)
-    fig.suptitle("G1c 可评分覆盖度与误差：频次与误差使用同一批 plan_r_10step 有效帧；刻度为分位 bin 中心；空白=无样本",
+    fig.suptitle("可评分覆盖度与误差：三维与二维均使用 vx × r × vy。频次与误差使用同一批 plan_r_10step 有效帧；刻度为分位 bin 中心；空白=无样本",
                  y=0.98, fontsize=13)
 
 
@@ -1026,7 +1314,7 @@ def g3_transfer(fig, bags_dfs):
     ax.bar(xs, rhos, color=COLORS[0], alpha=0.8)
     ax.axhline(0, color="grey", ls=":")
     ax.set_xticks(range(len(cats))); ax.set_xticklabels([c[0] for c in cats], fontsize=9)
-    ax.set_title("G3a lat_err_rms 与四类模型预测误差的相关性 (Spearman)")
+    ax.set_title("横向误差与四类模型预测误差的相关性（Spearman）")
     ax.set_xlabel("模型预测误差 (10step rmse)"); ax.set_ylabel("rho"); ax.grid(axis="y", alpha=0.3)
 
     strata = stratified_spearman(alldf, acc_key("plan", "r", 10, "rmse"), "lat_err_rms")
@@ -1041,7 +1329,7 @@ def g3_transfer(fig, bags_dfs):
         ax_strat.axhline(0, color="grey", ls=":")
         ax_strat.set_xticks(range(len(strata))); ax_strat.set_xticklabels(labels, fontsize=7)
         ax_strat.set_ylabel("Spearman rho")
-        ax_strat.set_title("G3b 分层: plan_r_10 × lat_err_rms\n(机动类型 × 速度分位)")
+        ax_strat.set_title("分层：plan_r_10 × lat_err_rms\n（机动类型 × 速度分位）")
         for i, row in enumerate(strata.itertuples()):
             ax_strat.text(i, row.rho, f"n={row.n}", ha="center",
                           va="bottom" if row.rho >= 0 else "top", fontsize=6)
@@ -1061,7 +1349,7 @@ def g3_temporal_corr(fig, bags_dfs):
                   for k in STEPS]
             ax.plot(STEPS, rr, marker="o", lw=1.8, label=f"{src}_{st}")
     ax.axhline(0, color="grey", ls=":")
-    ax.set_title("G3b lat_err_rms 与同源不同时域预测误差的相关性 (1/10/25step)")
+    ax.set_title("横向误差与同源不同时域预测误差的相关性（1/10/25 step）")
     ax.set_xlabel("horizon step"); ax.set_ylabel("rho"); _legend_out(ax); ax.grid(alpha=0.3)
 
 
@@ -1087,7 +1375,7 @@ def g3_event_response(fig, bags_dfs):
     for patch, color in zip(box["boxes"], [COLORS[0], COLORS[2]]):
         patch.set_facecolor(color); patch.set_alpha(0.7)
     ax.set_ylabel(f"事件起点后 {DEFAULT_CONF['event_window_sec']:.1f}s 的 lat_err RMS")
-    ax.set_title("G3c 非重叠事件对照：模型误差尾部 vs 后续控制误差")
+    ax.set_title("非重叠事件对照：模型误差高/低尾部与后续控制误差")
     ax.grid(axis="y", alpha=0.3)
 
 def g4_score(fig, bags_dfs):
@@ -1101,7 +1389,7 @@ def g4_score(fig, bags_dfs):
                   for k in [1, 10, 25]]
             ax.plot([1, 10, 25], rr, lw=1.8, label=f"{s}")
     ax.axhline(0, color="grey", ls=":")
-    ax.set_title("G4a horizon 相关: plan rmse × lat_err rms")
+    ax.set_title("预测时域关联：plan RMSE × lat_err RMS")
     ax.set_xlabel("horizon step"); ax.set_ylabel("rho"); _legend_out(ax)
 
     ax = axs[0, 1]
@@ -1109,7 +1397,7 @@ def g4_score(fig, bags_dfs):
             ("acc_phi", "koopman_health_plan_accuracy_phi_score"),
             ("acc_vy", "koopman_health_plan_accuracy_vy_score"),
             ("acc_r", "koopman_health_plan_accuracy_r_score"),
-            ("plan_stab", "koopman_health_plan_stability_score"), ("gain_lp", M_GAIN)]
+            ("plan_stab", "koopman_health_plan_stability_score")]
     xs, ys = [], []
     if len(alldf):
         for i, (lab, col) in enumerate(comp):
@@ -1119,7 +1407,7 @@ def g4_score(fig, bags_dfs):
     ax.scatter(xs, ys, s=50, color=COLORS[0], alpha=0.9)
     ax.set_xticks(range(len(comp))); ax.set_xticklabels([c[0] for c in comp], fontsize=8)
     ax.axhline(0, color="grey", ls=":")
-    ax.set_title("G4b 评分分量 × lat_err rms 相关 (负=分高误差小)")
+    ax.set_title("评分分量 × lat_err RMS 相关（负=分高误差小）")
 
     ax = axs[1, 0]
     if len(alldf) > 200:
@@ -1127,17 +1415,17 @@ def g4_score(fig, bags_dfs):
         rho = spearman(dd["koopman_health_plan_accuracy_score"], dd["lat_err_rms"])
         ax.scatter(dd["koopman_health_plan_accuracy_score"], dd["lat_err_rms"], s=4, alpha=0.3, color=COLORS[0],
                    label=f"统一 accuracy rho={rho:+.2f}")
-        ax.set_title("G4d plan accuracy × lat_err rms")
+        ax.set_title("plan accuracy × lat_err RMS")
         ax.set_xlabel("plan accuracy score"); ax.set_ylabel("lat_err rms"); _legend_out(ax)
 
     ax = axs[1, 1]
-    res = xcorr_lag_curve(alldf, M_GAIN, "lat_err_rms", 3.0)
+    res = xcorr_lag_curve(alldf, M_HEALTH_TOTAL, "lat_err_rms", 3.0)
     if res:
         ax.plot(res[0], res[1], color=COLORS[3], lw=1.6)
         ax.axvline(0, ls=":", color="grey")
-        ax.set_title("G4c gain_lp × lat_err rms 时滞互相关")
+        ax.set_title("health total × lat_err RMS 时滞互相关")
         ax.set_xlabel("lag (s)"); ax.set_ylabel("corr")
-    fig.suptitle("G4 评分体系校验", y=0.97, fontsize=13)
+    fig.suptitle("评分体系校验", y=0.97, fontsize=13)
 
 
 def _table_page_with_notes(fig, df, title, notes):
@@ -1167,11 +1455,11 @@ def _pages_spec(bags_dfs):
         ("Overview", _table_size(
             pd.DataFrame([{"all": "汇总"}])), ov_table),
     ]
+    # 总览后先展示数据覆盖度，再进入模型薄弱工况，便于先判断结论的数据基础。
+    pages.append(("G1c", (16.0, 20.0), g1c_all))
     # G1: 1/10step 共 2 页，每页叠加 plan/executed，含 4 状态 × 3 工况。
     for step in (1, 10):
         pages.append((f"G1-{step}step", W_GRID4, _g1_step_page(step)))
-    # G1c: 3D 覆盖度/误差 + 三个 2D 投影
-    pages.append(("G1c", (16.0, 20.0), g1c_all))
     # G2: laterr/phi_err 各 3 指标 × 3 工况 = 18 图
     for cname in ["lat_err_rms", "lat_err_p2p", "lat_err_hfe",
                   "phi_err_rms", "phi_err_p2p", "phi_err_hfe"]:
@@ -1242,10 +1530,10 @@ _ASCII_NAME = {"Overview": "overview",
 _SECTIONS = [
     ("overview", "总览", "全部数据汇总的有效帧、健康分、误差与 P99 命中。",
      ["Overview"], "1col"),
-    ("g1", "模型薄弱工况", "plan/executed 在 1/10step 的四状态预测误差随速度/横摆率/转角的分位分布。",
-     ["G1-1step", "G1-10step"], "1col"),
-    ("g1c", "覆盖度与误差", "(vx, |r|, |steer|) 的三维覆盖度、二维投影与 plan r·10step 误差分箱。",
+    ("g1c", "覆盖度与误差", "三维与二维均使用固定范围的 (vx, r, vy) 状态空间，并展示 plan r·10step 误差分箱。",
      ["G1c"], "1col"),
+    ("g1", "模型薄弱工况", "plan/executed 在 1/10step 的四状态预测误差随速度/横摆率/侧向速度幅值的分位分布。",
+     ["G1-1step", "G1-10step"], "1col"),
     ("g2", "场景难度基线", "laterr/phi_err 的 rms/p2p/hfe 随速度/横摆率/转角的分布。",
      ["G2-lat_err_rms", "G2-lat_err_p2p", "G2-lat_err_hfe",
       "G2-phi_err_rms", "G2-phi_err_p2p", "G2-phi_err_hfe"], "1col"),
@@ -1392,7 +1680,7 @@ def _interactive_charts(bags_dfs):
         if any(len(df) for _, df, _ in bags_dfs) else pd.DataFrame()
     # Overview 时序
     for col, name in [("koopman_health_score_total", "health_total"),
-                      ("lat_err", "lat_err"), ("koopman_gain_lp", "gain_lp")]:
+                      ("lat_err", "lat_err")]:
         for (bg, df, cov) in bags_dfs:
             if df.empty:
                 continue
@@ -1401,7 +1689,7 @@ def _interactive_charts(bags_dfs):
                            _ec_line(t.values, [(os.path.basename(bg)[:10], df[col].values)],
                                     "t/s", col, f"Overview {name}"), 320))
     # G1 分箱
-    zvars = [("koopman_vel_u", "vel_u"), ("abs_r", "|r|"), ("abs_steer", "|steer|")]
+    zvars = CONDITIONING_AXES
     for st in STATES:
         ycol = acc_key("plan", st, 10, "rmse")
         for zcol, zlab in zvars:
@@ -1421,16 +1709,16 @@ def _interactive_charts(bags_dfs):
     if len(alldf) > 200:
         for zcol, ttl in [(acc_key("plan", "r", 10, "rmse"), "G1c plan_r_10step rmse"),
                           ("koopman_health_ood_level", "G1c ood_level")]:
-            res = heatmap_2d(alldf, "koopman_vel_u", "abs_r", zcol)
+            res = heatmap_2d(alldf, "koopman_vel_u", "mpc_init_dyawrate", zcol)
             if res:
                 xc, yc, grid, gcnt = res
                 charts.append((uid("g1c"),
                                _ec_heatmap([f"{v:.1f}" for v in xc],
                                            [f"{v:.3f}" for v in yc], grid.tolist(),
-                                           ttl, "vx", "|r|"), 480))
+                                           ttl, "vx", "r"), 480))
     # G2
     for cname in ["lat_err_rms", "lat_err_p2p", "lat_err_hfe", "phi_err_rms"]:
-        for zcol, zlab in [("koopman_vel_u", "vel_u"), ("abs_r", "|r|")]:
+        for zcol, zlab in [("koopman_vel_u", "vel_u"), ("mpc_init_dyawrate", "r")]:
             series, xc = [], None
             for (bg, df, cov) in bags_dfs:
                 res = quantile_binned_stat(df, zcol, cname, 8)
@@ -1469,11 +1757,11 @@ def _interactive_charts(bags_dfs):
                                 [(s, mat[i]) for i, s in enumerate(STATES)],
                                 "horizon", "rho",
                                 f"G4 horizon 相关 {os.path.basename(bg)[:10]}"), 320))
-    res = xcorr_lag_curve(alldf, M_GAIN, "lat_err_rms", 3.0)
+    res = xcorr_lag_curve(alldf, M_HEALTH_TOTAL, "lat_err_rms", 3.0)
     if res:
         charts.append((uid("g4g"),
                        _ec_line(res[0], [("corr", res[1])], "lag (s)", "corr",
-                                "G4 gain 先导性"), 320))
+                                "G4 health 先导性"), 320))
     return charts
 
 
@@ -1484,6 +1772,23 @@ def _plotly_layout(fig, title, height):
     fig.update_xaxes(showgrid=True, gridcolor="#e5e7eb", zeroline=False)
     fig.update_yaxes(showgrid=True, gridcolor="#e5e7eb", zeroline=False)
     return fig
+
+
+def _coverage_3d_scene():
+    """三维覆盖图统一使用实际物理坐标、固定范围和可读的视觉纵深。"""
+    xcol, ycol, zcol = COVERAGE_3D_AXES
+
+    def axis(col, title):
+        ticks = COVERAGE_3D_TICKS[col]
+        return {"title": title, "range": list(COVERAGE_3D_RANGES[col]),
+                "tickmode": "array", "tickvals": ticks,
+                "ticktext": [f"{v:g}" for v in ticks], "showgrid": True,
+                "zeroline": col != "koopman_vel_u"}
+
+    return {"aspectmode": "manual", "aspectratio": {"x": 1.35, "y": 1.0, "z": 1.0},
+            "xaxis": axis(xcol, "vx (m/s)"),
+            "yaxis": axis(ycol, "r (rad/s)"),
+            "zaxis": axis(zcol, "vy (m/s)")}
 
 
 def _plotly_add_binned_traces(fig, df, xcol, ycol, row, col, prefix, color, showlegend,
@@ -1511,7 +1816,7 @@ def _plotly_add_binned_traces(fig, df, xcol, ycol, row, col, prefix, color, show
 
 def _plotly_g1_figure(alldf, step):
     from plotly.subplots import make_subplots
-    zvars = [("koopman_vel_u", "vel_u"), ("abs_r", "|r|"), ("abs_steer", "|steer|")]
+    zvars = CONDITIONING_AXES
     fig = make_subplots(rows=4, cols=3,
                         subplot_titles=[f"{state} {step}step vs {zlabel}" for state in STATES for _, zlabel in zvars],
                         horizontal_spacing=0.08, vertical_spacing=0.10)
@@ -1523,26 +1828,23 @@ def _plotly_g1_figure(alldf, step):
             _plotly_add_binned_traces(fig, alldf, zcol, acc_key("executed", state, step, "rmse"),
                                       row, col, "executed", COLORS[1], showlegend)
             fig.update_xaxes(title_text=zlabel, row=row, col=col)
+            if zcol in PHYSICAL_AXIS_RANGES:
+                fig.update_xaxes(range=list(PHYSICAL_AXIS_RANGES[zcol]), tickmode="array",
+                                 tickvals=PHYSICAL_AXIS_TICKS[zcol],
+                                 ticktext=[f"{v:g}" for v in PHYSICAL_AXIS_TICKS[zcol]], row=row, col=col)
             fig.update_yaxes(title_text="rmse", row=row, col=col)
     return _plotly_layout(fig,
-                          f"G1 模型薄弱工况: {step}step · 蓝=plan 绿=executed (实线P50 虚线P95)",
+                          f"模型薄弱工况：{step} step · 蓝=plan，绿=executed（实线 P50，虚线 P95）",
                           1120)
 
 
 def _plotly_3d_data(df, errcol):
-    axes = ["koopman_vel_u", "abs_r", "abs_steer"]
-    d = df[axes + [errcol]].dropna().copy()
-    if len(d) < 100:
+    """兼容旧入口：从统一覆盖预处理对象读取三维单元。"""
+    coverage = _prepare_coverage_data(df, errcol)
+    if coverage is None:
         return None
-    xq, _ = quantile_codes_and_edges(d[axes[0]], 8)
-    yq, _ = quantile_codes_and_edges(d[axes[1]], 8)
-    zq, _ = quantile_codes_and_edges(d[axes[2]], 8)
-    d = d.assign(xb=xq.values, yb=yq.values, zb=zq.values)
-    group = d.groupby(["xb", "yb", "zb"])
-    centers = group[axes].median()
-    counts = group.size()
-    errors = group[errcol].median()
-    return centers, counts, errors
+    cells = coverage["cells3d"]
+    return cells[COVERAGE_3D_AXES], cells["n"], cells["rmse"]
 
 
 def _plotly_g1c_3d_figure(df, errcol, mode):
@@ -1551,7 +1853,7 @@ def _plotly_g1c_3d_figure(df, errcol, mode):
     fig = go.Figure()
     if data is None:
         fig.add_annotation(text="数据不足", x=0.5, y=0.5, showarrow=False)
-        return _plotly_layout(fig, "G1c 3D", 600)
+        return _plotly_layout(fig, "覆盖度与误差 3D", 600)
     centers, counts, errors = data
     count_values, error_values = counts.to_numpy(float), errors.to_numpy(float)
     marker_size = np.clip(4 + np.sqrt(count_values) * 1.2, 5, 24)
@@ -1560,24 +1862,24 @@ def _plotly_g1c_3d_figure(df, errcol, mode):
     colorbar_title = "样本数 n" if is_count else "plan_r_10 rmse"
     colorscale = "YlOrRd" if is_count else "Blues"
     custom = np.column_stack([count_values, error_values])
+    xcol, ycol, zcol = COVERAGE_3D_AXES
     fig.add_trace(go.Scatter3d(
-        x=centers["koopman_vel_u"], y=centers["abs_r"], z=centers["abs_steer"],
+        x=centers[xcol], y=centers[ycol], z=centers[zcol],
         mode="markers", customdata=custom,
         marker={"size": marker_size, "color": colors, "colorscale": colorscale,
                 "opacity": 0.82, "colorbar": {"title": colorbar_title}},
-        hovertemplate="vx=%{x:.5g} m/s<br>|r|=%{y:.5g} rad/s<br>|steer|=%{z:.5g} rad"
+        hovertemplate="vx=%{x:.5g} m/s<br>r=%{y:.5g} rad/s<br>vy=%{z:.5g} m/s"
                       "<br>n=%{customdata[0]:.0f}<br>plan_r_10 rmse=%{customdata[1]:.5g}<extra></extra>"))
-    fig.update_layout(scene={"xaxis_title": "vx (m/s)", "yaxis_title": "|r| (rad/s)",
-                             "zaxis_title": "|steer| (rad)"})
+    fig.update_layout(scene=_coverage_3d_scene())
     label = "联合可评分频次" if is_count else "联合误差"
-    return _plotly_layout(fig, f"G1c 3D {label}（拖拽旋转；悬停查看 bin 中心、n 与误差）", 620)
+    return _plotly_layout(fig, f"覆盖度与误差 3D：{label}（固定物理坐标域；拖拽旋转、悬停查看数据）", 620)
 
 
 def _plotly_g1c_2d_figure(df, errcol, xcol, ycol):
     from plotly import graph_objects as go
     from plotly.subplots import make_subplots
     paired = paired_coverage_error_grid(df, xcol, ycol, errcol, 8, 8)
-    title = f"G1c {_axlabel(xcol)} × {_axlabel(ycol)}"
+    title = f"覆盖度与误差：{_axlabel(xcol)} × {_axlabel(ycol)}"
     fig = make_subplots(rows=1, cols=2, subplot_titles=("可评分频次", "plan_r_10step rmse"),
                         horizontal_spacing=0.12)
     if paired is None:
@@ -1593,8 +1895,18 @@ def _plotly_g1c_2d_figure(df, errcol, xcol, ycol):
                              hovertemplate=f"{_axlabel(xcol)}=%{{x:.5g}}<br>{_axlabel(ycol)}=%{{y:.5g}}"
                                            "<br>rmse=%{z:.5g}<br>n=%{customdata:.0f}<extra></extra>"), row=1, col=2)
     for col in (1, 2):
-        fig.update_xaxes(title_text=_axlabel(xcol), row=1, col=col)
-        fig.update_yaxes(title_text=_axlabel(ycol), row=1, col=col)
+        xaxis = {"title_text": _axlabel(xcol)}
+        yaxis = {"title_text": _axlabel(ycol)}
+        if xcol in PHYSICAL_AXIS_RANGES:
+            xaxis.update(range=list(PHYSICAL_AXIS_RANGES[xcol]), tickmode="array",
+                         tickvals=PHYSICAL_AXIS_TICKS[xcol],
+                         ticktext=[f"{v:g}" for v in PHYSICAL_AXIS_TICKS[xcol]])
+        if ycol in PHYSICAL_AXIS_RANGES:
+            yaxis.update(range=list(PHYSICAL_AXIS_RANGES[ycol]), tickmode="array",
+                         tickvals=PHYSICAL_AXIS_TICKS[ycol],
+                         ticktext=[f"{v:g}" for v in PHYSICAL_AXIS_TICKS[ycol]])
+        fig.update_xaxes(row=1, col=col, **xaxis)
+        fig.update_yaxes(row=1, col=col, **yaxis)
     return _plotly_layout(fig, title, 500)
 
 
@@ -1607,10 +1919,10 @@ def _plotly_overview_figure(bags_dfs):
     values = [
         "汇总",
         int(sum(c["_n_frame"] for _, _, c in bags_dfs)),
-        int(sum(c["_n_active"] for _, _, c in bags_dfs)),
+        int(len(alldf)),
         _q(valid_h, 0.05) if len(valid_h) else np.nan,
         float(np.sqrt((alldf["lat_err"] ** 2).mean())) if len(alldf) else np.nan,
-        int(alldf["koopman_health_executed_error_p99_hit"].sum()) if len(alldf) else 0,
+        _available_sum(alldf, "koopman_health_executed_error_p99_hit"),
         float((h < 0).mean()) if len(h) else np.nan,
     ]
     headers = ["all", "frames", "valid", "health_p05", "laterr_rms",
@@ -1626,18 +1938,18 @@ def _plotly_overview_figure(bags_dfs):
 
 
 def _plotly_g1c_page(df, errcol):
-    """G1c 静态页的等价交互版：单卡 4×2（3D 两图 + 三组 2D 成对投影）。"""
+    """覆盖度页：统一预处理对象的 3D 图与三个 2D 投影。"""
     from plotly import graph_objects as go
     from plotly.subplots import make_subplots
+    coverage = df if isinstance(df, dict) else _prepare_coverage_data(df, errcol)
     specs = [[{"type": "scene"}, {"type": "scene"}],
              [{"type": "heatmap"}, {"type": "heatmap"}],
              [{"type": "heatmap"}, {"type": "heatmap"}],
              [{"type": "heatmap"}, {"type": "heatmap"}]]
-    subtitles = ["3D 可评分频次（分位网格）", "3D 误差（分位网格）"]
-    pairs = [("koopman_vel_u", "abs_r"), ("koopman_vel_u", "abs_steer"),
-             ("abs_r", "abs_steer")]
-    compact_label = {"koopman_vel_u": "vx (m/s)", "abs_r": "|r| (rad/s)",
-                     "abs_steer": "|steer| (rad)"}
+    subtitles = ["3D 可评分频次（固定网格）", "3D 误差（固定网格）"]
+    pairs = COVERAGE_2D_PAIRS
+    compact_label = {"koopman_vel_u": "vx (m/s)", "mpc_init_dyawrate": "r (rad/s)",
+                     "vel_by": "vy (m/s)"}
     for xcol, ycol in pairs:
         # 列间距扩大后使用紧凑标题，防止长中文轴名侵入色条和相邻列。
         subtitles.extend([f"{compact_label[xcol]} × {compact_label[ycol]} · 频次",
@@ -1658,33 +1970,20 @@ def _plotly_g1c_page(df, errcol):
     fig = make_subplots(rows=4, cols=2, specs=specs, subplot_titles=subtitles,
                         horizontal_spacing=horizontal_spacing, vertical_spacing=vertical_spacing,
                         row_heights=row_weights)
-    data = _plotly_3d_data(df, errcol)
-    if data is None:
+    if coverage is None:
         fig.add_annotation(text="数据不足", x=0.5, y=0.95, xref="paper", yref="paper", showarrow=False)
     else:
-        centers, counts, errors = data
-        count_values, error_values = counts.to_numpy(float), errors.to_numpy(float)
+        cells = coverage["cells3d"]
+        count_values = cells["n"].to_numpy(float)
+        error_values = cells["rmse"].to_numpy(float)
         marker_size = np.clip(4 + np.sqrt(count_values) * 1.2, 5, 24)
-        # 采用分位 bin 索引作为空间坐标（静态版同样如此），避免 vx 与 |r|/|steer|
-        # 量纲相差数百倍时把三维点压缩到一条窄带；刻度与悬停仍展示真实 bin 中心值。
-        xb = centers.index.get_level_values("xb").to_numpy(float)
-        yb = centers.index.get_level_values("yb").to_numpy(float)
-        zb = centers.index.get_level_values("zb").to_numpy(float)
-        # 轴刻度必须从同一批原始帧按单轴分位箱计算；不能再对 3D 小格中位数取中位数，
-        # 否则该刻度会与 2D 投影的 bin 中心不同。
-        def bin_centers(col):
-            codes, _ = quantile_codes_and_edges(df[col], 8)
-            return pd.DataFrame({"bin": codes.to_numpy(), "value": df[col].to_numpy()}) \
-                .groupby("bin")["value"].median().sort_index()
-        xc, yc, zc = (bin_centers("koopman_vel_u"), bin_centers("abs_r"),
-                      bin_centers("abs_steer"))
+        xcol3d, ycol3d, zcol3d = COVERAGE_3D_AXES
         custom = np.column_stack([
-            xc.reindex(xb.astype(int)).to_numpy(), yc.reindex(yb.astype(int)).to_numpy(),
-            zc.reindex(zb.astype(int)).to_numpy(), count_values, error_values])
-        common = {"x": xb, "y": yb, "z": zb, "mode": "markers", "customdata": custom,
-                  "hovertemplate": "vx 分位中心=%{customdata[0]:.5g} m/s<br>|r| 分位中心=%{customdata[1]:.5g} rad/s"
-                                   "<br>|steer| 分位中心=%{customdata[2]:.5g} rad<br>n=%{customdata[3]:.0f}"
-                                   "<br>plan_r_10step rmse=%{customdata[4]:.5g}<extra></extra>"}
+            count_values, error_values])
+        common = {"x": cells[xcol3d], "y": cells[ycol3d], "z": cells[zcol3d],
+                  "mode": "markers", "customdata": custom,
+                  "hovertemplate": "vx=%{x:.5g} m/s<br>r=%{y:.5g} rad/s<br>vy=%{z:.5g} m/s"
+                                   "<br>n=%{customdata[0]:.0f}<br>plan_r_10step rmse=%{customdata[1]:.5g}<extra></extra>"}
         fig.add_trace(go.Scatter3d(**common, marker={
             "size": marker_size, "color": count_values,
             "colorscale": [[0, "#fff3bf"], [0.45, "#f59e0b"], [1, "#b91c1c"]],
@@ -1696,52 +1995,40 @@ def _plotly_g1c_page(df, errcol):
             "opacity": 0.82,
             "colorbar": {"title": "rmse", "x": right_colorbar_x, "y": colorbar_y[1], "len": colorbar_len[1]}}), row=1, col=2)
     fig.update_layout(
-        scene={"aspectmode": "cube",
-               "xaxis": {"title": "vx bin 中心", "tickmode": "array", "tickvals": xc.index.tolist(),
-                         "ticktext": [f"{v:.3g}" for v in xc]},
-               "yaxis": {"title": "|r| bin 中心", "tickmode": "array", "tickvals": yc.index.tolist(),
-                         "ticktext": [f"{v:.3g}" for v in yc]},
-               "zaxis": {"title": "|steer| bin 中心", "tickmode": "array", "tickvals": zc.index.tolist(),
-                         "ticktext": [f"{v:.3g}" for v in zc]}},
-        scene2={"aspectmode": "cube",
-                "xaxis": {"title": "vx bin 中心", "tickmode": "array", "tickvals": xc.index.tolist(),
-                          "ticktext": [f"{v:.3g}" for v in xc]},
-                "yaxis": {"title": "|r| bin 中心", "tickmode": "array", "tickvals": yc.index.tolist(),
-                          "ticktext": [f"{v:.3g}" for v in yc]},
-                "zaxis": {"title": "|steer| bin 中心", "tickmode": "array", "tickvals": zc.index.tolist(),
-                          "ticktext": [f"{v:.3g}" for v in zc]}})
+        scene=_coverage_3d_scene(), scene2=_coverage_3d_scene())
     for row, (xcol, ycol) in enumerate(pairs, start=2):
-        paired = paired_coverage_error_grid(df, xcol, ycol, errcol, 8, 8)
-        if paired is None:
+        pair = None if coverage is None else coverage["pairs"].get((xcol, ycol))
+        if pair is None:
             fig.add_annotation(text="数据不足", x=0.5, y=0.5, showarrow=False, row=row, col=1)
             fig.add_annotation(text="数据不足", x=0.5, y=0.5, showarrow=False, row=row, col=2)
             continue
-        xc, yc, count_grid, error_grid = paired
+        xc, yc = pair["x"], pair["y"]
+        count_grid, error_grid = pair["count"], pair["error"]
         custom = np.empty(count_grid.shape + (4,), dtype=object)
         for iy in range(len(yc)):
             for ix in range(len(xc)):
                 custom[iy, ix] = [xc[ix], yc[iy], count_grid[iy, ix], error_grid[iy, ix]]
-        xi, yi = list(range(len(xc))), list(range(len(yc)))
+        x_ticks, y_ticks = COVERAGE_3D_TICKS[xcol], COVERAGE_3D_TICKS[ycol]
         fig.add_trace(go.Heatmap(
-            x=xi, y=yi, z=count_grid, customdata=custom,
+            x=xc, y=yc, z=count_grid, customdata=custom,
             colorscale=[[0, "#fff3bf"], [0.45, "#f59e0b"], [1, "#b91c1c"]],
             colorbar={"title": "n", "x": left_colorbar_x, "y": colorbar_y[row], "len": colorbar_len[row]},
             hovertemplate=f"{_axlabel(xcol)}=%{{customdata[0]:.5g}}<br>{_axlabel(ycol)}=%{{customdata[1]:.5g}}"
                           "<br>n=%{customdata[2]:.0f}<br>rmse=%{customdata[3]:.5g}<extra></extra>"), row=row, col=1)
         fig.add_trace(go.Heatmap(
-            x=xi, y=yi, z=error_grid, customdata=custom,
+            x=xc, y=yc, z=error_grid, customdata=custom,
             colorscale=[[0, "#dbeafe"], [0.45, "#60a5fa"], [1, "#0b3b8c"]],
             colorbar={"title": "rmse", "x": right_colorbar_x, "y": colorbar_y[row], "len": colorbar_len[row]},
             hovertemplate=f"{_axlabel(xcol)}=%{{customdata[0]:.5g}}<br>{_axlabel(ycol)}=%{{customdata[1]:.5g}}"
                           "<br>rmse=%{customdata[3]:.5g}<br>n=%{customdata[2]:.0f}<extra></extra>"), row=row, col=2)
         for col in (1, 2):
-            fig.update_xaxes(tickmode="array", tickvals=xi,
-                             ticktext=[f"{v:.3g}" for v in xc], title_text=compact_label[xcol], row=row, col=col)
-            fig.update_yaxes(tickmode="array", tickvals=yi,
-                             ticktext=[f"{v:.3g}" for v in yc], title_text=compact_label[ycol], row=row, col=col)
+            fig.update_xaxes(range=list(COVERAGE_3D_RANGES[xcol]), tickmode="array", tickvals=x_ticks,
+                             ticktext=[f"{v:g}" for v in x_ticks], title_text=compact_label[xcol], row=row, col=col)
+            fig.update_yaxes(range=list(COVERAGE_3D_RANGES[ycol]), tickmode="array", tickvals=y_ticks,
+                             ticktext=[f"{v:g}" for v in y_ticks], title_text=compact_label[ycol], row=row, col=col)
     fig = _plotly_layout(
         fig,
-        "G1c 可评分覆盖度与误差：频次与误差使用同一批 plan_r_10step 有效帧；刻度为分位 bin 中心；空白=无样本",
+        f"可评分覆盖度与误差：三维与二维均使用 vx × r × vy 状态空间、固定物理范围和同一批 {coverage['shared_frames'] if coverage else 0:,} 个 plan_r_10step 有效帧；空白=无样本",
         2300)
     fig.update_layout(margin={"l": 72, "r": 106, "t": 98, "b": 74})
     return fig
@@ -1749,23 +2036,27 @@ def _plotly_g1c_page(df, errcol):
 
 def _plotly_g2_figure(alldf, cname):
     from plotly.subplots import make_subplots
-    zvars = [("koopman_vel_u", "vel_u"), ("abs_r", "|r|"), ("abs_steer", "steer")]
+    zvars = CONDITIONING_AXES
     fig = make_subplots(rows=1, cols=3, subplot_titles=[label for _, label in zvars])
     for col, (zcol, zlabel) in enumerate(zvars, 1):
         _plotly_add_binned_traces(fig, alldf, zcol, cname, 1, col, "control", COLORS[2], col == 1,
                                   separate_quantile_legend=True)
         fig.update_xaxes(title_text=zlabel, row=1, col=col)
+        if zcol in PHYSICAL_AXIS_RANGES:
+            fig.update_xaxes(range=list(PHYSICAL_AXIS_RANGES[zcol]), tickmode="array",
+                             tickvals=PHYSICAL_AXIS_TICKS[zcol],
+                             ticktext=[f"{v:g}" for v in PHYSICAL_AXIS_TICKS[zcol]], row=1, col=col)
         fig.update_yaxes(title_text=cname, row=1, col=col)
-    return _plotly_layout(fig, f"G2 场景难度基线: {cname} · 实线 P50 / 虚线 P95", 440)
+    return _plotly_layout(fig, f"场景难度基线：{cname} · 实线 P50，虚线 P95", 440)
 
 
 def _plotly_g3_transfer_figure(alldf):
-    """G3 相关性：全局相关柱图 + 机动类型/速度二维分层图。"""
+    """G3 相关性：全局相关柱图 + 细粒度机动强度/速度二维分层图。"""
     from plotly import graph_objects as go
     from plotly.subplots import make_subplots
     fig = make_subplots(rows=1, cols=2, subplot_titles=(
-        "G3a lat_err_rms 与四类模型预测误差的相关性 (Spearman)",
-        "G3b 分层: plan_r_10 × lat_err_rms<br>(机动类型 × 速度分位)"))
+        "横向误差与四类模型预测误差的相关性（Spearman）",
+        "分层：plan_r_10 × lat_err_rms<br>（1 s 平均 |r| 强度 × 固定速度网格）"))
     cats = [("plan_y_10", acc_key("plan", "y", 10, "rmse")),
             ("plan_r_10", acc_key("plan", "r", 10, "rmse")),
             ("exec_y_10", acc_key("executed", "y", 10, "rmse")),
@@ -1782,27 +2073,27 @@ def _plotly_g3_transfer_figure(alldf):
     fig.update_xaxes(title_text="模型预测误差 (10step rmse)", row=1, col=1)
     fig.update_yaxes(title_text="rho", row=1, col=1)
 
-    # 速度分位必须基于全部聚合帧统一划分；若沿用每个 bag 的 speed_bin，二维格子的
-    # 横轴含义会随 bag 改变。x 用等距索引，tick 文本展示实际速度分位中心。
+    # 速度轴固定为 [0,40]，并与覆盖度章节使用相同的 32 个等宽网格。
     err_col = acc_key("plan", "r", 10, "rmse")
-    d = alldf[["maneuver", "koopman_vel_u", err_col, "lat_err_rms"]].dropna().copy()
-    maneuver_order = ["straight", "gentle", "sharp"]
-    d = d[d["maneuver"].isin(maneuver_order)]
-    try:
-        speed_code, speed_edges = pd.qcut(d["koopman_vel_u"], 4, labels=False,
-                                          retbins=True, duplicates="drop")
-    except (ValueError, IndexError):
-        speed_code, speed_edges = None, None
-    if speed_code is None or len(speed_edges) < 2:
-        fig.add_annotation(text="速度分位不足，无法生成二维分层图", x=0.5, y=0.5,
+    d = alldf[["r_mean", "koopman_vel_u", err_col, "lat_err_rms"]].dropna().copy()
+    maneuver_order = G3_MANEUVER_INTENSITY_LABELS
+    d["maneuver_intensity"] = pd.cut(
+        d["r_mean"], G3_MANEUVER_INTENSITY_EDGES, labels=maneuver_order,
+        include_lowest=True)
+    d = d.dropna(subset=["maneuver_intensity"])
+    d = d[d["koopman_vel_u"].between(*COVERAGE_3D_RANGES["koopman_vel_u"])]
+    speed_edges = np.linspace(*COVERAGE_3D_RANGES["koopman_vel_u"], COVERAGE_2D_BINS + 1)
+    speed_code = pd.cut(d["koopman_vel_u"], speed_edges, labels=False, include_lowest=True)
+    if d.empty or speed_code.isna().all():
+        fig.add_annotation(text="固定速度范围内样本不足，无法生成二维分层图", x=0.5, y=0.5,
                            showarrow=False, row=1, col=2)
     else:
         d["speed_code"] = np.asarray(speed_code, dtype=int)
         speed_centers = (speed_edges[:-1] + speed_edges[1:]) / 2
         rho_grid = np.full((len(maneuver_order), len(speed_centers)), np.nan)
         count_grid = np.zeros_like(rho_grid, dtype=int)
-        for (maneuver, code), part in d.groupby(["maneuver", "speed_code"], observed=True):
-            iy = maneuver_order.index(maneuver)
+        for (maneuver, code), part in d.groupby(["maneuver_intensity", "speed_code"], observed=True):
+            iy = maneuver_order.index(str(maneuver))
             ix = int(code)
             n = len(part)
             count_grid[iy, ix] = n
@@ -1814,17 +2105,18 @@ def _plotly_g3_transfer_figure(alldf):
             for ix, center in enumerate(speed_centers):
                 customdata[iy, ix] = [center, count_grid[iy, ix]]
         fig.add_trace(go.Heatmap(
-            x=list(range(len(speed_centers))), y=maneuver_order, z=rho_grid,
+            x=speed_centers, y=maneuver_order, z=rho_grid,
             customdata=customdata, colorscale="RdBu", zmin=-1, zmax=1, zmid=0,
             colorbar={"title": "Spearman rho"}, hoverongaps=False,
-            hovertemplate="maneuver=%{y}<br>vx 分位中心=%{customdata[0]:.5g} m/s"
+            hovertemplate="1 s 平均 |r|=%{y} rad/s<br>vx=%{customdata[0]:.5g} m/s"
                           "<br>rho=%{z:.4f}<br>n=%{customdata[1]:.0f}<extra></extra>"), row=1, col=2)
-        fig.update_xaxes(tickmode="array", tickvals=list(range(len(speed_centers))),
-                         ticktext=[f"{center:.3g}" for center in speed_centers],
-                         title_text="vx 分位中心 (m/s)", row=1, col=2)
-        fig.update_yaxes(title_text="机动类型", categoryorder="array",
+        vx_ticks = COVERAGE_3D_TICKS["koopman_vel_u"]
+        fig.update_xaxes(range=list(COVERAGE_3D_RANGES["koopman_vel_u"]), tickmode="array",
+                         tickvals=vx_ticks, ticktext=[f"{v:g}" for v in vx_ticks],
+                         title_text="vx (m/s)", row=1, col=2)
+        fig.update_yaxes(title_text="1 s 平均 |r| 区间 (rad/s)", categoryorder="array",
                          categoryarray=maneuver_order, row=1, col=2)
-    return _plotly_layout(fig, "G3 传导关联", 540)
+    return _plotly_layout(fig, "传导关联", 600)
 
 
 def _plotly_g3_temporal_figure(alldf):
@@ -1839,7 +2131,7 @@ def _plotly_g3_temporal_figure(alldf):
                                      hovertemplate="step=%{x}<br>rho=%{y:.4f}<extra>%{fullData.name}</extra>"))
     fig.add_hline(y=0, line_dash="dot", line_color="grey")
     fig.update_xaxes(title_text="horizon step"); fig.update_yaxes(title_text="rho")
-    return _plotly_layout(fig, "G3b lat_err_rms 与同源不同时域预测误差的相关性 (1/10/25step)", 440)
+    return _plotly_layout(fig, "横向误差与同源不同时域预测误差的相关性（1/10/25 step）", 440)
 
 
 def _plotly_g3_event_figure(alldf):
@@ -1861,17 +2153,17 @@ def _plotly_g3_event_figure(alldf):
                                      line={"color": color}, fillcolor=color, opacity=0.7,
                                      hovertemplate=f"{label}<br>lat_err RMS=%{{y:.5g}}<extra></extra>"))
     fig.update_yaxes(title_text=f"事件起点后 {DEFAULT_CONF['event_window_sec']:.1f}s 的 lat_err RMS")
-    return _plotly_layout(fig, "G3c 非重叠事件对照：模型误差尾部 vs 后续控制误差", 440)
+    return _plotly_layout(fig, "非重叠事件对照：模型误差高/低尾部与后续控制误差", 440)
 
 
 def _plotly_g4_figure(alldf):
     from plotly import graph_objects as go
     from plotly.subplots import make_subplots
     fig = make_subplots(rows=2, cols=2, subplot_titles=(
-        "G4a horizon 相关: plan rmse × lat_err rms",
-        "G4b 评分分量 × lat_err rms 相关 (负=分高误差小)",
-        "G4d plan accuracy × lat_err rms",
-        "G4c gain_lp × lat_err rms 时滞互相关"))
+        "预测时域关联：plan RMSE × lat_err RMS",
+        "评分分量 × lat_err RMS 相关（负=分高误差小）",
+        "plan accuracy × lat_err RMS",
+        "health total × lat_err RMS 时滞互相关"))
     for state in STATES:
         values = [spearman(alldf[acc_key("plan", state, step, "rmse")], alldf["lat_err_rms"])
                   for step in STEPS]
@@ -1882,7 +2174,7 @@ def _plotly_g4_figure(alldf):
                   ("acc_phi", "koopman_health_plan_accuracy_phi_score"),
                   ("acc_vy", "koopman_health_plan_accuracy_vy_score"),
                   ("acc_r", "koopman_health_plan_accuracy_r_score"),
-                  ("plan_stab", "koopman_health_plan_stability_score"), ("gain_lp", M_GAIN)]
+                  ("plan_stab", "koopman_health_plan_stability_score")]
     labels, values = zip(*[(label, spearman(alldf[col], alldf["lat_err_rms"])) for label, col in components])
     fig.add_trace(go.Scatter(x=list(range(len(labels))), y=values, mode="markers", name="rho",
                              marker={"size": 10, "color": COLORS[0]}, customdata=labels,
@@ -1897,11 +2189,11 @@ def _plotly_g4_figure(alldf):
                                hovertemplate="plan accuracy=%{x:.4f}<br>lat_err=%{y:.5g}<extra></extra>"), row=2, col=1)
     fig.update_xaxes(title_text="plan accuracy score", row=2, col=1)
     fig.update_yaxes(title_text="lat_err rms", row=2, col=1)
-    lag = xcorr_lag_curve(alldf, M_GAIN, "lat_err_rms", DEFAULT_CONF["xcorr_max_lag_sec"])
+    lag = xcorr_lag_curve(alldf, M_HEALTH_TOTAL, "lat_err_rms", DEFAULT_CONF["xcorr_max_lag_sec"])
     if lag is not None:
-        fig.add_trace(go.Scatter(x=lag[0], y=lag[1], mode="lines+markers", name="gain corr",
+        fig.add_trace(go.Scatter(x=lag[0], y=lag[1], mode="lines+markers", name="health corr",
                                  hovertemplate="lag=%{x:.3f}s<br>corr=%{y:.5f}<extra></extra>"), row=2, col=2)
-    return _plotly_layout(fig, "G4 评分体系校验", 920)
+    return _plotly_layout(fig, "评分体系校验", 920)
 
 
 def _future_segment_value(df, col, horizon_sec):
@@ -1972,24 +2264,20 @@ def _partial_spearman(df, xcol, ycol, controls):
     return float(np.corrcoef(rx, ry)[0, 1]), len(d)
 
 
-def _coverage_priority(alldf):
-    """三维分位格风险优先级：低频 × 高模型误差 × 高控制误差。"""
-    axes = ["koopman_vel_u", "abs_r", "abs_steer"]
-    err = acc_key("plan", "r", 10, "rmse")
-    d = alldf[axes + [err, "lat_err_rms"]].dropna().copy()
-    if len(d) < 8 ** 2:
+def _coverage_priority(coverage_or_df, errcol=None):
+    """从统一覆盖预处理对象计算低频×高误差风险优先级。"""
+    if isinstance(coverage_or_df, dict):
+        coverage = coverage_or_df
+    else:
+        coverage = _prepare_coverage_data(
+            coverage_or_df, errcol or acc_key("plan", "r", 10, "rmse"))
+    if coverage is None:
         return pd.DataFrame()
-    try:
-        for axis, name in zip(axes, ["xb", "yb", "zb"]):
-            d[name], _ = quantile_codes_and_edges(d[axis], 8)
-    except Exception:
-        return pd.DataFrame()
-    group = d.groupby(["xb", "yb", "zb"])
-    result = group[axes].median()
-    result["n"] = group.size()
-    result["model_rmse"] = group[err].median()
-    result["control_rms"] = group["lat_err_rms"].median()
-    result = result.reset_index()
+    result = coverage["cells3d"].copy()
+    result = result.rename(columns={"n": "n", "rmse": "model_rmse"})
+    result = result.dropna(subset=["control_rms"])
+    if result.empty:
+        return result
     result["priority"] = ((1.0 - result["n"].rank(pct=True)) *
                           result["model_rmse"].rank(pct=True) *
                           result["control_rms"].rank(pct=True))
@@ -2083,11 +2371,11 @@ def _plotly_deconfounded_figure(alldf):
     from plotly import graph_objects as go
     from plotly.subplots import make_subplots
     err, control = acc_key("plan", "r", 10, "rmse"), "lat_err_rms"
-    controls = ["koopman_vel_u", "abs_r", "abs_steer"]
+    controls = [col for col, _ in CONDITIONING_AXES]
     global_rho = spearman(alldf[err], alldf[control])
     partial_rho, n = _partial_spearman(alldf, err, control, controls)
     fig = make_subplots(rows=1, cols=2, subplot_titles=("全局相关 vs 控制工况后相关", "按机动类型的去混杂相关"))
-    fig.add_trace(go.Bar(x=["全局 Spearman", "控制 vx/|r|/|steer| 后"], y=[global_rho, partial_rho],
+    fig.add_trace(go.Bar(x=["全局 Spearman", "控制 vx/r/vy 后"], y=[global_rho, partial_rho],
                          customdata=[len(alldf[[err, control]].dropna()), n], marker={"color": [COLORS[0], COLORS[1]]},
                          hovertemplate="%{x}<br>rho=%{y:.4f}<br>n=%{customdata}<extra></extra>"), row=1, col=1)
     fig.add_hline(y=0, line_dash="dot", line_color="grey", row=1, col=1)
@@ -2135,16 +2423,15 @@ def _plotly_coverage_priority_figure(alldf):
     if not d.empty:
         custom = np.column_stack([d["n"], d["model_rmse"], d["control_rms"], d["priority"]])
         fig.add_trace(go.Scatter3d(
-            x=d["koopman_vel_u"], y=d["abs_r"], z=d["abs_steer"], mode="markers", customdata=custom,
+            x=d["koopman_vel_u"], y=d["mpc_init_dyawrate"], z=d["vel_by"], mode="markers", customdata=custom,
             marker={"size": np.clip(5 + np.sqrt(d["n"]) * 0.55, 5, 18), "color": d["priority"],
                     "colorscale": "Viridis", "colorbar": {"title": "priority"}, "opacity": 0.86},
-            hovertemplate="vx=%{x:.5g}<br>|r|=%{y:.5g}<br>|steer|=%{z:.5g}<br>n=%{customdata[0]:.0f}"
+            hovertemplate="vx=%{x:.5g}<br>r=%{y:.5g}<br>vy=%{z:.5g}<br>n=%{customdata[0]:.0f}"
                           "<br>model rmse=%{customdata[1]:.5g}<br>control rms=%{customdata[2]:.5g}"
                           "<br>priority=%{customdata[3]:.3f}<extra></extra>"))
     else:
         fig.add_annotation(text="数据不足", x=0.5, y=0.5, showarrow=False)
-    fig.update_layout(scene={"xaxis_title": "vx (m/s)", "yaxis_title": "|r| (rad/s)",
-                             "zaxis_title": "|steer| (rad)"})
+    fig.update_layout(scene=_coverage_3d_scene())
     return _plotly_layout(fig, "扩展 5 · 覆盖缺口风险三维排序", 620)
 
 
@@ -2153,7 +2440,8 @@ def _plotly_coverage_priority_top_figure(alldf):
     d = _coverage_priority(alldf).head(15).iloc[::-1]
     fig = go.Figure()
     if not d.empty:
-        labels = [f"vx={r.koopman_vel_u:.2g} · r={r.abs_r:.2g} · steer={r.abs_steer:.2g}" for r in d.itertuples()]
+        labels = [f"vx={r.koopman_vel_u:.2g} · r={r.mpc_init_dyawrate:.2g} · vy={r.vel_by:.2g}"
+                  for r in d.itertuples()]
         custom = np.column_stack([d["n"], d["model_rmse"], d["control_rms"]])
         fig.add_trace(go.Bar(y=labels, x=d["priority"], orientation="h", customdata=custom, marker={"color": COLORS[2]},
                              hovertemplate="%{y}<br>priority=%{x:.3f}<br>n=%{customdata[0]:.0f}"
@@ -2168,8 +2456,8 @@ def _plotly_event_timeline_figure(alldf):
     from plotly import graph_objects as go
     from plotly.subplots import make_subplots
     err = acc_key("plan", "r", 10, "rmse")
-    fields = [err, "lat_err_rms", "abs_r", "abs_steer"]
-    labels = ["plan_r_10 rmse", "lat_err rms", "|r|", "|steer|"]
+    fields = [err, "lat_err_rms", "mpc_init_dyawrate", "vel_by"]
+    labels = ["plan_r_10 rmse", "lat_err rms", "r", "vy"]
     grid, profiles = _event_profiles(alldf, err, fields)
     fig = make_subplots(rows=2, cols=2, subplot_titles=labels)
     for pos, (field, label) in enumerate(zip(fields, labels)):
@@ -2184,13 +2472,17 @@ def _plotly_event_timeline_figure(alldf):
         else:
             fig.add_annotation(text="事件不足", x=0.5, y=0.5, showarrow=False, row=row + 1, col=col + 1)
         fig.update_xaxes(title_text="相对事件峰值 (s)", row=row + 1, col=col + 1)
+        if field in PHYSICAL_AXIS_RANGES:
+            fig.update_yaxes(range=list(PHYSICAL_AXIS_RANGES[field]), tickmode="array",
+                             tickvals=PHYSICAL_AXIS_TICKS[field],
+                             ticktext=[f"{v:g}" for v in PHYSICAL_AXIS_TICKS[field]], row=row + 1, col=col + 1)
     return _plotly_layout(fig, "扩展 7 · 高模型误差事件的对齐时序", 720)
 
 
 def _plotly_event_attribution_figure(alldf):
     from plotly import graph_objects as go
     err = acc_key("plan", "r", 10, "rmse")
-    fields = ["koopman_vel_u", "abs_r", "abs_steer", "koopman_gain_lp", "koopman_health_score_total"]
+    fields = ["koopman_vel_u", "mpc_init_dyawrate", "vel_by", "koopman_health_score_total"]
     group_col = "segment_id" if "segment_id" in alldf else "segment"
     peaks = []
     for _, part in alldf.groupby(group_col, sort=False):
@@ -2277,9 +2569,9 @@ def _plotly_plan_exec_delta_figure(alldf):
     from plotly import graph_objects as go
     err_plan = acc_key("plan", "r", 10, "rmse")
     err_exec = acc_key("executed", "r", 10, "rmse")
-    d = alldf[["koopman_vel_u", "abs_r", err_plan, err_exec]].dropna().copy()
+    d = alldf[["koopman_vel_u", "mpc_init_dyawrate", err_plan, err_exec]].dropna().copy()
     d["delta"] = d[err_plan] - d[err_exec]
-    res = heatmap_2d(d, "koopman_vel_u", "abs_r", "delta", 8, 8)
+    res = _fixed_speed_heatmap_data(d, "mpc_init_dyawrate", "delta", COVERAGE_2D_BINS)
     fig = go.Figure()
     if res is not None:
         xc, yc, grid, count = res
@@ -2287,50 +2579,95 @@ def _plotly_plan_exec_delta_figure(alldf):
         for iy in range(len(yc)):
             for ix in range(len(xc)):
                 custom[iy, ix] = [xc[ix], yc[iy], count[iy, ix]]
-        fig.add_trace(go.Heatmap(x=list(range(len(xc))), y=list(range(len(yc))), z=grid, customdata=custom,
+        fig.add_trace(go.Heatmap(x=xc, y=yc, z=grid, customdata=custom,
                                  colorscale="RdBu", zmid=0, colorbar={"title": "plan − executed rmse"},
-                                 hovertemplate="vx=%{customdata[0]:.5g}<br>|r|=%{customdata[1]:.5g}"
+                                 hovertemplate="vx=%{customdata[0]:.5g}<br>r=%{customdata[1]:.5g}"
                                                "<br>delta=%{z:.5g}<br>n=%{customdata[2]:.0f}<extra></extra>"))
-        fig.update_xaxes(tickmode="array", tickvals=list(range(len(xc))), ticktext=[f"{v:.3g}" for v in xc], title_text="vx (m/s)")
-        fig.update_yaxes(tickmode="array", tickvals=list(range(len(yc))), ticktext=[f"{v:.3g}" for v in yc], title_text="|r| (rad/s)")
+        vx_ticks = COVERAGE_3D_TICKS["koopman_vel_u"]
+        fig.update_xaxes(range=list(COVERAGE_3D_RANGES["koopman_vel_u"]), tickmode="array",
+                         tickvals=vx_ticks, ticktext=[f"{v:g}" for v in vx_ticks], title_text="vx (m/s)")
+        r_ticks = PHYSICAL_AXIS_TICKS["mpc_init_dyawrate"]
+        fig.update_yaxes(range=list(PHYSICAL_AXIS_RANGES["mpc_init_dyawrate"]), tickmode="array",
+                         tickvals=r_ticks, ticktext=[f"{v:g}" for v in r_ticks], title_text="r (rad/s)")
     else:
         fig.add_annotation(text="数据不足", x=0.5, y=0.5, showarrow=False)
     return _plotly_layout(fig, "扩展 12 · plan/executed 差异的工况分布", 520)
 
 
 def _plotly_sections(bags_dfs):
-    """按静态前端的页面与章节定义组织 Plotly 图，确保内容和卡片布局一一对应。"""
+    """仅产出当前 debug 字段能够支撑的图卡，避免用缺失列渲染空图。"""
     alldf = _alldf(bags_dfs)
     err = acc_key("plan", "r", 10, "rmse")
-    comparison = alldf.dropna(subset=["koopman_vel_u", "abs_r", "abs_steer", err])
-    pages = {
-        "Overview": _plotly_overview_figure(bags_dfs),
-        "G1-1step": _plotly_g1_figure(alldf, 1),
-        "G1-10step": _plotly_g1_figure(alldf, 10),
-        "G1c": _plotly_g1c_page(comparison, err),
-        "G2-lat_err_rms": _plotly_g2_figure(alldf, "lat_err_rms"),
-        "G2-lat_err_p2p": _plotly_g2_figure(alldf, "lat_err_p2p"),
-        "G2-lat_err_hfe": _plotly_g2_figure(alldf, "lat_err_hfe"),
-        "G2-phi_err_rms": _plotly_g2_figure(alldf, "phi_err_rms"),
-        "G2-phi_err_p2p": _plotly_g2_figure(alldf, "phi_err_p2p"),
-        "G2-phi_err_hfe": _plotly_g2_figure(alldf, "phi_err_hfe"),
-        "G3-相关性": _plotly_g3_transfer_figure(alldf),
-        "G3-时域相关": _plotly_g3_temporal_figure(alldf),
-        "G3-事件对照": _plotly_g3_event_figure(alldf),
-        "G4-Score": _plotly_g4_figure(alldf),
-    }
-    sections = [(anchor, title, desc, [pages[page] for page in page_titles], layout)
-                for anchor, title, desc, page_titles, layout in _SECTIONS]
-    sections.append((
-        "advanced", "扩展诊断",
-        "风险预警、去混杂、覆盖缺口、事件根因、健康分标定和 plan/executed 差异；新增图卡均为一行两图。",
-        [_plotly_risk_roc_pr_figure(alldf), _plotly_risk_threshold_figure(alldf),
-         _plotly_deconfounded_figure(alldf), _plotly_bag_stability_figure(alldf),
-         _plotly_coverage_priority_figure(alldf), _plotly_coverage_priority_top_figure(alldf),
-         _plotly_event_timeline_figure(alldf), _plotly_event_attribution_figure(alldf),
-         _plotly_health_calibration_figure(alldf), _plotly_health_separation_figure(alldf),
-         _plotly_plan_exec_scatter_figure(alldf), _plotly_plan_exec_delta_figure(alldf)],
-        "2col"))
+    axes = [col for col, _ in CONDITIONING_AXES]
+    coverage_page_axes = COVERAGE_3D_AXES
+    control_metrics = ["lat_err_rms", "lat_err_p2p", "lat_err_hfe",
+                       "phi_err_rms", "phi_err_p2p", "phi_err_hfe"]
+    pages = {"Overview": _plotly_overview_figure(bags_dfs)}
+    for step in (1, 10):
+        metrics = [acc_key(source, state, step, "rmse")
+                   for source in SOURCES for state in STATES]
+        if _has_samples(alldf, axes + metrics, 20, varying_columns=axes):
+            pages[f"G1-{step}step"] = _plotly_g1_figure(alldf, step)
+    coverage = _prepare_coverage_data(alldf, err)
+    if coverage is not None:
+        pages["G1c"] = _plotly_g1c_page(coverage, err)
+    for cname in control_metrics:
+        if _has_samples(alldf, axes + [cname], 20, varying_columns=axes):
+            pages[f"G2-{cname}"] = _plotly_g2_figure(alldf, cname)
+
+    transfer_metrics = [acc_key(source, state, 10, "rmse")
+                        for source in SOURCES for state in ("y", "r")]
+    if _has_samples(alldf, axes + ["lat_err_rms"] + transfer_metrics, 60):
+        pages["G3-相关性"] = _plotly_g3_transfer_figure(alldf)
+    temporal_metrics = [acc_key(source, state, step, "rmse")
+                        for source in SOURCES for state in ("y", "r") for step in STEPS]
+    if _has_samples(alldf, ["lat_err_rms"] + temporal_metrics, 60):
+        pages["G3-时域相关"] = _plotly_g3_temporal_figure(alldf)
+    if _has_samples(alldf, [err, "lat_err", "segment_id"], 80):
+        pages["G3-事件对照"] = _plotly_g3_event_figure(alldf)
+
+    health_components = ["koopman_health_plan_accuracy_y_score", "koopman_health_plan_accuracy_phi_score",
+                         "koopman_health_plan_accuracy_vy_score", "koopman_health_plan_accuracy_r_score",
+                         "koopman_health_plan_stability_score", "koopman_health_plan_accuracy_score",
+                         M_HEALTH_TOTAL]
+    g4_metrics = [acc_key("plan", state, step, "rmse") for state in STATES for step in STEPS]
+    if _has_samples(alldf, ["lat_err_rms"] + health_components + g4_metrics, 60):
+        pages["G4-Score"] = _plotly_g4_figure(alldf)
+
+    sections = []
+    for anchor, title, desc, page_titles, layout in _SECTIONS:
+        figures = [pages[page] for page in page_titles if page in pages]
+        if figures:
+            sections.append((anchor, title, desc, figures, layout))
+
+    risk_cols = [err, "lat_err_rms", M_HEALTH_TOTAL, "segment_id", "t"]
+    has_risk = _has_samples(alldf, risk_cols, 80)
+    has_deconfounded = _has_samples(alldf, axes + [err, "lat_err_rms"], 60)
+    has_coverage_priority = coverage is not None and coverage["cells3d"]["control_rms"].notna().sum() >= 8 ** 2
+    has_event = _has_samples(alldf, axes + [err, "lat_err_rms", M_HEALTH_TOTAL, "segment_id", "t"], 80)
+    advanced = []
+    if has_risk:
+        advanced += [_plotly_risk_roc_pr_figure(alldf), _plotly_risk_threshold_figure(alldf)]
+    if has_deconfounded:
+        advanced += [_plotly_deconfounded_figure(alldf), _plotly_bag_stability_figure(alldf)]
+    if has_coverage_priority:
+        advanced += [_plotly_coverage_priority_figure(coverage), _plotly_coverage_priority_top_figure(coverage)]
+    if has_event:
+        advanced += [_plotly_event_timeline_figure(alldf), _plotly_event_attribution_figure(alldf)]
+    if has_risk:
+        advanced += [_plotly_health_calibration_figure(alldf), _plotly_health_separation_figure(alldf)]
+    comparison_metrics = [acc_key(source, state, 10, "rmse")
+                          for source in SOURCES for state in STATES]
+    if _has_samples(alldf, comparison_metrics, 20):
+        advanced.append(_plotly_plan_exec_scatter_figure(alldf))
+    if _has_samples(alldf, ["koopman_vel_u", "mpc_init_dyawrate", acc_key("plan", "r", 10, "rmse"),
+                             acc_key("executed", "r", 10, "rmse")], 8 ** 2,
+                    varying_columns=["koopman_vel_u", "mpc_init_dyawrate"]):
+        advanced.append(_plotly_plan_exec_delta_figure(alldf))
+    if advanced:
+        sections.append(("advanced", "扩展诊断",
+                         "仅展示当前 debug 字段覆盖充分的风险、关联、覆盖缺口与一致性诊断；缺失数据不绘制。",
+                         advanced, "2col"))
     return sections
 
 
@@ -2352,24 +2689,26 @@ def build_frontend_interactive(bags_dfs, out_dir):
         (f'<div class="stat gn"><b>{pr10 * 100:.2f}%</b><span>plan r·10step 误差中位</span></div>'
          if np.isfinite(pr10) else '<div class="stat gn"><b>—</b><span>plan r·10step 误差</span></div>'),
     ])
-    n_frames = int(sum(c["_n_active"] for _, _, c in bags_dfs))
-    n_segs = int(sum(df["segment"].nunique() if len(df) else 0 for _, df, _ in bags_dfs))
+    n_frames = int(len(alldf))
+    n_segs = int(alldf["segment_id"].nunique()) if "segment_id" in alldf else 0
     nav = "\n  ".join('<a href="#%s">%s</a>' % (anchor, title) for anchor, title, _, _, _ in sections)
     include_js = True
     sec_html = []
     for anchor, title, desc, figures, layout in sections:
         cards = []
         for figure_index, figure in enumerate(figures):
-            card_class = "card interactive-card wide-card" if anchor == "g3" and figure_index == 0 else "card interactive-card"
+            figure_title = str(getattr(figure.layout.title, "text", ""))
+            card_class = ("card interactive-card wide-card" if anchor == "g3" and
+                          "传导关联" in figure_title else "card interactive-card")
             cards.append(f'<div class="{card_class}">' + pio.to_html(
                 figure, include_plotlyjs="inline" if include_js else False, full_html=False,
                 config={"responsive": True, "scrollZoom": True, "displaylogo": False}) + '</div>')
             include_js = False
         grid_cls = "grid2 " if layout == "2col" else ""
         sec_html.append('<section class="section %s" id="%s"><div class="sec-head">'
-                        '<span class="dot"></span><h2>%s</h2><span class="tag">%s</span></div>'
+                        '<span class="dot"></span><h2>%s</h2></div>'
                         '<p class="sec-desc">%s</p><div class="%s">%s</div></section>'
-                        % (CH_CLASS.get(anchor, "ch-z"), anchor, title, anchor.upper(), desc, grid_cls, ''.join(cards)))
+                        % (CH_CLASS.get(anchor, "ch-z"), anchor, title, desc, grid_cls, ''.join(cards)))
     css = (_CSS + ".interactive-card{overflow:hidden}.interactive-card .plotly-graph-div{width:100%!important}"
            "@media(min-width:901px){.grid2 .wide-card{grid-column:1/-1}}")
     html = (f"<!doctype html><html lang='zh-CN'><head><meta charset='utf-8'>"
@@ -2410,8 +2749,7 @@ def build_frontend(bags_dfs, out_dir, dpi=REPORT_DPI):
             os.rename(path, newp)
         title2file[title] = os.path.basename(newp)
 
-    alldf = pd.concat([df for _, df, _ in bags_dfs if len(df)], ignore_index=True) \
-        if any(len(df) for _, df, _ in bags_dfs) else pd.DataFrame()
+    alldf = _alldf(bags_dfs)
     health = alldf["koopman_health_score_total"] if len(alldf) else pd.Series(dtype=float)
     laterr = float(np.sqrt((alldf["lat_err"] ** 2).mean())) if len(alldf) else np.nan
     pr10 = float(alldf[acc_key("plan", "r", 10, "rmse")].median()) if len(alldf) else np.nan
@@ -2436,14 +2774,14 @@ def build_frontend(bags_dfs, out_dir, dpi=REPORT_DPI):
         sec_parts.append(
             '<section class="section %s" id="%s"><div class="sec-head">'
             '<span class="dot"></span><h2>%s</h2>'
-            '<span class="tag">%s</span></div>'
+            '</div>'
             '<p class="sec-desc">%s</p>'
             '<div class="%s">%s</div></section>'
-            % (CH_CLASS.get(a, "ch-z"), a, t, a.upper(), d, grid_cls, cards))
+            % (CH_CLASS.get(a, "ch-z"), a, t, d, grid_cls, cards))
     secs = "\n\n  ".join(sec_parts)
 
-    n_frames = int(sum(c["_n_active"] for _, _, c in bags_dfs))
-    n_segs = int(sum(df["segment"].nunique() if len(df) else 0 for _, df, _ in bags_dfs))
+    n_frames = int(len(alldf))
+    n_segs = int(alldf["segment_id"].nunique()) if "segment_id" in alldf else 0
     html = (f"<!doctype html><html lang='zh-CN'><head><meta charset='utf-8'>"
             f"<meta name='viewport' content='width=device-width, initial-scale=1'>"
             f"<title>Koopman 横向模型 · 三方分析报告</title><style>{_CSS}</style></head><body>"
